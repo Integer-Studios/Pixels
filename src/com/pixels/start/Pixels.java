@@ -6,16 +6,24 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 
+import com.pixels.communication.CommunicationClient;
+import com.pixels.packet.PacketBlank;
 import com.pixels.world.World;
 
 public class Pixels extends BasicGame {
 	
 	public static Pixels game;
 	public static World world;
+	public static CommunicationClient client;
+	public static Thread communicationThread;
 	
 	public Pixels(String title) throws SlickException {
 		super(title);
 		world = new World(3, 2);
+		client = new CommunicationClient("localhost", 25565);
+		communicationThread = new Thread(client);
+		communicationThread.start();
+		client.addPacket(new PacketBlank());
 	}
 
 	public static void main(String[] args) {
