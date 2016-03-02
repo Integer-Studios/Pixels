@@ -96,8 +96,11 @@ public class PacketWorldData extends Packet {
 		int entityID = client.getInput().readInt();
 		int posX = client.getInput().readInt();
 		int posY = client.getInput().readInt();
-		Entity e = new Entity(posX, posY);
-		Pixels.world.entities.put(serverID, e);
+		Entity e = Entity.getEntity(entityID);
+		e.initializePosition(posX,  posY);
+		e.readEntityData(client);
+		entities.put(serverID, e);
+		entityPositions.put(getLocationIndex(posX,  posY, Pixels.world.chunkWidth), serverID);
 	}
 	
 	private int getLocationIndex(int x, int y, int width) {
@@ -106,5 +109,6 @@ public class PacketWorldData extends Packet {
 	
 	public ConcurrentHashMap<Integer,Chunk> chunks = new ConcurrentHashMap<Integer,Chunk>();
 	public ConcurrentHashMap<Integer,Entity> entities = new ConcurrentHashMap<Integer,Entity>();
+	public ConcurrentHashMap<Integer,Integer> entityPositions = new ConcurrentHashMap<Integer,Integer>();
 
 }

@@ -13,7 +13,7 @@ public class PacketPlayerDidSpawn extends Packet {
 	@Override
 	public void writeData(CommunicationClient client) throws IOException {
 		// TODO Auto-generated method stub
-		System.out.println("writing packet");
+
 	}
 
 	@Override
