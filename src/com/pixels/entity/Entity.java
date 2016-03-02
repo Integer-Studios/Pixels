@@ -2,7 +2,6 @@ package com.pixels.entity;
 
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.Random;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -39,16 +38,16 @@ public class Entity {
 	}
 
 	public void update(GameContainer c, int delta, World w) {
-		int oldX = posX;
-		int oldY = posY;
-		Random r = new Random();
-		if (r.nextInt(200) == 0) {
-			posX ++;
-		}
-		if (r.nextInt(200) == 0) {
-			posY ++;
-		}
-		w.moveEntity(serverID, oldX, oldY, posX, posY);
+//		int oldX = posX;
+//		int oldY = posY;
+//		Random r = new Random();
+//		if (r.nextInt(200) == 0) {
+//			posX ++;
+//		}
+//		if (r.nextInt(200) == 0) {
+//			posY ++;
+//		}
+//		w.moveEntity(serverID, oldX, oldY, posX, posY);
 	}
 	
 	public void render(GameContainer c, Graphics g, World w) {
@@ -56,7 +55,7 @@ public class Entity {
 		if (texture == null) {
 			Toolkit t = new Toolkit();
 			String s = t.separator;
-			texture = s+"entities"+s+"rob"+s+"front"+s+"head.png";
+			texture = s+"entities"+s+"temp.png";
 		}
 		
 		if (image == null)  {
