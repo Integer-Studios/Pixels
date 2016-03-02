@@ -7,7 +7,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 
 import com.pixels.communication.CommunicationClient;
-import com.pixels.packet.PacketBlank;
+import com.pixels.packet.PacketLogin;
 import com.pixels.world.World;
 
 public class Pixels extends BasicGame {
@@ -17,13 +17,14 @@ public class Pixels extends BasicGame {
 	public static CommunicationClient client;
 	public static Thread communicationThread;
 	public static int playerID = 0;
+	public static int serverID = -1;
 	
 	public Pixels(String title) throws SlickException {
 		super(title);
-		world = new World(3, 2);
 		client = new CommunicationClient("localhost", 25565);
 		communicationThread = new Thread(client);
 		communicationThread.start();
+		client.addPacket(new PacketLogin());
 	}
 
 	public static void main(String[] args) {
@@ -56,7 +57,8 @@ public class Pixels extends BasicGame {
 	@Override
 	public void render(GameContainer c, Graphics g) throws SlickException {
 		// TODO Auto-generated method stub
-		world.render(c, g);
+		if (world != null)
+			world.render(c, g);
 	}
 
 	@Override
@@ -68,7 +70,8 @@ public class Pixels extends BasicGame {
 	@Override
 	public void update(GameContainer c, int delta) throws SlickException {
 		// TODO Auto-generated method stub
-		world.update(c, delta);
+		if (world != null)
+			world.update(c, delta);
 	}
 
 }

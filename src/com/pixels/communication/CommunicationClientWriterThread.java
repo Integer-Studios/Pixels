@@ -13,6 +13,13 @@ public class CommunicationClientWriterThread extends Thread {
 	public void run() {
 		
 		while (client.isRunning()) {
+			try {
+				Thread.sleep(2);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
 			
 			if (client.isRunning())
 				client.writePacket();

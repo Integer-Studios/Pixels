@@ -57,7 +57,7 @@ public class CommunicationClient implements Runnable {
 	}
 	
 	public void addPacket(Packet packet) {
-		
+
 		packetQue.add(packet);
 		
 	}
@@ -77,6 +77,9 @@ public class CommunicationClient implements Runnable {
 	}
 	
 	public boolean writePacket() {
+		
+//		System.out.println("in que " + packetQue.size());
+		
 		try {
 
 			if (packetQue.size() > 0) {

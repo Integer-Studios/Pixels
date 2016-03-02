@@ -22,7 +22,7 @@ public class World {
 		}
 	}
 	
-	public void update(GameContainer c, int delta) {
+	public void update(GameContainer c, int delta) {		
 		for (int i = 0; i < chunks.size(); i++) {
 			chunks.get(i).update(c, delta, this);
 		}
@@ -36,6 +36,16 @@ public class World {
 		return getChunk(x, y).getPieceID(x, y);
 	}
 	
+	public int propogateEntity(Entity entity) {
+		int id = entities.size();
+		entities.put(entities.size(), entity);
+		return id;
+	}
+	
+	public Entity getEntity(int entityID) {
+		return entities.get(entityID);
+	}
+	
 	public Chunk getChunk(int x, int y) {
 		return chunks.get(getChunkIndex(x>>4, y>>4));
 	}
@@ -46,9 +56,11 @@ public class World {
 	
 	public int chunkWidth, chunkHeight;
 	public ConcurrentHashMap<Integer,Chunk> chunks = new ConcurrentHashMap<Integer,Chunk>();
-	public ConcurrentHashMap<Integer,Entity> entitites = new ConcurrentHashMap<Integer,Entity>();
+	public ConcurrentHashMap<Integer,Entity> entities = new ConcurrentHashMap<Integer,Entity>();
 	
 	public int tileConstant = 30;
 	public int globalOffsetX = 0;
 	public int globalOffsetY = 0;
+	public boolean isLoaded = false;
+
 }

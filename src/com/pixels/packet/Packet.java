@@ -19,7 +19,7 @@ public abstract class Packet {
 			output.writeInt(packet.id);
 			output.writeInt(Pixels.playerID);
 			packet.writeAuxiliaryVariables(output);
-			packet.writeData(output);
+			packet.writeData(client);
 			output.flush();
 
 			if (packet.id == 9) {
@@ -52,7 +52,7 @@ public abstract class Packet {
 			packet.userID = userID;
 			packet.id = id;
 			packet.readAuxiliaryVariables(input);
-			packet.readData(input);
+			packet.readData(client);
 			packet.loaded = true;
 
 			return packet;
@@ -265,9 +265,9 @@ public abstract class Packet {
 
 	}
 	
-	public abstract void writeData(DataOutputStream output) throws IOException;
+	public abstract void writeData(CommunicationClient client) throws IOException;
 	
-	public abstract void readData(DataInputStream input) throws IOException;
+	public abstract void readData(CommunicationClient client) throws IOException;
 
 	public int id;
 	public boolean loaded;
@@ -283,7 +283,11 @@ public abstract class Packet {
 	static {
 		
 		packetMap.put(0, PacketBlank.class);
-
+		packetMap.put(1, PacketLogin.class);
+		packetMap.put(2, PacketSpawn.class);
+		packetMap.put(3, PacketWorldData.class);
+		packetMap.put(4, PacketPlayerDidSpawn.class);
+		
 	}
 	
 }
