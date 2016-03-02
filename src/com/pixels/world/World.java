@@ -1,6 +1,6 @@
 package com.pixels.world;
 
-import java.util.ArrayList;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -13,20 +13,9 @@ public class World {
 		
 		chunkWidth = w;
 		chunkHeight = h;
-		generateWorld();
 		
 	}
-	
-	public void generateWorld() {
-		
-		for (int chunkY = 0; chunkY < chunkHeight; chunkY++) {
-			for (int chunkX = 0; chunkX < chunkWidth; chunkX++) {
-				chunks.add(new Chunk(chunkX, chunkY));
-			}
-		}
 
-	}
-	
 	public void render(GameContainer c, Graphics g) {
 		for (int i = 0; i < chunks.size(); i++) {
 			chunks.get(i).render(c, g, this);
@@ -39,12 +28,16 @@ public class World {
 		}
 	}
 	
-	public void setPiece(int x, int y, int id) {
-		chunks.get(getChunkIndex(x>>4, y>>4)).setPiece(x, y, id);
+	public void setPieceID(int x, int y, int id) {
+		getChunk(x, y).setPieceID(x, y, id);
 	}
 	
 	public int getPieceID(int x, int y) {
-		return chunks.get(getChunkIndex(x>>4, y>>4)).getPieceID(x, y);
+		return getChunk(x, y).getPieceID(x, y);
+	}
+	
+	public Chunk getChunk(int x, int y) {
+		return chunks.get(getChunkIndex(x>>4, y>>4));
 	}
 	
 	private int getChunkIndex(int chunkX, int chunkY) {
@@ -52,8 +45,8 @@ public class World {
 	}
 	
 	public int chunkWidth, chunkHeight;
-	public ArrayList<Chunk> chunks = new ArrayList<Chunk>();
-	public ArrayList<Entity> entities = new ArrayList<Entity>();
+	public ConcurrentHashMap<Integer,Chunk> chunks = new ConcurrentHashMap<Integer,Chunk>();
+	public ConcurrentHashMap<Integer,Entity> entitites = new ConcurrentHashMap<Integer,Entity>();
 	
 	public int tileConstant = 30;
 	public int globalOffsetX = 0;
