@@ -7,17 +7,18 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.pixels.communication.CommunicationClient;
+import com.pixels.start.Pixels;
 
 public abstract class Packet {
 	
 	public static void writePacket(Packet packet, CommunicationClient client) {
 
-		packet.userID = /* player ID */0;
+		packet.userID = Pixels.playerID;
 		DataOutputStream output = client.getOutput();
 		try {
 			output.writeInt(packet.id);
 			System.out.println(packet.id);
-			output.writeInt(/* player ID */0);
+			output.writeInt(Pixels.playerID);
 			packet.writeAuxiliaryVariables(output);
 			packet.writeData(output);
 			output.flush();
