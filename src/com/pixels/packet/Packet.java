@@ -17,7 +17,6 @@ public abstract class Packet {
 		DataOutputStream output = client.getOutput();
 		try {
 			output.writeInt(packet.id);
-			System.out.println(packet.id);
 			output.writeInt(Pixels.playerID);
 			packet.writeAuxiliaryVariables(output);
 			packet.writeData(output);

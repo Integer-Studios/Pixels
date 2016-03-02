@@ -24,7 +24,6 @@ public class Pixels extends BasicGame {
 		client = new CommunicationClient("localhost", 25565);
 		communicationThread = new Thread(client);
 		communicationThread.start();
-		client.addPacket(new PacketBlank());
 	}
 
 	public static void main(String[] args) {
