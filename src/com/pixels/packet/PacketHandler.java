@@ -1,5 +1,6 @@
 package com.pixels.packet;
 
+import com.pixels.entity.Entity;
 import com.pixels.start.Pixels;
 import com.pixels.world.World;
 
@@ -20,6 +21,20 @@ public class PacketHandler {
 		Pixels.world.entities = packet.entities;
 		Pixels.world.entityPositions = packet.entityPositions;
 		Pixels.client.addPacket(new PacketPlayerDidSpawn());
+	}
+
+	public static void handlePacketUpdateEntity(PacketUpdateEntity packet) {
+		
+		Pixels.world.updateEntityFromPacket(packet.serverID, packet.posX, packet.posY);
+		
+	}
+
+	public static void handlePacketSpawnEntity(PacketSpawnEntity packet) {
+		
+		Entity e = Entity.getEntity(packet.entityID);
+		e.posX = packet.posX;
+		e.posY = packet.posY;
+		Pixels.world.propogateEntity(e, packet.serverID);
 	}
 
 }

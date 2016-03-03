@@ -1,5 +1,6 @@
 package com.pixels.entity;
 
+
 import java.util.Random;
 
 import org.newdawn.slick.GameContainer;
@@ -18,16 +19,15 @@ public class EntityPlayer extends Entity {
 	}
 	
 	public void update(GameContainer c, int delta, World w) {
-		int oldX = posX;
-		int oldY = posY;
-		Random r = new Random();
-		if (r.nextInt(50) == 0) {
-			posX ++;
+		if (true) {
+			Random r = new Random();
+			if (r.nextInt(300) == 0) {
+				this.setPosition(posX+1, posY, w);
+			}
+			if (r.nextInt(300) == 0) {
+				this.setPosition(posX, posY+1, w);
+			}
 		}
-		if (r.nextInt(50) == 0) {
-			posY ++;
-		}
-		w.moveEntity(serverID, oldX, oldY, posX, posY);
 	}
 
 }

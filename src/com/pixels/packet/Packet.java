@@ -17,7 +17,7 @@ public abstract class Packet {
 		DataOutputStream output = client.getOutput();
 		try {
 			output.writeInt(packet.id);
-			output.writeInt(Pixels.playerID);
+			output.writeInt(packet.userID);
 			packet.writeAuxiliaryVariables(output);
 			packet.writeData(client);
 			output.flush();
@@ -287,6 +287,8 @@ public abstract class Packet {
 		packetMap.put(2, PacketSpawn.class);
 		packetMap.put(3, PacketWorldData.class);
 		packetMap.put(4, PacketPlayerDidSpawn.class);
+		packetMap.put(5, PacketUpdateEntity.class);
+		packetMap.put(6, PacketSpawnEntity.class);
 		
 	}
 	

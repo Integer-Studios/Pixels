@@ -31,10 +31,7 @@ public class Entity {
 	}
 	
 	public void setPosition(int x, int y, World w) {
-		//Must get called EVERY time entity moves
-		w.moveEntity(serverID, posX, posY, x, y);
-		posX = x;
-		posY = y;
+		w.moveEntity(serverID, x, y);
 	}
 
 	public void update(GameContainer c, int delta, World w) {

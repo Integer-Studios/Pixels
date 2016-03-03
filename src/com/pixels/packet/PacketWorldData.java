@@ -47,7 +47,7 @@ public class PacketWorldData extends Packet {
 	public void readEntities(CommunicationClient client) throws IOException {
 		
 		int entities = client.getInput().readInt();
-		
+				
 		for (int i = 0; i < entities; i++) {
 			
 			readEntity(client);

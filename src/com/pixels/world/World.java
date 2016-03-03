@@ -7,6 +7,7 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 
 import com.pixels.entity.Entity;
+import com.pixels.packet.PacketUpdateEntity;
 import com.pixels.start.Pixels;
 
 public class World {
@@ -28,7 +29,7 @@ public class World {
 	}
 	
 	public void update(GameContainer c, int delta) {
-		
+		System.out.println(entities.size());
 		for (Chunk chunk : chunks.values()) {
 			chunk.update(c, delta, this);
 		}
@@ -44,7 +45,10 @@ public class World {
 	}
 	
 	public int propogateEntity(Entity entity) {
-		int id = entities.size();
+		return propogateEntity(entity, entities.size());
+	}
+	
+	public int propogateEntity(Entity entity, int id) {
 		entities.put(id, entity);
 		entityPositions.put(getLocationIndex(entity.posX, entity.posY), id);
 		return id;
@@ -62,9 +66,39 @@ public class World {
 		return entities.get(entityID);
 	}
 	
-	public void moveEntity(int id, int x1, int y1, int x2, int y2) {
-		entityPositions.remove(getLocationIndex(x1, y1));
-		entityPositions.put(getLocationIndex(x2, y2), id);
+	public void moveEntity(int id, int x, int y) {
+		
+		Entity e = getEntity(id);
+		
+		entityPositions.remove(getLocationIndex(e.posX, e.posY));
+		
+		e.posX = x;
+		e.posY = y;
+		
+		entityPositions.put(getLocationIndex(e.posX, e.posY), id);
+		
+		Pixels.client.addPacket(new PacketUpdateEntity(e));
+		
+	}
+	
+	public void updateEntityFromPacket(int id, int x, int y) {
+		
+		if (id != Pixels.serverID) {
+			System.out.println("Foregin Entity Moving");
+		}
+				
+		Entity e = getEntity(id);
+				
+		if (x == e.posX && y == e.posY)
+			return;
+		
+		entityPositions.remove(getLocationIndex(e.posX, e.posY));
+		
+		e.posX = x;
+		e.posY = y;
+		
+		entityPositions.put(getLocationIndex(e.posX, e.posY), id);
+				
 	}
 	
 	public Chunk getChunk(int x, int y) {
