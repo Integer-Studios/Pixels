@@ -57,9 +57,29 @@ public class PacketWorldData extends Packet {
 	
 	public void readChunk(CommunicationClient client) throws IOException {
 		
+		// read chunk coordinates
 		int chunkX = client.getInput().readInt();
 		int chunkY = client.getInput().readInt();
 		
+		// calculate new min and max loaded chunks
+		if (isFirstChunk) {
+			minChunkX = chunkX;
+			maxChunkX = chunkX;
+			minChunkY = chunkY;
+			maxChunkY = chunkY;
+			isFirstChunk = false;
+		} else {
+			if (chunkX < minChunkX)
+				minChunkX = chunkX;
+			if (chunkX > maxChunkX)
+				maxChunkX = chunkX;
+			if (chunkY < minChunkY)
+				minChunkY = chunkY;
+			if (chunkY > maxChunkY)
+				maxChunkY = chunkY;
+		}
+		
+		// build chunk from tile and piece data
 		Chunk chunk = new Chunk(chunkX, chunkY);
 		
 		int x = 0;
@@ -76,6 +96,7 @@ public class PacketWorldData extends Packet {
 			}
 		}
 		
+		//add chunk to world
 		chunks.put(getLocationIndex(chunkX, chunkY, Pixels.world.chunkWidth), chunk);
 	}
 	
@@ -91,16 +112,27 @@ public class PacketWorldData extends Packet {
 	}
 	
 	public void readEntity(CommunicationClient client) throws IOException {
+		
+		// read entity data
 		int serverID = client.getInput().readInt();
-		//need to work on this for entities
 		int entityID = client.getInput().readInt();
 		int posX = client.getInput().readInt();
 		int posY = client.getInput().readInt();
+		
+		//if the online player entity is you, change to entityplayer
+		if (serverID == Pixels.serverID && entityID == 2)
+			entityID = 1;
+		
+		//build entity without constructor
 		Entity e = Entity.getEntity(entityID);
 		e.initializePosition(posX,  posY);
 		e.readEntityData(client);
+		e.serverID = serverID;
+		
+		//add entity to world without propogation
 		entities.put(serverID, e);
 		entityPositions.put(getLocationIndex(posX,  posY, (Pixels.world.chunkWidth << 4)), serverID);
+		
 	}
 	
 	private int getLocationIndex(int x, int y, int width) {
@@ -110,5 +142,8 @@ public class PacketWorldData extends Packet {
 	public ConcurrentHashMap<Integer,Chunk> chunks = new ConcurrentHashMap<Integer,Chunk>();
 	public ConcurrentHashMap<Integer,Entity> entities = new ConcurrentHashMap<Integer,Entity>();
 	public ConcurrentHashMap<Integer,Integer> entityPositions = new ConcurrentHashMap<Integer,Integer>();
+	public int maxChunkX, maxChunkY;
+	public int minChunkX, minChunkY;
+	private boolean isFirstChunk = true;
 
 }

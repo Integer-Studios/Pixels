@@ -35,11 +35,10 @@ public class Entity {
 	}
 
 	public void update(GameContainer c, int delta, World w) {
-
+		
 	}
 	
 	public void render(GameContainer c, Graphics g, World w) {
-		
 		if (texture == null) {
 			Toolkit t = new Toolkit();
 			String s = t.separator;

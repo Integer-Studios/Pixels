@@ -20,7 +20,7 @@ public class Pixels extends BasicGame {
 	public static Thread communicationThread;
 	public static int playerID = 1;
 	public static int serverID = -1;
-	
+		
 	public Pixels(String title) throws SlickException {
 		super(title);
 		client = new CommunicationClient("192.168.0.5", 25565);

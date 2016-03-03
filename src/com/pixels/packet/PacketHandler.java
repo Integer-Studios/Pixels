@@ -20,6 +20,7 @@ public class PacketHandler {
 		Pixels.world.chunks = packet.chunks;
 		Pixels.world.entities = packet.entities;
 		Pixels.world.entityPositions = packet.entityPositions;
+		Pixels.world.setChunkLoadedRange(packet.minChunkX, packet.minChunkX, packet.maxChunkX, packet.maxChunkY);
 		Pixels.client.addPacket(new PacketPlayerDidSpawn());
 	}
 

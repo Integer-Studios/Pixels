@@ -36,8 +36,24 @@ public class World {
 			chunk.update(c, delta, this);
 		}
 		
+		checkShouldUpdateWorld();
+		
 	}
 	
+	private void checkShouldUpdateWorld() {
+		
+		Chunk c = getChunk(getPlayer());
+		
+		if (c.chunkX == minChunkXLoaded || c.chunkX == maxChunkXLoaded || c.chunkY == minChunkYLoaded || c.chunkY == maxChunkYLoaded) {
+			//add packet update world
+		}
+		
+	}
+	
+	public EntityPlayer getPlayer() {
+		return (EntityPlayer) entities.get(Pixels.serverID);
+	}
+
 	public void setPieceID(int x, int y, int id) {
 		getChunk(x, y).setPieceID(x, y, id);
 	}
@@ -69,7 +85,7 @@ public class World {
 	}
 	
 	public void moveEntity(int id, int x, int y) {
-		
+				
 		Entity e = getEntity(id);
 		
 		if (e.posX == x && e.posY == y)
@@ -82,6 +98,7 @@ public class World {
 		
 		entityPositions.put(getLocationIndex(e.posX, e.posY), id);
 		
+		
 		if (e instanceof EntityPlayer)
 			Pixels.client.addPacket(new PacketUpdatePlayer((EntityPlayer)e));
 		else
@@ -90,11 +107,7 @@ public class World {
 	}
 	
 	public void updateEntityFromPacket(int id, int x, int y) {
-		
-		if (id != Pixels.serverID) {
-			System.out.println("Foregin Entity Moving");
-		}
-				
+
 		Entity e = getEntity(id);
 				
 		if (x == e.posX && y == e.posY)
@@ -109,8 +122,19 @@ public class World {
 				
 	}
 	
+	public Chunk getChunk(Entity e) {
+		return chunks.get(getChunkIndex(e.posX>>4, e.posY>>4));
+	}
+	
 	public Chunk getChunk(int x, int y) {
 		return chunks.get(getChunkIndex(x>>4, y>>4));
+	}
+	
+	public void setChunkLoadedRange(int x1, int y1, int x2, int y2) {
+		minChunkXLoaded = x1;
+		maxChunkXLoaded = y1;
+		minChunkYLoaded = x2;
+		maxChunkYLoaded = y2;
 	}
 	
 	private int getChunkIndex(int chunkX, int chunkY) {
@@ -131,6 +155,9 @@ public class World {
 	public ConcurrentHashMap<Integer,Chunk> chunks = new ConcurrentHashMap<Integer,Chunk>();
 	public ConcurrentHashMap<Integer,Entity> entities = new ConcurrentHashMap<Integer,Entity>();
 	public ConcurrentHashMap<Integer,Integer> entityPositions = new ConcurrentHashMap<Integer,Integer>();
+	
+	public int maxChunkXLoaded, maxChunkYLoaded;
+	public int minChunkXLoaded, minChunkYLoaded;
 
 	public int tileConstant = 40;
 	public int globalOffsetX = 0;
