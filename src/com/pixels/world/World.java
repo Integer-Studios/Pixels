@@ -72,6 +72,9 @@ public class World {
 		
 		Entity e = getEntity(id);
 		
+		if (e.posX == x && e.posY == y)
+			return;
+		
 		entityPositions.remove(getLocationIndex(e.posX, e.posY));
 		
 		e.posX = x;
