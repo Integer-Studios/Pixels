@@ -20,9 +20,7 @@ public class Pixels extends BasicGame {
 	public static Thread communicationThread;
 	public static int playerID = 0;
 	public static int serverID = -1;
-	
-	//issue is both entities are entityplayer.
-	
+		
 	public Pixels(String title) throws SlickException {
 		super(title);
 		client = new CommunicationClient("localhost", 25565);
