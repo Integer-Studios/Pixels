@@ -2,10 +2,12 @@ package com.pixels.world;
 
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.lwjgl.opengl.Display;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 
 import com.pixels.entity.Entity;
+import com.pixels.start.Pixels;
 
 public class World {
 	
@@ -17,15 +19,20 @@ public class World {
 	}
 
 	public void render(GameContainer c, Graphics g) {
-		for (int i = 0; i < chunks.size(); i++) {
-			chunks.get(i).render(c, g, this);
+		
+		updateGlobalOffset();
+		
+		for (Chunk chunk : chunks.values()) {
+			chunk.render(c, g, this);
 		}
 	}
 	
 	public void update(GameContainer c, int delta) {
-		for (int i = 0; i < chunks.size(); i++) {
-			chunks.get(i).update(c, delta, this);
+		
+		for (Chunk chunk : chunks.values()) {
+			chunk.update(c, delta, this);
 		}
+		
 	}
 	
 	public void setPieceID(int x, int y, int id) {
@@ -72,12 +79,18 @@ public class World {
 		return y*(chunkWidth<<4) + x;
 	}
 	
+	private void updateGlobalOffset() {
+		Entity player = entities.get(Pixels.serverID);
+		globalOffsetX = (int)(Display.getWidth()/2)-(int)(player.posX * tileConstant);
+		globalOffsetY = (int)(Display.getHeight()/2)-(int)(player.posY * tileConstant);
+	}
+	
 	public int chunkWidth, chunkHeight;
 	public ConcurrentHashMap<Integer,Chunk> chunks = new ConcurrentHashMap<Integer,Chunk>();
 	public ConcurrentHashMap<Integer,Entity> entities = new ConcurrentHashMap<Integer,Entity>();
 	public ConcurrentHashMap<Integer,Integer> entityPositions = new ConcurrentHashMap<Integer,Integer>();
 
-	public int tileConstant = 30;
+	public int tileConstant = 40;
 	public int globalOffsetX = 0;
 	public int globalOffsetY = 0;
 	public boolean isLoaded = false;

@@ -100,7 +100,7 @@ public class PacketWorldData extends Packet {
 		e.initializePosition(posX,  posY);
 		e.readEntityData(client);
 		entities.put(serverID, e);
-		entityPositions.put(getLocationIndex(posX,  posY, Pixels.world.chunkWidth), serverID);
+		entityPositions.put(getLocationIndex(posX,  posY, (Pixels.world.chunkWidth << 4)), serverID);
 	}
 	
 	private int getLocationIndex(int x, int y, int width) {

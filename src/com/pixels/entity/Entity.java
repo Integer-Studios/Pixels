@@ -38,16 +38,7 @@ public class Entity {
 	}
 
 	public void update(GameContainer c, int delta, World w) {
-//		int oldX = posX;
-//		int oldY = posY;
-//		Random r = new Random();
-//		if (r.nextInt(200) == 0) {
-//			posX ++;
-//		}
-//		if (r.nextInt(200) == 0) {
-//			posY ++;
-//		}
-//		w.moveEntity(serverID, oldX, oldY, posX, posY);
+
 	}
 	
 	public void render(GameContainer c, Graphics g, World w) {
