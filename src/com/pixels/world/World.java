@@ -69,7 +69,7 @@ public class World {
 	}
 	
 	public void moveEntity(int id, int x, int y) {
-		
+				
 		Entity e = getEntity(id);
 		
 		if (e.posX == x && e.posY == y)
@@ -82,6 +82,7 @@ public class World {
 		
 		entityPositions.put(getLocationIndex(e.posX, e.posY), id);
 		
+		
 		if (e instanceof EntityPlayer)
 			Pixels.client.addPacket(new PacketUpdatePlayer((EntityPlayer)e));
 		else
@@ -90,11 +91,7 @@ public class World {
 	}
 	
 	public void updateEntityFromPacket(int id, int x, int y) {
-		
-		if (id != Pixels.serverID) {
-			System.out.println("Foregin Entity Moving");
-		}
-				
+
 		Entity e = getEntity(id);
 				
 		if (x == e.posX && y == e.posY)

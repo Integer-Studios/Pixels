@@ -33,7 +33,7 @@ public class PacketUpdateEntity extends Packet {
 		serverID = client.getInput().readInt();
 		posX = client.getInput().readInt();
 		posY = client.getInput().readInt();
-		
+				
 		PacketHandler.handlePacketUpdateEntity(this);
 		
 	}

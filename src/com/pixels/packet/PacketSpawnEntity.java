@@ -33,6 +33,8 @@ public class PacketSpawnEntity extends Packet {
 		posX = client.getInput().readInt();
 		posY = client.getInput().readInt();
 		
+		System.out.println("spawn entity: " + serverID);
+		
 		PacketHandler.handlePacketSpawnEntity(this);
 		
 	}

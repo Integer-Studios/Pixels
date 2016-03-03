@@ -94,11 +94,18 @@ public class PacketWorldData extends Packet {
 		int serverID = client.getInput().readInt();
 		//need to work on this for entities
 		int entityID = client.getInput().readInt();
+		System.out.println("reading entity id: " + entityID);
 		int posX = client.getInput().readInt();
 		int posY = client.getInput().readInt();
+		
+		//if the online player entity is you, change to entityplayer
+		if (serverID == Pixels.serverID && entityID == 2)
+			entityID = 1;
+		
 		Entity e = Entity.getEntity(entityID);
 		e.initializePosition(posX,  posY);
 		e.readEntityData(client);
+		e.serverID = serverID;
 		entities.put(serverID, e);
 		entityPositions.put(getLocationIndex(posX,  posY, (Pixels.world.chunkWidth << 4)), serverID);
 	}

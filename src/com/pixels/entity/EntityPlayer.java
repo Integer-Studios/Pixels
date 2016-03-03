@@ -25,6 +25,8 @@ public class EntityPlayer extends Entity implements KeyBinder {
 	}
 	
 	public void update(GameContainer c, int delta, World w) {
+		if (velX == 0 && velY == 0)
+			return;
 		this.setPosition(posX+velX, posY+velY, w);
 		velX = 0;
 		velY = 0;
