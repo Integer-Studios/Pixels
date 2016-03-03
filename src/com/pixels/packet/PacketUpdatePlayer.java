@@ -22,6 +22,7 @@ public class PacketUpdatePlayer extends Packet {
 	@Override
 	public void writeData(CommunicationClient client) throws IOException {
 
+		System.out.println("server id: " + serverID);
 		client.getOutput().writeInt(serverID);
 		client.getOutput().writeInt(posX);
 		client.getOutput().writeInt(posY);

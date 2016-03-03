@@ -6,6 +6,8 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 
+import com.pixel.input.KeyboardListener;
+import com.pixel.input.MouseClickListener;
 import com.pixels.communication.CommunicationClient;
 import com.pixels.packet.PacketLogin;
 import com.pixels.world.World;
@@ -21,7 +23,7 @@ public class Pixels extends BasicGame {
 	
 	public Pixels(String title) throws SlickException {
 		super(title);
-		client = new CommunicationClient("192.168.0.4", 25565);
+		client = new CommunicationClient("localhost", 25565);
 		communicationThread = new Thread(client);
 		communicationThread.start();
 		client.addPacket(new PacketLogin());
@@ -64,7 +66,8 @@ public class Pixels extends BasicGame {
 	@Override
 	public void init(GameContainer c) throws SlickException {
 		// TODO Auto-generated method stub
-		
+		c.getInput().addKeyListener(new KeyboardListener());
+		c.getInput().addMouseListener(new MouseClickListener());
 	}
 
 	@Override
