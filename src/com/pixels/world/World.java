@@ -7,7 +7,9 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 
 import com.pixels.entity.Entity;
+import com.pixels.entity.EntityPlayer;
 import com.pixels.packet.PacketUpdateEntity;
+import com.pixels.packet.PacketUpdatePlayer;
 import com.pixels.start.Pixels;
 
 public class World {
@@ -29,7 +31,7 @@ public class World {
 	}
 	
 	public void update(GameContainer c, int delta) {
-		System.out.println(entities.size());
+
 		for (Chunk chunk : chunks.values()) {
 			chunk.update(c, delta, this);
 		}
@@ -77,7 +79,10 @@ public class World {
 		
 		entityPositions.put(getLocationIndex(e.posX, e.posY), id);
 		
-		Pixels.client.addPacket(new PacketUpdateEntity(e));
+		if (e instanceof EntityPlayer)
+			Pixels.client.addPacket(new PacketUpdatePlayer((EntityPlayer)e));
+		else
+			Pixels.client.addPacket(new PacketUpdateEntity(e));
 		
 	}
 	

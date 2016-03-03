@@ -3,17 +3,18 @@ package com.pixels.packet;
 import java.io.IOException;
 
 import com.pixels.communication.CommunicationClient;
-import com.pixels.entity.Entity;
+import com.pixels.entity.EntityPlayer;
+import com.pixels.start.Pixels;
 
-public class PacketUpdateEntity extends Packet {
-	
-	public PacketUpdateEntity() {
-		this.id = 5;
+public class PacketUpdatePlayer extends Packet {
+
+	public PacketUpdatePlayer() {
+		this.id = 7;
 	}
 	
-	public PacketUpdateEntity(Entity e) {
-		this.id = 5;
-		serverID = e.serverID;
+	public PacketUpdatePlayer(EntityPlayer e) {
+		this.id = 7;
+		serverID = Pixels.serverID;
 		posX = e.posX;
 		posY = e.posY;
 	}
@@ -29,12 +30,6 @@ public class PacketUpdateEntity extends Packet {
 
 	@Override
 	public void readData(CommunicationClient client) throws IOException {
-		
-		serverID = client.getInput().readInt();
-		posX = client.getInput().readInt();
-		posY = client.getInput().readInt();
-		
-		PacketHandler.handlePacketUpdateEntity(this);
 		
 	}
 	
