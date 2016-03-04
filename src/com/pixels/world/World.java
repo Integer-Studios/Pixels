@@ -43,12 +43,12 @@ public class World {
 	
 	private void checkShouldUpdateWorld() {
 		
-		Chunk c = getChunk(getPlayer());
-		
-		if (c.chunkX == minChunkXLoaded || c.chunkX == maxChunkXLoaded || c.chunkY == minChunkYLoaded || c.chunkY == maxChunkYLoaded) {
-			Pixels.client.addPacket(new PacketUpdateWorld());
-		}
-		
+//		Chunk c = getChunk(getPlayer());
+//		
+//		if (c.chunkX == minChunkXLoaded || c.chunkX == maxChunkXLoaded || c.chunkY == minChunkYLoaded || c.chunkY == maxChunkYLoaded) {
+//			Pixels.client.addPacket(new PacketUpdateWorld());
+//		}
+//		
 	}
 	
 	public EntityPlayer getPlayer() {
