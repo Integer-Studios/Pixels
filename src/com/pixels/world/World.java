@@ -10,6 +10,7 @@ import com.pixels.entity.Entity;
 import com.pixels.entity.EntityPlayer;
 import com.pixels.packet.PacketUpdateEntity;
 import com.pixels.packet.PacketUpdatePlayer;
+import com.pixels.packet.PacketUpdateWorld;
 import com.pixels.start.Pixels;
 
 public class World {
@@ -42,11 +43,11 @@ public class World {
 	
 	private void checkShouldUpdateWorld() {
 		
-		Chunk c = getChunk(getPlayer());
-		
-		if (c.chunkX == minChunkXLoaded || c.chunkX == maxChunkXLoaded || c.chunkY == minChunkYLoaded || c.chunkY == maxChunkYLoaded) {
-			//add packet update world
-		}
+//		Chunk c = getChunk(getPlayer());
+//		
+//		if (c.chunkX == minChunkXLoaded || c.chunkX == maxChunkXLoaded || c.chunkY == minChunkYLoaded || c.chunkY == maxChunkYLoaded) {
+//			Pixels.client.addPacket(new PacketUpdateWorld());
+//		}
 		
 	}
 	
