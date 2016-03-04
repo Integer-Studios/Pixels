@@ -23,7 +23,7 @@ public class Pixels extends BasicGame {
 		
 	public Pixels(String title) throws SlickException {
 		super(title);
-		client = new CommunicationClient("192.168.0.5", 25565);
+		client = new CommunicationClient("localhost", 25565);
 		communicationThread = new Thread(client);
 		communicationThread.start();
 		client.addPacket(new PacketLogin());

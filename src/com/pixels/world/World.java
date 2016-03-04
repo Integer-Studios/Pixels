@@ -50,7 +50,6 @@ public class World {
 				hasRequestedWorldUpdate = true;
 			}
 		}
-		
 	}
 	
 	public void worldUpdateComplete() {
@@ -171,8 +170,12 @@ public class World {
 		return chunkY*chunkWidth + chunkX;
 	}
 	
-	private int getLocationIndex(int x, int y) {
+	public int getLocationIndex(int x, int y) {
 		return y*(chunkWidth<<4) + x;
+	}
+	
+	public int getLocationIndex(Entity e) {
+		return e.posY*(chunkWidth<<4) + e.posX;
 	}
 	
 	private void updateGlobalOffset() {

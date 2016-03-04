@@ -291,7 +291,8 @@ public abstract class Packet {
 		packetMap.put(6, PacketSpawnEntity.class);
 		packetMap.put(7, PacketUpdatePlayer.class);
 		packetMap.put(8, PacketUpdateWorld.class);
-		
+		packetMap.put(9, PacketLogout.class);
+
 	}
 	
 }
