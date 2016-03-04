@@ -60,7 +60,7 @@ public class PacketWorldData extends Packet {
 		// read chunk coordinates
 		int chunkX = client.getInput().readInt();
 		int chunkY = client.getInput().readInt();
-		
+				
 		// calculate new min and max loaded chunks
 		if (isFirstChunk) {
 			minChunkX = chunkX;

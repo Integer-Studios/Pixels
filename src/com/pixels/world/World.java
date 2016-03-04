@@ -44,11 +44,17 @@ public class World {
 	private void checkShouldUpdateWorld() {
 		
 		Chunk c = getChunk(getPlayer());
-		
 		if (c.chunkX == minChunkXLoaded || c.chunkX == maxChunkXLoaded || c.chunkY == minChunkYLoaded || c.chunkY == maxChunkYLoaded) {
-			Pixels.client.addPacket(new PacketUpdateWorld());
+			if (!hasRequestedWorldUpdate) {
+				Pixels.client.addPacket(new PacketUpdateWorld());
+				hasRequestedWorldUpdate = true;
+			}
 		}
 		
+	}
+	
+	public void worldUpdateComplete() {
+		hasRequestedWorldUpdate = false;
 	}
 	
 	public EntityPlayer getPlayer() {
@@ -133,9 +139,32 @@ public class World {
 	
 	public void setChunkLoadedRange(int x1, int y1, int x2, int y2) {
 		minChunkXLoaded = x1;
-		maxChunkXLoaded = y1;
-		minChunkYLoaded = x2;
+		minChunkYLoaded = y1;
+		maxChunkXLoaded = x2;
 		maxChunkYLoaded = y2;
+	}
+	
+	public void trimUnloadedChunks() {
+		
+		for (Integer index : chunks.keySet()) {
+			Chunk c = chunks.get(index);
+			if (c.chunkX < minChunkXLoaded || c.chunkX > maxChunkXLoaded || c.chunkY < minChunkYLoaded || c.chunkY > maxChunkYLoaded) {
+				chunks.remove(index);
+				
+				// remove entities in chunk
+				for (int y = (c.chunkY-1)<<4; y < c.chunkY<<4; y++) {
+					for (int x = (c.chunkX-1)<<4; x < c.chunkX<<4; x++) {
+						Integer i = entityPositions.get(getLocationIndex(x, y));
+						if (i != null) {
+							//remove entity
+							entities.remove(i);
+							entityPositions.remove(getLocationIndex(x, y));
+						}
+					}
+				}
+			}
+		}
+		
 	}
 	
 	private int getChunkIndex(int chunkX, int chunkY) {
@@ -160,9 +189,10 @@ public class World {
 	public int maxChunkXLoaded, maxChunkYLoaded;
 	public int minChunkXLoaded, minChunkYLoaded;
 
-	public int tileConstant = 40;
+	public int tileConstant = 30;
 	public int globalOffsetX = 0;
 	public int globalOffsetY = 0;
 	public boolean isLoaded = false;
+	public boolean hasRequestedWorldUpdate = false;
 
 }
