@@ -10,7 +10,6 @@ import com.pixels.entity.Entity;
 import com.pixels.entity.EntityPlayer;
 import com.pixels.packet.PacketUpdateEntity;
 import com.pixels.packet.PacketUpdatePlayer;
-import com.pixels.packet.PacketUpdateWorld;
 import com.pixels.start.Pixels;
 
 public class World {
@@ -142,8 +141,12 @@ public class World {
 		return chunkY*chunkWidth + chunkX;
 	}
 	
-	private int getLocationIndex(int x, int y) {
+	public int getLocationIndex(int x, int y) {
 		return y*(chunkWidth<<4) + x;
+	}
+	
+	public int getLocationIndex(Entity e) {
+		return e.posY*(chunkWidth<<4) + e.posX;
 	}
 	
 	private void updateGlobalOffset() {
