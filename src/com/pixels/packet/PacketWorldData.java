@@ -1,6 +1,7 @@
 package com.pixels.packet;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.concurrent.ConcurrentHashMap;
 
 import com.pixels.communication.CommunicationClient;
@@ -116,8 +117,9 @@ public class PacketWorldData extends Packet {
 		// read entity data
 		int serverID = client.getInput().readInt();
 		int entityID = client.getInput().readInt();
-		int posX = client.getInput().readInt();
-		int posY = client.getInput().readInt();
+		int positionKey = client.getInput().readInt();
+		float posX = client.getInput().readFloat();
+		float posY = client.getInput().readFloat();
 		
 		//if the online player entity is you, change to entityplayer
 		if (serverID == Pixels.serverID && entityID == 2)
@@ -125,14 +127,24 @@ public class PacketWorldData extends Packet {
 		
 		//build entity without constructor
 		Entity e = Entity.getEntity(entityID);
-		e.initializePosition(posX,  posY);
+		e.setPosition(posX,  posY);
 		e.readEntityData(client);
 		e.serverID = serverID;
+		e.positionKey = positionKey;
 		
 		//add entity to world without propogation
 		entities.put(serverID, e);
-		entityPositions.put(getLocationIndex(posX,  posY, (Pixels.world.chunkWidth << 4)), serverID);
+		addEntityToPositionMap(positionKey, serverID);
 		
+	}
+	
+	private void addEntityToPositionMap(int key, int id) {
+		ArrayList<Integer> entities = entityPositionMap.get(key);
+		if (entities == null) {
+			entities = new ArrayList<Integer>();
+		}
+		entities.add(id);
+		entityPositionMap.put(key, entities);
 	}
 	
 	private int getLocationIndex(int x, int y, int width) {
@@ -141,7 +153,7 @@ public class PacketWorldData extends Packet {
 	
 	public ConcurrentHashMap<Integer,Chunk> chunks = new ConcurrentHashMap<Integer,Chunk>();
 	public ConcurrentHashMap<Integer,Entity> entities = new ConcurrentHashMap<Integer,Entity>();
-	public ConcurrentHashMap<Integer,Integer> entityPositions = new ConcurrentHashMap<Integer,Integer>();
+	public ConcurrentHashMap<Integer,ArrayList<Integer>> entityPositionMap = new ConcurrentHashMap<Integer,ArrayList<Integer>>();
 	public int maxChunkX, maxChunkY;
 	public int minChunkX, minChunkY;
 	private boolean isFirstChunk = true;

@@ -21,14 +21,15 @@ public class PacketSpawn extends Packet {
 
 		worldWidth = client.getInput().readInt();
 		worldHeight = client.getInput().readInt();
-		playerPosX = client.getInput().readInt();
-		playerPosY = client.getInput().readInt();
+		playerPosX = client.getInput().readFloat();
+		playerPosY = client.getInput().readFloat();
 		
 		PacketHandler.handlePacketSpawn(this);
 		
 	}
 	
-	public int worldWidth, worldHeight, playerPosX, playerPosY;
+	public int worldWidth, worldHeight;
+	public float playerPosX, playerPosY;
 
 
 }

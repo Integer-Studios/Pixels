@@ -15,6 +15,7 @@ public class PacketSpawnEntity extends Packet {
 		this.id = 6;
 		serverID = e.serverID;
 		entityID = e.id;
+		positionKey = e.positionKey;
 		posX = e.posX;
 		posY = e.posY;
 	}
@@ -27,11 +28,12 @@ public class PacketSpawnEntity extends Packet {
 
 	@Override
 	public void readData(CommunicationClient client) throws IOException {
-		
+
 		serverID = client.getInput().readInt();
 		entityID = client.getInput().readInt();
-		posX = client.getInput().readInt();
-		posY = client.getInput().readInt();
+		positionKey = client.getInput().readInt();
+		posX = client.getInput().readFloat();
+		posY = client.getInput().readFloat();
 		
 		System.out.println("spawn entity: " + serverID);
 		
@@ -39,6 +41,7 @@ public class PacketSpawnEntity extends Packet {
 		
 	}
 	
-	int serverID, entityID, posX, posY;
+	int serverID, entityID, positionKey;
+	float posX, posY;
 
 }

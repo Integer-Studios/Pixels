@@ -27,11 +27,12 @@ public class Chunk {
 				if (p != null)
 					p.render(c, g, w);
 				
-				int globalX = (chunkX<<4)+x;
-				int globalY = (chunkY<<4)+y;
-				Entity e = w.getEntity(globalX, globalY);
-				if (e != null)
-					e.render(c, g, w);
+//				Render is fucked
+//				int globalX = (chunkX<<4)+x;
+//				int globalY = (chunkY<<4)+y;
+//				Entity e = w.getEntity(globalX, globalY);
+//				if (e != null)
+//					e.render(c, g, w);
 				
 				
 			}
@@ -49,11 +50,11 @@ public class Chunk {
 				if (p != null)
 					p.update(c, delta, w);
 				
-				int globalX = (chunkX<<4)+x;
-				int globalY = (chunkY<<4)+y;
-				Entity e = w.getEntity(globalX, globalY);
-				if (e != null)
-					e.update(c, delta, w);
+//				int globalX = (chunkX<<4)+x;
+//				int globalY = (chunkY<<4)+y;
+//				Entity e = w.getEntity(globalX, globalY);
+//				if (e != null)
+//					e.update(c, delta, w);
 				
 				
 			}

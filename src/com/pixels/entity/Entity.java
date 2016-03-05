@@ -17,25 +17,33 @@ public class Entity {
 	
 	public Entity() { }
 	
-	public Entity(int x, int y, boolean prop) {
+//	public Entity(float x, float y, boolean prop) {
+//		posX = x;
+//		posY = y;
+//		if (prop)
+//			serverID = Pixels.world.propogateEntity(this);
+//	}
+//  not necessary anymore
+//	public void initializePosition(float x, float y) {
+//		//used only for pre propogation
+//		posX = x;
+//		posY = y;
+//	}
+//	
+	public void setPosition(float x, float y) {
 		posX = x;
 		posY = y;
-		if (prop)
-			serverID = Pixels.world.propogateEntity(this);
-	}
-	
-	public void initializePosition(int x, int y) {
-		//used only for pre propogation
-		posX = x;
-		posY = y;
-	}
-	
-	public void setPosition(int x, int y, World w) {
-		w.moveEntity(serverID, x, y);
 	}
 
 	public void update(GameContainer c, int delta, World w) {
-		
+//		System.out.println("entity serverid:" + serverID + " position key:" + positionKey);
+
+		// keep at end
+		updatePositionMap(w);
+	}
+	
+	public void updatePositionMap(World w) {
+		w.updateEntityPositionMap(this);
 	}
 	
 	public void render(GameContainer c, Graphics g, World w) {
@@ -78,7 +86,8 @@ public class Entity {
 		
 	}
 	
-	public int id, posX, posY, serverID;
+	public int id, serverID, positionKey;
+	public float posX, posY;
 	public Image image;
 	public String texture;
 	

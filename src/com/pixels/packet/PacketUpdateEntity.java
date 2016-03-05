@@ -17,27 +17,30 @@ public class PacketUpdateEntity extends Packet {
 		posX = e.posX;
 		posY = e.posY;
 	}
+	
+	// don't technically need the write data on client, client never uses this - player uses update player
 
 	@Override
 	public void writeData(CommunicationClient client) throws IOException {
 
 		client.getOutput().writeInt(serverID);
-		client.getOutput().writeInt(posX);
-		client.getOutput().writeInt(posY);
+		client.getOutput().writeFloat(posX);
+		client.getOutput().writeFloat(posY);
 		
 	}
 
 	@Override
 	public void readData(CommunicationClient client) throws IOException {
-		
+				
 		serverID = client.getInput().readInt();
-		posX = client.getInput().readInt();
-		posY = client.getInput().readInt();
+		posX = client.getInput().readFloat();
+		posY = client.getInput().readFloat();
 				
 		PacketHandler.handlePacketUpdateEntity(this);
 		
 	}
 	
-	int serverID, posX, posY;
+	int serverID;
+	float posX, posY;
 
 }

@@ -7,6 +7,8 @@ import com.pixel.input.KeyBinder;
 import com.pixel.input.KeyBinding;
 import com.pixel.input.KeyCode;
 import com.pixel.input.KeyboardListener;
+import com.pixels.packet.PacketUpdatePlayer;
+import com.pixels.start.Pixels;
 import com.pixels.world.World;
 
 public class EntityPlayer extends Entity implements KeyBinder {
@@ -19,20 +21,21 @@ public class EntityPlayer extends Entity implements KeyBinder {
 		KeyboardListener.addKeyBinding(new KeyBinding("right", KeyCode.KEY_D, this));
 	}
 
-	public EntityPlayer(int x, int y, boolean p) {
-		super(x, y, p);
-		this.id = 1;
-	}
+//	public EntityPlayer(float x, float y, boolean p) {
+//		super(x, y, p);
+//		this.id = 1;
+//	}
 	
 	public void update(GameContainer c, int delta, World w) {
 		
-		if (velX == 0 && velY == 0)
-			return;
+		this.setPosition(posX+velX, posY+velY);
 		
-		this.setPosition(posX+velX, posY+velY, w);
+		if (velX != 0 || velY != 0) {
+			Pixels.client.addPacket(new PacketUpdatePlayer(this));
+		}
 		
-		velX = 0;
-		velY = 0;
+		super.update(c, delta, w);
+
 	}
 
 	@Override
@@ -40,25 +43,35 @@ public class EntityPlayer extends Entity implements KeyBinder {
 		// TODO Auto-generated method stub
 		
 		if (name.equals("down")) {
-			velY = 1;
+			velY += 0.1f;
 		}
 		if (name.equals("up")) {
-			velY = -1;
+			velY -= 0.1f;
 		}
 		if (name.equals("left")) {
-			velX = -1;
+			velX -= 0.1f;
 		}
 		if (name.equals("right")) {
-			velX = 1;
+			velX += 0.1f;
 		}
 	}
 
 	@Override
 	public void onKeyUp(String name) {
-		velX = 0;
-		velY = 0;
+		if (name.equals("down")) {
+			velY -= 0.1f;
+		}
+		if (name.equals("up")) {
+			velY += 0.1f;
+		}
+		if (name.equals("left")) {
+			velX += 0.1f;
+		}
+		if (name.equals("right")) {
+			velX -= 0.1f;
+		}
 	}
 	
-	public int velX, velY;
+	public float velX, velY;
 
 }
