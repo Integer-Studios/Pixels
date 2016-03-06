@@ -1,6 +1,7 @@
 package com.pixels.world;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.lwjgl.opengl.Display;
@@ -9,9 +10,8 @@ import org.newdawn.slick.Graphics;
 
 import com.pixels.entity.Entity;
 import com.pixels.entity.EntityPlayer;
-import com.pixels.packet.PacketUpdateEntity;
-import com.pixels.packet.PacketUpdatePlayer;
 import com.pixels.packet.PacketUpdateWorld;
+import com.pixels.piece.Piece;
 import com.pixels.start.Pixels;
 
 public class World {
@@ -21,19 +21,74 @@ public class World {
 		chunkWidth = w;
 		chunkHeight = h;
 		
+		entities = new EntityRegister();
+		
 	}
 
 	public void render(GameContainer c, Graphics g) {
 		
 		updateGlobalOffset();
+			
 		
-		for (Chunk chunk : chunks.values()) {
-			chunk.render(c, g, this);
+
+		for (int chunkY = minChunkYLoaded; chunkY <= maxChunkYLoaded; chunkY++) {
+			
+			HashMap<Integer, ArrayList<Piece>> pieces = new HashMap<Integer, ArrayList<Piece>>();
+			
+			for (int chunkX = minChunkXLoaded; chunkX <= maxChunkXLoaded; chunkX++) {
+				
+				Chunk chunk = getChunk(chunkX, chunkY);
+				
+				ArrayList<Piece> p = new ArrayList<Piece>();
+				
+				for (int y = 0 ; y < 16; y++) {
+					
+					
+					p = new ArrayList<Piece>();
+					
+					for (int x = 0 ; x < 16; x++) {
+						chunk.getTile((chunkX<<4)+x, (chunkY<<4)+y).render(c, g, this);
+						p.add(chunk.getPiece((chunkX<<4)+x, (chunkY<<4)+y));
+					}
+					
+					
+					ArrayList<Piece> pieceYGroup = pieces.get(y);
+
+
+					if (pieceYGroup == null) {
+						pieces.put(y, p);
+					} else {
+						
+						pieceYGroup.addAll(p);
+						pieces.put(y, pieceYGroup);
+					}
+					
+				}
+				
+				for (int y = 0; y < 16; y++) {
+										
+					entities.renderYGroup(c, g, this, (chunkY<<4) + y);
+					
+					for (Piece piece : pieces.get(y)) {
+						if (piece != null)
+							piece.render(c, g, this);
+					}
+					
+				}
+				
+				
+			}
+			
+			
+			
+			
 		}
+		//get tiles and pieces in y group
+		//loop y groups
+		//paint tiles
+		//paint entities in descending y
+		//paint piece
 		
-		for (Entity entity : entities.values()) {
-			entity.render(c, g, this);
-		}
 	}
 	
 	public void update(GameContainer c, int delta) {
@@ -42,16 +97,15 @@ public class World {
 			chunk.update(c, delta, this);
 		}
 		
-		for (Entity entity : entities.values()) {
-			entity.update(c, delta, this);
-		}
+		entities.update(c, delta, this);
 		
 		checkShouldUpdateWorld();
 		
 	}
 	
 	private void checkShouldUpdateWorld() {
-		
+
+		// update world doesnt work and render needs to be written
 		Chunk c = getChunk(getPlayer());
 		if (c.chunkX == minChunkXLoaded || c.chunkX == maxChunkXLoaded || c.chunkY == minChunkYLoaded || c.chunkY == maxChunkYLoaded) {
 			if (!hasRequestedWorldUpdate) {
@@ -70,127 +124,43 @@ public class World {
 	}
 
 	public void setPieceID(int x, int y, int id) {
-		getChunk(x, y).setPieceID(x, y, id);
+		getChunkFromTileCoordinates(x, y).setPieceID(x, y, id);
 	}
 	
 	public int getPieceID(int x, int y) {
-		return getChunk(x, y).getPieceID(x, y);
+		return getChunkFromTileCoordinates(x, y).getPieceID(x, y);
 	}
-	
-//	all entities should come from server, so no need to prop this way
-//	public int propogateEntity(Entity entity) {
-//		return propogateEntity(entity, entities.size());
-//	}
-	
-	public int propogateEntity(Entity e, int id) {
-		entities.put(id, e);
-		addEntityToPositionMap(e);
-		return id;
+
+	public void propogateEntity(Entity e) {
+		entities.add(e);
 	}
-	
-	public void addEntityToPositionMap(Entity e) {
-		int key = getLocationIndex(e);
-		e.positionKey = key;
-		ArrayList<Integer> entities = entityPositionMap.get(key);
-		if (entities == null) {
-			entities = new ArrayList<Integer>();
-		}
-		entities.add(e.serverID);
-		entityPositionMap.put(key, entities);
-	}
-	
-	public void removeEntityFromPositionMap(Entity e) {
-		int key = e.positionKey;
-		ArrayList<Integer> entityMap = entityPositionMap.get(key);
-		if (entityMap != null) {
-			int i = entityMap.lastIndexOf(e.serverID);
-			entityMap.remove(i);
-		}
-		entityPositionMap.put(key, entityMap);
-	}
-	
-	public void removeEntityFromPositionMap(int id) {
-		Entity e = entities.get(id);
-		int key = e.positionKey;
-		ArrayList<Integer> entities = entityPositionMap.get(key);
-		if (entities != null) {
-			entities.remove(e.serverID);
-		}
-		entityPositionMap.put(key, entities);
-	}
-	
-	public void updateEntityPositionMap(Entity e) {
-		if (e.positionKey != getLocationIndex(e)) {
-			removeEntityFromPositionMap(e);
-			addEntityToPositionMap(e);
-		}
-	}
-	
+
 	public void despawnEntity(Entity e) {
-		removeEntityFromPositionMap(e);
-		entities.remove(e.serverID);
+		entities.remove(e);
 	}
 	
 	public void despawnEntity(int id) {
-		removeEntityFromPositionMap(id);
 		entities.remove(id);
 	}
-	
-//	public Entity getEntity(int x, int y) {		
-//		Integer serverID = entityPositions.get(getLocationIndex(x, y));
-//		if (serverID != null)
-//			return entities.get(serverID);
-//		else
-//			return null;
-//	}
-	
+		
 	public Entity getEntity(int entityID) {
 		return entities.get(entityID);
 	}
-//	entities should handle this at the end of their tick
-//	public void moveEntity(int id, float x, float y) {
-//				
-//		Entity e = getEntity(id);
-//		
-//		if (e.posX == x && e.posY == y)
-//			return;
-//		
-//		entityPositions.remove(getLocationIndex(e));
-//		
-//		e.posX = x;
-//		e.posY = y;
-//		
-//		entityPositions.put(getLocationIndex(e), id);
-//		
-//		
-//		if (e instanceof EntityPlayer)
-//			Pixels.client.addPacket(new PacketUpdatePlayer((EntityPlayer)e));
-//		else
-//			Pixels.client.addPacket(new PacketUpdateEntity(e));
-//		
-//	}
-//	
-//	public void updateEntityFromPacket(int id, float x, float y) {
-//
-//		Entity e = getEntity(id);
-//				
-//		if (x == e.posX && y == e.posY)
-//			return;
-//		
-//		entityPositions.remove(getLocationIndex(e));
-//		
-//		e.posX = x;
-//		e.posY = y;
-//		
-//		entityPositions.put(getLocationIndex(e), id);
-//				
-//	}
+	
+	public void addChunk(Chunk chunk) {
+		// TODO Auto-generated method stub
+		chunks.put(getChunkIndex(chunk.chunkX, chunk.chunkY), chunk);
+	}
 	
 	public Chunk getChunk(Entity e) {
 		return chunks.get(getChunkIndex(Math.round(e.posX)>>4, Math.round(e.posY)>>4));
 	}
 	
 	public Chunk getChunk(int x, int y) {
+		return chunks.get(getChunkIndex(x, y));
+	}
+	
+	public Chunk getChunkFromTileCoordinates(int x, int y) {
 		return chunks.get(getChunkIndex(x>>4, y>>4));
 	}
 	
@@ -202,9 +172,7 @@ public class World {
 	}
 	
 	public void trimUnloadedChunks() {
-		
-//		this got fucked from floating point
-		
+				
 		for (Integer index : chunks.keySet()) {
 			Chunk c = chunks.get(index);
 			if (c.chunkX < minChunkXLoaded || c.chunkX > maxChunkXLoaded || c.chunkY < minChunkYLoaded || c.chunkY > maxChunkYLoaded) {
@@ -213,13 +181,11 @@ public class World {
 				// remove entities in chunk
 				for (int y = (c.chunkY-1)<<4; y < c.chunkY<<4; y++) {
 					for (int x = (c.chunkX-1)<<4; x < c.chunkX<<4; x++) {
-						ArrayList<Integer> indexes = entityPositionMap.get(getLocationIndex(x, y));
+						ArrayList<Integer> indexes = entities.getIDs(x, y);
 						if (indexes != null) {
-							for (int a = 0; a < indexes.size(); a++) {
+							for (int a : indexes) {
 								int i = indexes.get(a);
-								//remove entity
 								entities.remove(i);
-								entityPositionMap.remove(getLocationIndex(x, y));
 							}
 						}
 					}
@@ -249,15 +215,12 @@ public class World {
 	
 	public int chunkWidth, chunkHeight;
 	public ConcurrentHashMap<Integer,Chunk> chunks = new ConcurrentHashMap<Integer,Chunk>();
-	public ConcurrentHashMap<Integer,Entity> entities = new ConcurrentHashMap<Integer,Entity>();
-	public ConcurrentHashMap<Integer,ArrayList<Integer>> entityPositionMap = new ConcurrentHashMap<Integer,ArrayList<Integer>>();
+	public EntityRegister entities;
 
-	//	public ConcurrentHashMap<Integer,Integer> entityPositions = new ConcurrentHashMap<Integer,Integer>();
-	
 	public int maxChunkXLoaded, maxChunkYLoaded;
 	public int minChunkXLoaded, minChunkYLoaded;
 
-	public int tileConstant = 30;
+	public int tileConstant = 4;
 	public int globalOffsetX = 0;
 	public int globalOffsetY = 0;
 	public boolean isLoaded = false;

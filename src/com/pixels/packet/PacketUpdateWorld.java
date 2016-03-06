@@ -1,7 +1,6 @@
 package com.pixels.packet;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.concurrent.ConcurrentHashMap;
 
 import com.pixels.communication.CommunicationClient;
@@ -10,6 +9,7 @@ import com.pixels.piece.Piece;
 import com.pixels.start.Pixels;
 import com.pixels.tile.Tile;
 import com.pixels.world.Chunk;
+import com.pixels.world.EntityRegister;
 
 public class PacketUpdateWorld extends Packet {
 	
@@ -19,6 +19,7 @@ public class PacketUpdateWorld extends Packet {
 		minChunkYLoaded = Pixels.world.minChunkYLoaded;
 		maxChunkXLoaded = Pixels.world.maxChunkXLoaded;
 		maxChunkYLoaded = Pixels.world.maxChunkYLoaded;
+		entities = new EntityRegister();
 	}
 
 	@Override
@@ -73,26 +74,7 @@ public class PacketUpdateWorld extends Packet {
 		// read chunk coordinates
 		int chunkX = client.getInput().readInt();
 		int chunkY = client.getInput().readInt();
-		
-		// calculate new min and max loaded chunks
-		// need to calculate new min and max chunk coords
-		if (isFirstChunk) {
-			minChunkXLoaded = chunkX;
-			maxChunkXLoaded = chunkX;
-			minChunkYLoaded = chunkY;
-			maxChunkYLoaded = chunkY;
-			isFirstChunk = false;
-		} else {
-			if (chunkX < minChunkXLoaded)
-				minChunkXLoaded = chunkX;
-			if (chunkX > maxChunkXLoaded)
-				maxChunkXLoaded = chunkX;
-			if (chunkY < minChunkYLoaded)
-				minChunkYLoaded = chunkY;
-			if (chunkY > maxChunkYLoaded)
-				maxChunkYLoaded = chunkY;
-		}
-		
+				
 		// build chunk from tile and piece data
 		Chunk chunk = new Chunk(chunkX, chunkY);
 		
@@ -110,7 +92,7 @@ public class PacketUpdateWorld extends Packet {
 			}
 		}
 		
-		//add chunk to world
+		//add chunk to chunks
 		chunks.put(getLocationIndex(chunkX, chunkY, Pixels.world.chunkWidth), chunk);
 	}
 	
@@ -126,7 +108,7 @@ public class PacketUpdateWorld extends Packet {
 	}
 	
 	public void readEntity(CommunicationClient client) throws IOException {
-		
+
 		// read entity data
 		int serverID = client.getInput().readInt();
 		int entityID = client.getInput().readInt();
@@ -140,23 +122,12 @@ public class PacketUpdateWorld extends Packet {
 		
 		//build entity without constructor
 		Entity e = Entity.getEntity(entityID);
-		e.setPosition(posX,  posY);
+		e.construct(serverID, positionKey, posX, posY);
 		e.readEntityData(client);
-		e.serverID = serverID;
 		
 		//add entity to world without propogation
-		entities.put(serverID, e);
-		addEntityToPositionMap(positionKey, serverID);
+		entities.add(e);
 		
-	}
-	
-	private void addEntityToPositionMap(int key, int id) {
-		ArrayList<Integer> entities = entityPositionMap.get(key);
-		if (entities == null) {
-			entities = new ArrayList<Integer>();
-		}
-		entities.add(id);
-		entityPositionMap.put(key, entities);
 	}
 	
 	private int getLocationIndex(int x, int y, int width) {
@@ -164,9 +135,6 @@ public class PacketUpdateWorld extends Packet {
 	}
 	
 	public ConcurrentHashMap<Integer,Chunk> chunks = new ConcurrentHashMap<Integer,Chunk>();
-	public ConcurrentHashMap<Integer,Entity> entities = new ConcurrentHashMap<Integer,Entity>();
-	public ConcurrentHashMap<Integer,ArrayList<Integer>> entityPositionMap = new ConcurrentHashMap<Integer,ArrayList<Integer>>();
-	
+	public EntityRegister entities;
 	public int minChunkXLoaded, minChunkYLoaded, maxChunkXLoaded, maxChunkYLoaded;
-	private boolean isFirstChunk = true;
 }

@@ -5,7 +5,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 
-import com.pixels.entity.Entity;
 import com.pixels.piece.Piece;
 import com.pixels.tile.Tile;
 
@@ -63,6 +62,14 @@ public class Chunk {
 	
 	public void setPieceID(int x, int y, int id) {
 		pieces.get(getGlobalLocationIndex(x, y)).setPieceID(id);
+	}
+	
+	public Tile getTile(int x, int y) {
+		return tiles.get(getGlobalLocationIndex(x, y));
+	}
+	
+	public Piece getPiece(int x, int y) {
+		return pieces.get(getGlobalLocationIndex(x, y));
 	}
 	
 	public int getPieceID(int x, int y) {
