@@ -26,7 +26,7 @@ public class World {
 	}
 
 	public void render(GameContainer c, Graphics g) {
-		
+
 		updateGlobalOffset();
 			
 		if (shouldTrim) {
@@ -37,9 +37,7 @@ public class World {
 		for (int chunkY = minChunkYLoaded; chunkY <= maxChunkYLoaded; chunkY++) {
 			
 			HashMap<Integer, ArrayList<Piece>> pieces = new HashMap<Integer, ArrayList<Piece>>();
-			
 			for (int chunkX = minChunkXLoaded; chunkX <= maxChunkXLoaded; chunkX++) {
-
 				Chunk chunk = getChunk(chunkX, chunkY);
 				
 				ArrayList<Piece> p = new ArrayList<Piece>();
@@ -61,37 +59,29 @@ public class World {
 					if (pieceYGroup == null) {
 						pieces.put(y, p);
 					} else {
-						
 						pieceYGroup.addAll(p);
 						pieces.put(y, pieceYGroup);
 					}
 					
 				}
 				
-				for (int y = 0; y < 16; y++) {
-										
-					entities.renderYGroup(c, g, this, (chunkY<<4) + y);
-					
-					for (Piece piece : pieces.get(y)) {
-						if (piece != null)
-							piece.render(c, g, this);
-					}
-					
-				}
-				
-				
 			}
 			
-			
-			
-			
+			for (int y = 0; y < 16; y++) {
+
+				entities.renderYGroup(c, g, this, (chunkY<<4) + y);
+				
+				for (Piece piece : pieces.get(y)) {
+					
+					if (piece != null) {
+						piece.render(c, g, this);
+					}
+				}
+				
+			}
+
 		}
-		//get tiles and pieces in y group
-		//loop y groups
-		//paint tiles
-		//paint entities in descending y
-		//paint piece
-		
+
 	}
 	
 	public void update(GameContainer c, int delta) {
