@@ -1,7 +1,10 @@
 package com.pixels.world;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.lwjgl.opengl.Display;
@@ -29,14 +32,17 @@ public class World {
 		
 		updateGlobalOffset();
 			
-		
+		if (shouldTrim) {
+			trimUnloadedChunks();
+			shouldTrim = false;
+		}
 
 		for (int chunkY = minChunkYLoaded; chunkY <= maxChunkYLoaded; chunkY++) {
 			
 			HashMap<Integer, ArrayList<Piece>> pieces = new HashMap<Integer, ArrayList<Piece>>();
 			
 			for (int chunkX = minChunkXLoaded; chunkX <= maxChunkXLoaded; chunkX++) {
-				
+
 				Chunk chunk = getChunk(chunkX, chunkY);
 				
 				ArrayList<Piece> p = new ArrayList<Piece>();
@@ -170,17 +176,13 @@ public class World {
 		maxChunkXLoaded = x2;
 		maxChunkYLoaded = y2;
 	}
-	
-	public void trimUnloadedChunks() {
 		
-		System.out.println("min: " + minChunkXLoaded + ", " + minChunkYLoaded);
-		System.out.println("max: " + maxChunkXLoaded + ", " + maxChunkYLoaded);
+	public void trimUnloadedChunks() {
 				
 		for (Integer index : chunks.keySet()) {
 			Chunk c = chunks.get(index);
 			if (c.chunkX < minChunkXLoaded || c.chunkX > maxChunkXLoaded || c.chunkY < minChunkYLoaded || c.chunkY > maxChunkYLoaded) {
 				chunks.remove(index);
-				System.out.println("remove: " + c.chunkX + ", " + c.chunkY);
 				// remove entities in chunk
 				for (int y = c.chunkY<<4; y < (c.chunkY+1)<<4; y++) {
 					for (int x = c.chunkX<<4; x < (c.chunkX+1)<<4; x++) {
@@ -223,10 +225,11 @@ public class World {
 	public int maxChunkXLoaded, maxChunkYLoaded;
 	public int minChunkXLoaded, minChunkYLoaded;
 
-	public int tileConstant = 40;
+	public int tileConstant = 4;
 	public int globalOffsetX = 0;
 	public int globalOffsetY = 0;
 	public boolean isLoaded = false;
 	public boolean hasRequestedWorldUpdate = false;
+	public boolean shouldTrim = false;
 
 }

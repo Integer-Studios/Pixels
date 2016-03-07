@@ -48,7 +48,7 @@ public class PacketHandler {
 		
 		//remove old ones
 		Pixels.world.setChunkLoadedRange(packet.minChunkXLoaded, packet.minChunkYLoaded, packet.maxChunkXLoaded, packet.maxChunkYLoaded);
-		Pixels.world.trimUnloadedChunks();
+		Pixels.world.shouldTrim = true;
 		
 		Pixels.world.worldUpdateComplete();
 		
