@@ -117,16 +117,15 @@ public class PacketUpdateWorld extends Packet {
 		float posY = client.getInput().readFloat();
 		
 		//if the online player entity is you, change to entityplayer
-		if (serverID == Pixels.serverID && entityID == 2)
-			entityID = 1;
-		
-		//build entity without constructor
-		Entity e = Entity.getEntity(entityID);
-		e.construct(serverID, positionKey, posX, posY);
-		e.readEntityData(client);
-		
-		//add entity to world without propogation
-		entities.add(e);
+		if (serverID != Pixels.serverID) {
+			//build entity without constructor
+			Entity e = Entity.getEntity(entityID);
+			e.construct(serverID, positionKey, posX, posY);
+			e.readEntityData(client);
+			
+			//add entity to world without propogation
+			entities.add(e);
+		}
 		
 	}
 	

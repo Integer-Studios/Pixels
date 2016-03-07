@@ -172,15 +172,18 @@ public class World {
 	}
 	
 	public void trimUnloadedChunks() {
+		
+		System.out.println("min: " + minChunkXLoaded + ", " + minChunkYLoaded);
+		System.out.println("max: " + maxChunkXLoaded + ", " + maxChunkYLoaded);
 				
 		for (Integer index : chunks.keySet()) {
 			Chunk c = chunks.get(index);
 			if (c.chunkX < minChunkXLoaded || c.chunkX > maxChunkXLoaded || c.chunkY < minChunkYLoaded || c.chunkY > maxChunkYLoaded) {
 				chunks.remove(index);
-				
+				System.out.println("remove: " + c.chunkX + ", " + c.chunkY);
 				// remove entities in chunk
-				for (int y = (c.chunkY-1)<<4; y < c.chunkY<<4; y++) {
-					for (int x = (c.chunkX-1)<<4; x < c.chunkX<<4; x++) {
+				for (int y = c.chunkY<<4; y < (c.chunkY+1)<<4; y++) {
+					for (int x = c.chunkX<<4; x < (c.chunkX+1)<<4; x++) {
 						ArrayList<Integer> indexes = entities.getIDs(x, y);
 						if (indexes != null) {
 							for (int a : indexes) {
@@ -220,7 +223,7 @@ public class World {
 	public int maxChunkXLoaded, maxChunkYLoaded;
 	public int minChunkXLoaded, minChunkYLoaded;
 
-	public int tileConstant = 4;
+	public int tileConstant = 40;
 	public int globalOffsetX = 0;
 	public int globalOffsetY = 0;
 	public boolean isLoaded = false;

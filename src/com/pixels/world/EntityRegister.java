@@ -100,20 +100,26 @@ public class EntityRegister {
 	}
 	
 	public void merge(EntityRegister register) {
-		System.out.println("before");
-		for (Integer key : entityIDMap.keySet()) {
-			System.out.println(entityIDMap.get(key) + " at pos: (" + entityIDMap.get(key).posX + "," + entityIDMap.get(key).posY + ")");
-		}
 		
 		for (Integer key : register.entityIDMap.keySet()) {
 			// shoudn't overwrite anything if its working right
-			Entity e = register.get(key);
-			add(e);
+			Entity entity = register.get(key);
+			int id = entity.serverID;
+			Entity cur = entityIDMap.get(id);
+			if (cur != null) {
+				System.out.println("duplicate entity");
+//				if (cur.posX != entity.posX || cur.posY != entity.posY) {
+//					cur.posX = entity.posX;
+//					cur.posY = entity.posY;
+//					entityIDMap.put(id, cur);
+//					updatePosition(cur);
+//				}
+			} else {
+				entityIDMap.put(id, entity);
+				addEntityToPositionMap(entity);
+			}
 		}
-		System.out.println("after");
-		for (Integer key : entityIDMap.keySet()) {
-			System.out.println(entityIDMap.get(key) + " at pos: (" + entityIDMap.get(key).posX + "," + entityIDMap.get(key).posY + ")");
-		}
+
 		
 	}
 	

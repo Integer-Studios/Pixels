@@ -14,6 +14,7 @@ import com.pixels.world.World;
 public class EntityPlayer extends Entity implements KeyBinder {
 	
 	public EntityPlayer() {
+		System.out.println("new one of these");
 		this.id = 1;
 		KeyboardListener.addKeyBinding(new KeyBinding("up", KeyCode.KEY_W, this));
 		KeyboardListener.addKeyBinding(new KeyBinding("down", KeyCode.KEY_S, this));
@@ -27,9 +28,7 @@ public class EntityPlayer extends Entity implements KeyBinder {
 //	}
 	
 	public void update(GameContainer c, int delta, World w) {
-		
-		System.out.println(velY);
-		
+				
 		this.setPosition(posX+velX, posY+velY);
 		
 		if (velX != 0 || velY != 0) {
@@ -41,9 +40,7 @@ public class EntityPlayer extends Entity implements KeyBinder {
 	}
 
 	@Override
-	public void onKeyDown(String name) {
-		// TODO Auto-generated method stub
-		
+	public void onKeyDown(String name) {		
 		if (name.equals("down")) {
 			velY += 0.1f;
 		}
