@@ -147,11 +147,17 @@ public class EntityRegister {
 	public void removeEntityFromPositionMap(int id) {
 		Entity e = entityIDMap.get(id);
 		int key = e.positionKey;
-		ArrayList<Integer> entities = entityPositionMap.get(key);
-		if (entities != null) {
-			entities.remove(e.serverID);
+		ArrayList<Integer> entityList = entityPositionMap.get(key);
+		if (entityList != null) {
+			Object[] ids = entityList.toArray();
+			entityList = new ArrayList<Integer>();
+			for (int a = 0; a < ids.length; a++) {
+				int i = (int) ids[a];
+				if (i != e.serverID)
+					entityList.add(i);
+			}
 		}
-		entityPositionMap.put(key, entities);
+		entityPositionMap.put(key, entityList);
 	}
 	
 	public void updatePosition(Entity e) {

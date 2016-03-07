@@ -186,10 +186,11 @@ public class World {
 				// remove entities in chunk
 				for (int y = c.chunkY<<4; y < (c.chunkY+1)<<4; y++) {
 					for (int x = c.chunkX<<4; x < (c.chunkX+1)<<4; x++) {
-						ArrayList<Integer> indexes = entities.getIDs(x, y);
-						if (indexes != null) {
-							for (int a : indexes) {
-								int i = indexes.get(a);
+						ArrayList<Integer> indexesList = entities.getIDs(x, y);
+						if (indexesList != null) {
+							Object[] indexes = indexesList.toArray();
+							for (int a = 0; a < indexes.length; a++) {
+								int i = (int) indexes[a];
 								entities.remove(i);
 							}
 						}
@@ -213,7 +214,7 @@ public class World {
 	}
 	
 	private void updateGlobalOffset() {
-		Entity player = entities.get(Pixels.serverID);
+		Entity player = getPlayer();
 		globalOffsetX = (int)(Display.getWidth()/2)-(int)(player.posX * tileConstant);
 		globalOffsetY = (int)(Display.getHeight()/2)-(int)(player.posY * tileConstant);
 	}
