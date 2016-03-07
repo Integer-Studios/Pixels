@@ -8,7 +8,6 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 
 import com.pixels.communication.CommunicationClient;
-import com.pixels.start.Pixels;
 import com.pixels.util.TextureLoader;
 import com.pixels.util.Toolkit;
 import com.pixels.world.World;
@@ -17,28 +16,24 @@ public class Entity {
 	
 	public Entity() { }
 	
-	public Entity(int x, int y, boolean prop) {
-		posX = x;
-		posY = y;
-		if (prop)
-			serverID = Pixels.world.propogateEntity(this);
+	public void construct(int id, int key, float x, float y) {
+		setPosition(x,  y);
+		serverID = id;
+		positionKey = key;
 	}
 	
-	public void initializePosition(int x, int y) {
-		//used only for pre propogation
+	public void setPosition(float x, float y) {
 		posX = x;
 		posY = y;
-	}
-	
-	public void setPosition(int x, int y, World w) {
-		w.moveEntity(serverID, x, y);
 	}
 
 	public void update(GameContainer c, int delta, World w) {
-		
+//		System.out.println("entity serverid:" + serverID + " position key:" + positionKey);
+
 	}
 	
 	public void render(GameContainer c, Graphics g, World w) {
+
 		if (texture == null) {
 			Toolkit t = new Toolkit();
 			String s = t.separator;
@@ -49,7 +44,7 @@ public class Entity {
 			image = TextureLoader.load(texture);
 		}
 		
-		image.draw(posX*w.tileConstant+w.globalOffsetX, posY*w.tileConstant+w.globalOffsetY, w.tileConstant, w.tileConstant);
+		image.draw(posX*w.tileConstant+w.globalOffsetX, posY*w.tileConstant+w.globalOffsetY-(w.tileConstant/2), w.tileConstant, w.tileConstant);
 	}
 
 	public int getServerID() {
@@ -78,7 +73,8 @@ public class Entity {
 		
 	}
 	
-	public int id, posX, posY, serverID;
+	public int id, serverID, positionKey;
+	public float posX, posY;
 	public Image image;
 	public String texture;
 	

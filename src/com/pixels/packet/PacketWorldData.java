@@ -9,11 +9,13 @@ import com.pixels.piece.Piece;
 import com.pixels.start.Pixels;
 import com.pixels.tile.Tile;
 import com.pixels.world.Chunk;
+import com.pixels.world.EntityRegister;
 
 public class PacketWorldData extends Packet {
 	
 	public PacketWorldData() {
 		this.id = 3;
+		entities = new EntityRegister();
 	}
 
 	@Override
@@ -60,7 +62,7 @@ public class PacketWorldData extends Packet {
 		// read chunk coordinates
 		int chunkX = client.getInput().readInt();
 		int chunkY = client.getInput().readInt();
-		
+				
 		// calculate new min and max loaded chunks
 		if (isFirstChunk) {
 			minChunkX = chunkX;
@@ -116,32 +118,30 @@ public class PacketWorldData extends Packet {
 		// read entity data
 		int serverID = client.getInput().readInt();
 		int entityID = client.getInput().readInt();
-		int posX = client.getInput().readInt();
-		int posY = client.getInput().readInt();
-		
+		int positionKey = client.getInput().readInt();
+		float posX = client.getInput().readFloat();
+		float posY = client.getInput().readFloat();
+				
 		//if the online player entity is you, change to entityplayer
 		if (serverID == Pixels.serverID && entityID == 2)
 			entityID = 1;
 		
 		//build entity without constructor
 		Entity e = Entity.getEntity(entityID);
-		e.initializePosition(posX,  posY);
+		e.construct(serverID, positionKey, posX, posY);
 		e.readEntityData(client);
-		e.serverID = serverID;
 		
 		//add entity to world without propogation
-		entities.put(serverID, e);
-		entityPositions.put(getLocationIndex(posX,  posY, (Pixels.world.chunkWidth << 4)), serverID);
+		entities.add(e);
 		
 	}
-	
+
 	private int getLocationIndex(int x, int y, int width) {
 		return y*width + x;
 	}
 	
 	public ConcurrentHashMap<Integer,Chunk> chunks = new ConcurrentHashMap<Integer,Chunk>();
-	public ConcurrentHashMap<Integer,Entity> entities = new ConcurrentHashMap<Integer,Entity>();
-	public ConcurrentHashMap<Integer,Integer> entityPositions = new ConcurrentHashMap<Integer,Integer>();
+	public EntityRegister entities;
 	public int maxChunkX, maxChunkY;
 	public int minChunkX, minChunkY;
 	private boolean isFirstChunk = true;

@@ -59,7 +59,7 @@ public class Pixels extends BasicGame {
 	@Override
 	public void render(GameContainer c, Graphics g) throws SlickException {
 		// TODO Auto-generated method stub
-		if (world != null)
+		if (world != null && world.isLoaded)
 			world.render(c, g);
 	}
 

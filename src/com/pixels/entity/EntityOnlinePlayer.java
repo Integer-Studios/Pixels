@@ -6,9 +6,9 @@ public class EntityOnlinePlayer extends Entity {
 		this.id = 2;
 	}
 
-	public EntityOnlinePlayer(int x, int y, boolean p) {
-		super(x, y, p);
-		this.id = 2;
-	}
+//	public EntityOnlinePlayer(float x, float y, boolean p) {
+//		super(x, y, p);
+//		this.id = 2;
+//	}
 
 }

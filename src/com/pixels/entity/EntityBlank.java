@@ -6,9 +6,9 @@ public class EntityBlank extends Entity {
 		this.id = 0;
 	}
 
-	public EntityBlank(int x, int y, boolean p) {
-		super(x, y, p);
-		this.id = 0;
-	}
+//	public EntityBlank(float x, float y, boolean p) {
+//		super(x, y, p);
+//		this.id = 0;
+//	}
 
 }

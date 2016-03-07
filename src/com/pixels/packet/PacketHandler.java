@@ -1,7 +1,7 @@
 package com.pixels.packet;
 
-import com.pixels.entity.Entity;
 import com.pixels.start.Pixels;
+import com.pixels.world.Chunk;
 import com.pixels.world.World;
 
 public class PacketHandler {
@@ -13,29 +13,45 @@ public class PacketHandler {
 
 	public static void handlePacketSpawn(PacketSpawn packet) {
 		Pixels.world = new World(packet.worldWidth, packet.worldHeight);
-//		Pixels.world.entities.put(Pixels.serverID, new EntityPlayer(packet.playerPosX, packet.playerPosY, false));
 	}
 
 	public static void handlePacketWorldData(PacketWorldData packet) {
 		Pixels.world.chunks = packet.chunks;
 		Pixels.world.entities = packet.entities;
-		Pixels.world.entityPositions = packet.entityPositions;
-		Pixels.world.setChunkLoadedRange(packet.minChunkX, packet.minChunkX, packet.maxChunkX, packet.maxChunkY);
+		Pixels.world.setChunkLoadedRange(packet.minChunkX, packet.minChunkY, packet.maxChunkX, packet.maxChunkY);
+		Pixels.world.isLoaded = true;
 		Pixels.client.addPacket(new PacketPlayerDidSpawn());
 	}
 
 	public static void handlePacketUpdateEntity(PacketUpdateEntity packet) {
 		
-		Pixels.world.updateEntityFromPacket(packet.serverID, packet.posX, packet.posY);
-		
+		Pixels.world.getEntity(packet.serverID).setPosition(packet.posX, packet.posY);
+				
 	}
 
 	public static void handlePacketSpawnEntity(PacketSpawnEntity packet) {
 		
-		Entity e = Entity.getEntity(packet.entityID);
-		e.posX = packet.posX;
-		e.posY = packet.posY;
-		Pixels.world.propogateEntity(e, packet.serverID);
+		Pixels.world.propogateEntity(packet.entity);
+		
+	}
+
+	public static void handlePacketUpdateWorld(PacketUpdateWorld packet) {
+		
+		//add new chunks
+		for (Integer index : packet.chunks.keySet()) {
+			// shoudn't overwrite anything if its working right
+			Pixels.world.addChunk(packet.chunks.get(index));
+		}
+		
+		//add new entities
+		Pixels.world.entities.merge(packet.entities);
+		
+		//remove old ones
+		Pixels.world.setChunkLoadedRange(packet.minChunkXLoaded, packet.minChunkYLoaded, packet.maxChunkXLoaded, packet.maxChunkYLoaded);
+		Pixels.world.shouldTrim = true;
+		
+		Pixels.world.worldUpdateComplete();
+		
 	}
 
 }

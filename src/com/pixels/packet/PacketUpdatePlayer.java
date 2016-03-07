@@ -21,10 +21,10 @@ public class PacketUpdatePlayer extends Packet {
 
 	@Override
 	public void writeData(CommunicationClient client) throws IOException {
-
+		
 		client.getOutput().writeInt(serverID);
-		client.getOutput().writeInt(posX);
-		client.getOutput().writeInt(posY);
+		client.getOutput().writeFloat(posX);
+		client.getOutput().writeFloat(posY);
 		
 	}
 
@@ -33,6 +33,7 @@ public class PacketUpdatePlayer extends Packet {
 		
 	}
 	
-	int serverID, posX, posY;
+	public int serverID;
+	public float posX, posY;
 
 }
