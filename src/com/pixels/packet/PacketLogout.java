@@ -35,7 +35,6 @@ public class PacketLogout extends Packet {
 		System.out.println("Received logout from server: " + userID + " " + serverID);
 
 		Pixels.world.despawnEntity(this.serverID);
-		Pixels.world.entities.remove(this.serverID);
 		
 	}
 

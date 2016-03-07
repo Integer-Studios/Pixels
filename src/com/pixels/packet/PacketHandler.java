@@ -1,7 +1,7 @@
 package com.pixels.packet;
 
+import com.pixels.entity.Entity;
 import com.pixels.start.Pixels;
-import com.pixels.world.Chunk;
 import com.pixels.world.World;
 
 public class PacketHandler {
@@ -24,8 +24,10 @@ public class PacketHandler {
 	}
 
 	public static void handlePacketUpdateEntity(PacketUpdateEntity packet) {
-		
-		Pixels.world.getEntity(packet.serverID).setPosition(packet.posX, packet.posY);
+//		shouldnt get entities that are unloaded in the future, but for now this works
+		Entity e = Pixels.world.getEntity(packet.serverID);
+		if (e != null)
+			e.setPosition(packet.posX, packet.posY);
 				
 	}
 
@@ -48,7 +50,6 @@ public class PacketHandler {
 		
 		//remove old ones
 		Pixels.world.setChunkLoadedRange(packet.minChunkXLoaded, packet.minChunkYLoaded, packet.maxChunkXLoaded, packet.maxChunkYLoaded);
-		Pixels.world.shouldTrim = true;
 		
 		Pixels.world.worldUpdateComplete();
 		

@@ -1,10 +1,7 @@
 package com.pixels.world;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.lwjgl.opengl.Display;
@@ -29,7 +26,7 @@ public class World {
 	}
 
 	public void render(GameContainer c, Graphics g) {
-		
+
 		updateGlobalOffset();
 			
 		if (shouldTrim) {
@@ -40,9 +37,7 @@ public class World {
 		for (int chunkY = minChunkYLoaded; chunkY <= maxChunkYLoaded; chunkY++) {
 			
 			HashMap<Integer, ArrayList<Piece>> pieces = new HashMap<Integer, ArrayList<Piece>>();
-			
 			for (int chunkX = minChunkXLoaded; chunkX <= maxChunkXLoaded; chunkX++) {
-
 				Chunk chunk = getChunk(chunkX, chunkY);
 				
 				ArrayList<Piece> p = new ArrayList<Piece>();
@@ -64,37 +59,29 @@ public class World {
 					if (pieceYGroup == null) {
 						pieces.put(y, p);
 					} else {
-						
 						pieceYGroup.addAll(p);
 						pieces.put(y, pieceYGroup);
 					}
 					
 				}
 				
-				for (int y = 0; y < 16; y++) {
-										
-					entities.renderYGroup(c, g, this, (chunkY<<4) + y);
-					
-					for (Piece piece : pieces.get(y)) {
-						if (piece != null)
-							piece.render(c, g, this);
-					}
-					
-				}
-				
-				
 			}
 			
-			
-			
-			
+			for (int y = 0; y < 16; y++) {
+
+				entities.renderYGroup(c, g, this, (chunkY<<4) + y);
+				
+				for (Piece piece : pieces.get(y)) {
+					
+					if (piece != null) {
+						piece.render(c, g, this);
+					}
+				}
+				
+			}
+
 		}
-		//get tiles and pieces in y group
-		//loop y groups
-		//paint tiles
-		//paint entities in descending y
-		//paint piece
-		
+
 	}
 	
 	public void update(GameContainer c, int delta) {
@@ -175,6 +162,7 @@ public class World {
 		minChunkYLoaded = y1;
 		maxChunkXLoaded = x2;
 		maxChunkYLoaded = y2;
+		shouldTrim = true;
 	}
 		
 	public void trimUnloadedChunks() {
@@ -186,10 +174,11 @@ public class World {
 				// remove entities in chunk
 				for (int y = c.chunkY<<4; y < (c.chunkY+1)<<4; y++) {
 					for (int x = c.chunkX<<4; x < (c.chunkX+1)<<4; x++) {
-						ArrayList<Integer> indexes = entities.getIDs(x, y);
-						if (indexes != null) {
-							for (int a : indexes) {
-								int i = indexes.get(a);
+						ArrayList<Integer> indexesList = entities.getIDs(x, y);
+						if (indexesList != null) {
+							Object[] indexes = indexesList.toArray();
+							for (int a = 0; a < indexes.length; a++) {
+								int i = (int) indexes[a];
 								entities.remove(i);
 							}
 						}
@@ -213,7 +202,7 @@ public class World {
 	}
 	
 	private void updateGlobalOffset() {
-		Entity player = entities.get(Pixels.serverID);
+		Entity player = getPlayer();
 		globalOffsetX = (int)(Display.getWidth()/2)-(int)(player.posX * tileConstant);
 		globalOffsetY = (int)(Display.getHeight()/2)-(int)(player.posY * tileConstant);
 	}
@@ -225,7 +214,7 @@ public class World {
 	public int maxChunkXLoaded, maxChunkYLoaded;
 	public int minChunkXLoaded, minChunkYLoaded;
 
-	public int tileConstant = 4;
+	public int tileConstant = 40;
 	public int globalOffsetX = 0;
 	public int globalOffsetY = 0;
 	public boolean isLoaded = false;
