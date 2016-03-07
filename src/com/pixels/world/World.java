@@ -8,18 +8,24 @@ import org.lwjgl.opengl.Display;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 
+import com.pixel.input.KeyBinder;
+import com.pixel.input.KeyBinding;
+import com.pixel.input.KeyCode;
+import com.pixel.input.KeyboardListener;
 import com.pixels.entity.Entity;
 import com.pixels.entity.EntityPlayer;
 import com.pixels.packet.PacketUpdateWorld;
 import com.pixels.piece.Piece;
 import com.pixels.start.Pixels;
 
-public class World {
+public class World implements KeyBinder {
 	
 	public World(int w, int h) {
 		
 		chunkWidth = w;
 		chunkHeight = h;
+		KeyboardListener.addKeyBinding(new KeyBinding("in", KeyCode.KEY_EQUALS, this));
+		KeyboardListener.addKeyBinding(new KeyBinding("out", KeyCode.KEY_MINUS, this));
 		
 		entities = new EntityRegister();
 		
@@ -85,7 +91,15 @@ public class World {
 	}
 	
 	public void update(GameContainer c, int delta) {
-
+		
+		if (zoomIn) {
+			tileConstant ++;
+		} 
+		
+		if (zoomOut && tileConstant > 8) {
+			tileConstant --;
+		}
+		
 		for (Chunk chunk : chunks.values()) {
 			chunk.update(c, delta, this);
 		}
@@ -207,6 +221,30 @@ public class World {
 		globalOffsetY = (int)(Display.getHeight()/2)-(int)(player.posY * tileConstant);
 	}
 	
+	
+	@Override
+	public void onKeyDown(String name) {
+		// TODO Auto-generated method stub
+		if (name.equals("in")) {
+			zoomIn = true;
+		}
+		if (name.equals("out")) {
+			zoomOut = true;
+		}
+	}
+
+	@Override
+	public void onKeyUp(String name) {
+		// TODO Auto-generated method stub
+		if (name.equals("in")) {
+			zoomIn = false;
+		}
+		if (name.equals("out")) {
+			zoomOut = false;
+		}
+	}
+
+	
 	public int chunkWidth, chunkHeight;
 	public ConcurrentHashMap<Integer,Chunk> chunks = new ConcurrentHashMap<Integer,Chunk>();
 	public EntityRegister entities;
@@ -214,11 +252,12 @@ public class World {
 	public int maxChunkXLoaded, maxChunkYLoaded;
 	public int minChunkXLoaded, minChunkYLoaded;
 
-	public int tileConstant = 40;
+	public int tileConstant = 30;
 	public int globalOffsetX = 0;
 	public int globalOffsetY = 0;
 	public boolean isLoaded = false;
 	public boolean hasRequestedWorldUpdate = false;
 	public boolean shouldTrim = false;
-
+	public boolean zoomIn = false, zoomOut = false;
+	
 }

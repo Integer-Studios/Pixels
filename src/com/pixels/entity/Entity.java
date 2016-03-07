@@ -44,7 +44,7 @@ public class Entity {
 			image = TextureLoader.load(texture);
 		}
 		
-		image.draw(posX*w.tileConstant+w.globalOffsetX, posY*w.tileConstant+w.globalOffsetY-(w.tileConstant/2), w.tileConstant, w.tileConstant);
+		image.draw(posX*w.tileConstant+w.globalOffsetX-(w.tileConstant/2), posY*w.tileConstant+w.globalOffsetY-(w.tileConstant/2), w.tileConstant, w.tileConstant);
 	}
 
 	public int getServerID() {
