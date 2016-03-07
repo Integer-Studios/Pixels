@@ -31,7 +31,7 @@ public class PacketUpdateEntity extends Packet {
 
 	@Override
 	public void readData(CommunicationClient client) throws IOException {
-				
+
 		serverID = client.getInput().readInt();
 		posX = client.getInput().readFloat();
 		posY = client.getInput().readFloat();

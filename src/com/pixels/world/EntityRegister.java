@@ -66,12 +66,6 @@ public class EntityRegister {
 		
 	}
 	
-	public ArrayList<Entity> getYGroup(int y) {
-		
-		return null;
-		
-	}
-	
 	public void renderYGroup(GameContainer c, Graphics g, World w, int y) {
 		
 		ArrayList<Integer> ids = new ArrayList<Integer>();
@@ -107,7 +101,7 @@ public class EntityRegister {
 			int id = entity.serverID;
 			Entity cur = entityIDMap.get(id);
 			if (cur != null) {
-				System.out.println("duplicate entity");
+				System.out.println("duplicate entity - need to resolve this");
 //				if (cur.posX != entity.posX || cur.posY != entity.posY) {
 //					cur.posX = entity.posX;
 //					cur.posY = entity.posY;
@@ -168,11 +162,7 @@ public class EntityRegister {
 	}
 	
 	public void updatePosition(int i) {
-		Entity e = get(i);
-		if (e.positionKey != getLocationIndex(e)) {
-			removeEntityFromPositionMap(e);
-			addEntityToPositionMap(e);
-		}
+		updatePosition(get(i));
 	}
 	
 	private int getLocationIndex(Entity e) {

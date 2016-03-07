@@ -1,10 +1,7 @@
 package com.pixels.world;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.lwjgl.opengl.Display;
@@ -175,6 +172,7 @@ public class World {
 		minChunkYLoaded = y1;
 		maxChunkXLoaded = x2;
 		maxChunkYLoaded = y2;
+		shouldTrim = true;
 	}
 		
 	public void trimUnloadedChunks() {
@@ -226,7 +224,7 @@ public class World {
 	public int maxChunkXLoaded, maxChunkYLoaded;
 	public int minChunkXLoaded, minChunkYLoaded;
 
-	public int tileConstant = 4;
+	public int tileConstant = 40;
 	public int globalOffsetX = 0;
 	public int globalOffsetY = 0;
 	public boolean isLoaded = false;
