@@ -18,7 +18,7 @@ public class Pixels extends BasicGame {
 	public static World world;
 	public static CommunicationClient client;
 	public static Thread communicationThread;
-	public static int playerID = 0;
+	public static int playerID = 1;
 	public static int serverID = -1;
 		
 	public Pixels(String title) throws SlickException {

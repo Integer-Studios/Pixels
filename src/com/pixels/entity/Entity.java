@@ -86,6 +86,7 @@ public class Entity {
 		entityMap.put(0, EntityBlank.class);
 		entityMap.put(1, EntityPlayer.class);
 		entityMap.put(2, EntityOnlinePlayer.class);
+		entityMap.put(3, EntityBunny.class);
 
 	}
 
