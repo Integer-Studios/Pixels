@@ -7,6 +7,7 @@ import com.pixel.input.KeyBinder;
 import com.pixel.input.KeyBinding;
 import com.pixel.input.KeyCode;
 import com.pixel.input.KeyboardListener;
+import com.pixels.packet.PacketMoveEntity;
 import com.pixels.packet.PacketUpdatePlayer;
 import com.pixels.start.Pixels;
 import com.pixels.world.World;
@@ -29,10 +30,12 @@ public class EntityPlayer extends Entity implements KeyBinder {
 	
 	public void update(GameContainer c, int delta, World w) {
 				
-		this.setPosition(posX+velX, posY+velY);
+//		this.setPosition(posX+velX, posY+velY);
 		
-		if (velX != 0 || velY != 0) {
-			Pixels.client.addPacket(new PacketUpdatePlayer(this));
+		if (velocityX != prevVelocityX || velocityY != prevVelocityY) {
+			
+			Pixels.client.addPacket(new PacketMoveEntity(this));
+			
 		}
 		
 		super.update(c, delta, w);
@@ -40,35 +43,51 @@ public class EntityPlayer extends Entity implements KeyBinder {
 	}
 
 	@Override
-	public void onKeyDown(String name) {		
+	public void onKeyDown(String name) {
 		if (name.equals("down")) {
-			velY += 0.1f;
+			velocityY += 0.1f;
 		}
 		if (name.equals("up")) {
-			velY -= 0.1f;
+			velocityY -= 0.1f;
 		}
 		if (name.equals("left")) {
-			velX -= 0.1f;
+			velocityX -= 0.1f;
 		}
 		if (name.equals("right")) {
-			velX += 0.1f;
+			velocityX += 0.1f;
+		}
+		if (velocityX != 0 && velocityY != 0) {
+			
+			if (velocityX < 0) {
+				velocityX = -.07071F;
+			} else {
+				velocityX = .07071F;
+			}
+			if (velocityY < 0) {
+				velocityY = -.07071F;
+			} else {
+				velocityY = .07071F;
+			}
+			
 		}
 	}
-
+	
+	
 	@Override
 	public void onKeyUp(String name) {
 		if (name.equals("down")) {
-			velY -= 0.1f;
+			velocityY = 0F;
 		}
 		if (name.equals("up")) {
-			velY += 0.1f;
+			velocityY = 0F;
 		}
 		if (name.equals("left")) {
-			velX += 0.1f;
+			velocityX = 0F;
 		}
 		if (name.equals("right")) {
-			velX -= 0.1f;
+			velocityX = 0F;
 		}
+		
 	}
 	
 	public float velX, velY;

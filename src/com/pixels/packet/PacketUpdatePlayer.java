@@ -17,6 +17,8 @@ public class PacketUpdatePlayer extends Packet {
 		serverID = Pixels.serverID;
 		posX = e.posX;
 		posY = e.posY;
+		velocityX = e.velocityX;
+		velocityY = e.velocityY;
 	}
 
 	@Override
@@ -25,7 +27,9 @@ public class PacketUpdatePlayer extends Packet {
 		client.getOutput().writeInt(serverID);
 		client.getOutput().writeFloat(posX);
 		client.getOutput().writeFloat(posY);
-		
+		client.getOutput().writeFloat(velocityX);
+		client.getOutput().writeFloat(velocityY);
+
 	}
 
 	@Override
@@ -34,6 +38,6 @@ public class PacketUpdatePlayer extends Packet {
 	}
 	
 	public int serverID;
-	public float posX, posY;
+	public float posX, posY, velocityX, velocityY;
 
 }

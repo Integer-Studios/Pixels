@@ -5,13 +5,13 @@ import java.io.IOException;
 import com.pixels.communication.CommunicationClient;
 import com.pixels.entity.Entity;
 
-public class PacketUpdateEntity extends Packet {
+public class PacketMoveEntity extends Packet {
 	
-	public PacketUpdateEntity() {
-		this.id = 5;
+	public PacketMoveEntity() {
+		this.id = 10;
 	}
 	
-	public PacketUpdateEntity(Entity e) {
+	public PacketMoveEntity(Entity e) {
 		this.id = 5;
 		serverID = e.serverID;
 		posX = e.posX;
@@ -30,7 +30,7 @@ public class PacketUpdateEntity extends Packet {
 		client.getOutput().writeFloat(posY);
 		client.getOutput().writeFloat(velocityX);
 		client.getOutput().writeFloat(velocityY);
-		
+//		System.out.println("WRITE MOVE " + serverID + " " + posX + " " + posY + " " + velocityX + " " + velocityY);
 	}
 
 	@Override
@@ -41,9 +41,9 @@ public class PacketUpdateEntity extends Packet {
 		posY = client.getInput().readFloat();
 		velocityX = client.getInput().readFloat();
 		velocityY = client.getInput().readFloat();
-//		System.out.println("READ UPDATE " + serverID + " " + posX + " " + posY + " " + velocityX + " " + velocityY);
+//		System.out.println("READ MOVE " + serverID + " " + posX + " " + posY + " " + velocityX + " " + velocityY);
 
-		PacketHandler.handlePacketUpdateEntity(this);
+		PacketHandler.handlePacketMoveEntity(this);
 		
 	}
 	

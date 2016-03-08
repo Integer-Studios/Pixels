@@ -8,6 +8,9 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 
 import com.pixels.communication.CommunicationClient;
+import com.pixels.packet.PacketMoveEntity;
+import com.pixels.packet.PacketUpdatePlayer;
+import com.pixels.start.Pixels;
 import com.pixels.util.TextureLoader;
 import com.pixels.util.Toolkit;
 import com.pixels.world.World;
@@ -29,7 +32,13 @@ public class Entity {
 
 	public void update(GameContainer c, int delta, World w) {
 //		System.out.println("entity serverid:" + serverID + " position key:" + positionKey);
-
+		
+		this.setPosition(posX + velocityX, posY + velocityY);
+		
+		prevVelocityX = velocityX;
+		prevVelocityY = velocityY;
+		prevPosX = posX;
+		prevPosY = posY;
 	}
 	
 	public void render(GameContainer c, Graphics g, World w) {
@@ -65,6 +74,27 @@ public class Entity {
         }
     } 
 	
+	public float getVelocityY() {
+		return velocityY;
+	}
+	
+	public float getVelocityX() {
+		return velocityX;
+	}
+	
+	public float getPreviousVelocityY() {
+		return prevVelocityY;
+	}
+	
+	public float getPreviousVelocityX() {
+		return prevVelocityX;
+	}
+	
+	public void setVelocity (float x, float y) {
+		velocityX = x;
+		velocityY = y;
+	}
+	
 	public void writeEntityData(CommunicationClient client) throws IOException {
 		
 	}
@@ -74,7 +104,9 @@ public class Entity {
 	}
 	
 	public int id, serverID, positionKey;
-	public float posX, posY;
+	public float posX, posY, prevPosX, prevPosY;
+	public float velocityX, velocityY;
+	public float prevVelocityX, prevVelocityY;
 	public Image image;
 	public String texture;
 	
