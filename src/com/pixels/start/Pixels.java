@@ -10,6 +10,7 @@ import com.pixel.input.KeyboardListener;
 import com.pixel.input.MouseClickListener;
 import com.pixels.communication.CommunicationClient;
 import com.pixels.packet.PacketLogin;
+import com.pixels.util.Toolkit;
 import com.pixels.world.World;
 
 public class Pixels extends BasicGame {
@@ -18,11 +19,13 @@ public class Pixels extends BasicGame {
 	public static World world;
 	public static CommunicationClient client;
 	public static Thread communicationThread;
-	public static int playerID = 2;
+	public static int playerID = 0;
 	public static int serverID = -1;
+	public static Toolkit t;
 		
 	public Pixels(String title) throws SlickException {
 		super(title);
+		t = new Toolkit();
 		client = new CommunicationClient("localhost", 25565);
 		communicationThread = new Thread(client);
 		communicationThread.start();

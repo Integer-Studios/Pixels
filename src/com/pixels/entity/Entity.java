@@ -77,6 +77,7 @@ public class Entity {
 	public float posX, posY;
 	public Image image;
 	public String texture;
+	public float velX, velY;
 	
 	@SuppressWarnings("rawtypes")
 	private static HashMap<Integer, Class> entityMap = new HashMap<Integer, Class>();

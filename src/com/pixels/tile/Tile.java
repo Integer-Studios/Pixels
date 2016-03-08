@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 
+import com.pixels.start.Pixels;
 import com.pixels.tile.TileInfo;
 import com.pixels.util.Toolkit;
 import com.pixels.world.World;
@@ -31,8 +32,7 @@ public class Tile {
 	public static ArrayList<TileInfo> info = new ArrayList<TileInfo>();
 	
 	static {
-		Toolkit t = new Toolkit();
-		String s = t.separator;
+		String s = Pixels.t.separator;
 		info.add(new TileInfo(s+"tiles"+s+"grass.png"));
 	}
 

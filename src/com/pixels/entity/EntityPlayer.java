@@ -2,7 +2,9 @@ package com.pixels.entity;
 
 
 import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
 
+import com.pixel.body.BodyBiped;
 import com.pixel.input.KeyBinder;
 import com.pixel.input.KeyBinding;
 import com.pixel.input.KeyCode;
@@ -16,6 +18,7 @@ public class EntityPlayer extends Entity implements KeyBinder {
 	public EntityPlayer() {
 		System.out.println("new one of these");
 		this.id = 1;
+		body = new BodyBiped(this, 0.875f, 1.3125f, "rob");
 		KeyboardListener.addKeyBinding(new KeyBinding("up", KeyCode.KEY_W, this));
 		KeyboardListener.addKeyBinding(new KeyBinding("down", KeyCode.KEY_S, this));
 		KeyboardListener.addKeyBinding(new KeyBinding("left", KeyCode.KEY_A, this));
@@ -37,6 +40,9 @@ public class EntityPlayer extends Entity implements KeyBinder {
 		
 		super.update(c, delta, w);
 
+	}
+	public void render(GameContainer c, Graphics g, World w) {
+		body.render(c, g, w);
 	}
 
 	@Override
@@ -71,6 +77,7 @@ public class EntityPlayer extends Entity implements KeyBinder {
 		}
 	}
 	
-	public float velX, velY;
+	public BodyBiped body;
+	
 
 }

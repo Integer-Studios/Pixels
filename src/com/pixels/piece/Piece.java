@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 
+import com.pixels.start.Pixels;
 import com.pixels.util.Toolkit;
 import com.pixels.world.World;
 
@@ -30,8 +31,7 @@ public class Piece {
 	public static ArrayList<PieceInfo> info = new ArrayList<PieceInfo>();
 	
 	static {
-		Toolkit t = new Toolkit();
-		String s = t.separator;
+		String s = Pixels.t.separator;
 		info.add(new PieceInfo());
 		info.add(new PieceInfo(s+"pieces"+s+"grass_1.png"));//1
 		info.add(new PieceInfo(s+"pieces"+s+"grass_2.png"));//2
