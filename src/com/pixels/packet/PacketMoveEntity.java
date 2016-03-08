@@ -12,7 +12,7 @@ public class PacketMoveEntity extends Packet {
 	}
 	
 	public PacketMoveEntity(Entity e) {
-		this.id = 5;
+		this.id = 10;
 		serverID = e.serverID;
 		posX = e.posX;
 		posY = e.posY;

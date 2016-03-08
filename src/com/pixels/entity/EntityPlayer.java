@@ -29,6 +29,7 @@ public class EntityPlayer extends Entity implements KeyBinder {
 				
 		if (velocityX != prevVelocityX || velocityY != prevVelocityY) {
 			
+//			System.out.println("A");
 			Pixels.client.addPacket(new PacketMoveEntity(this));
 			
 		}
