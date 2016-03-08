@@ -77,8 +77,10 @@ public class BodyDirection {
 	
 	public void applyOffsets(float[] x, float[] y) {
 		for (int i = 0; i < xOffsets.length; i++) {
-			xOffsets[i] += x[i];
-			yOffsets[i] += y[i];
+			if (x[i] != 0)
+				xOffsets[i] = x[i];
+			if (y[i] != 0)
+			yOffsets[i] = y[i];
 		}
 	}
 	
