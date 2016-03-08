@@ -45,35 +45,35 @@ public class Body {
 	public void updateDirection() {
 		//based on entity velocity, set direction and set flip
 		//temporary - will use entity velocity
-		if (entity.velX > 0) {
+		if (entity.velocityX > 0) {
 			shouldFlip = true;
-			if (entity.velY > 0) {
+			if (entity.velocityY > 0) {
 				// + x + y front right
 				currentDirection = 3;
-			} else if (entity.velY < 0) {
+			} else if (entity.velocityY < 0) {
 				// + x - y back right
 				currentDirection = 4;
 			} else {
 				// + x 0 y right
 				currentDirection = 2;
 			}
-		} else if (entity.velX < 0) {
+		} else if (entity.velocityX < 0) {
 			shouldFlip = false;
-			if (entity.velY > 0) {
+			if (entity.velocityY > 0) {
 				// - x + y front left
 				currentDirection = 3;
-			} else if (entity.velY < 0) {
+			} else if (entity.velocityY < 0) {
 				// - x - y back left
 				currentDirection = 4;
 			} else {
 				// - x 0 y left
 				currentDirection = 2;
 			}
-		} else if (entity.velY > 0) {
+		} else if (entity.velocityY > 0) {
 			shouldFlip = false;
 			// 0 x + y front
 			currentDirection = 0;
-		} else if (entity.velY < 0) {
+		} else if (entity.velocityY < 0) {
 			shouldFlip = false;
 			// 0 x - y back
 			currentDirection = 1;
@@ -81,7 +81,7 @@ public class Body {
 			// 0 x 0 y no change (keep at whatever last movement was)
 		}
 		
-		if (entity.velX == 0 && entity.velY == 0) {
+		if (entity.velocityX == 0 && entity.velocityY == 0) {
 			setWalking(false);
 		} else {
 			setWalking(true);

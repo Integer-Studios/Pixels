@@ -26,8 +26,18 @@ public class PacketHandler {
 	public static void handlePacketUpdateEntity(PacketUpdateEntity packet) {
 //		shouldnt get entities that are unloaded in the future, but for now this works
 		Entity e = Pixels.world.getEntity(packet.serverID);
-		if (e != null)
+
+		if (e != null) {
 			e.setPosition(packet.posX, packet.posY);
+			e.setVelocity(packet.velocityX, packet.velocityY);
+		}
+	}
+	
+	public static void handlePacketMoveEntity(PacketMoveEntity packet) {
+//		shouldnt get entities that are unloaded in the future, but for now this works
+		Entity e = Pixels.world.getEntity(packet.serverID);
+		if (e != null)
+			e.setVelocity(packet.velocityX, packet.velocityY);
 				
 	}
 
