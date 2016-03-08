@@ -5,7 +5,7 @@ import java.util.Arrays;
 
 public class ActionBipedWalking extends Action {
 
-	public ActionBipedWalking() {
+	public ActionBipedWalking(Body b) {
 		super(new ArrayList<ActionDirection>(Arrays.asList(
 				
 				//front (shadow, leftFoot, rightFoot, body, leftHand, rightHand, head)
@@ -83,7 +83,7 @@ public class ActionBipedWalking extends Action {
 							{0, 0.08f, -0.07f, 0.02f, 0, -0.02f, 0}
 						}
 					)
-		)), 4, 5);
+		)), 4, 5, b);
 
 	}
 

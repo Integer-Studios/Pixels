@@ -61,7 +61,7 @@ public class BodyBiped extends Body {
 	public void setWalking(boolean w) {
 		if (w != walking) {
 			if (w) {
-				setBaseAction(new ActionBipedWalking());
+				setBaseAction(new ActionBipedWalking(this));
 			} else {
 				setBaseAction(null);
 			}

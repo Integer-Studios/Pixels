@@ -26,20 +26,32 @@ public class Body {
 	}
 	
 	public void render(GameContainer c, Graphics g, World w) {
-		advanceActions();
+		updateActions();
 		updateDirection();
 		directions.get(currentDirection).render(this, c, g, w, shouldFlip);
 	}
 	
-	public void advanceActions() {
+	public void updateActions() {
 		// in ascending order (0, 1, 2, ...) apply next frame of action
 		//	for each direction
 		//		set each body part's offset x and y
-		for (Action a : actions) {
+		
+		// check for self deleting actions
+		for (int i = 0; i < actions.size(); i++) {
+			Action a = actions.get(i);
+			if (a != null) {
+				a.update();
+			}
+		}
+		
+		//get offsets
+		for (int i = 0; i < actions.size(); i++) {
+			Action a = actions.get(i);
 			if (a != null) {
 				directions.get(currentDirection).applyOffsets(a.getNextXFrame(currentDirection), a.getNextYFrame(currentDirection));
 			}
 		}
+		
 	}
 
 	public void updateDirection() {

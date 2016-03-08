@@ -4,14 +4,14 @@ import java.util.ArrayList;
 
 public class Action {
 	
-	public Action(ArrayList<ActionDirection> d, int f, int s) {
+	public Action(ArrayList<ActionDirection> d, int f, int s, Body b) {
 		directions = d;
 		frames = f;
 		speed = s;
+		body = b;
 	}
 	
 	public float[] getNextXFrame(int direction) {
-		advanceTick();
 		return directions.get(direction).getXframe(currentFrame);
 		
 	}
@@ -20,7 +20,7 @@ public class Action {
 		return directions.get(direction).getYframe(currentFrame);
 	}
 	
-	private void advanceTick() {
+	public void update() {
 		tickCounter++;
 		if (tickCounter == speed) {
 			currentFrame++;
@@ -34,4 +34,5 @@ public class Action {
 	int tickCounter = 0;
 	int currentFrame = 0;
 	int frames, speed;
+	Body body;
 }

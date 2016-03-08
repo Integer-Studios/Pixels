@@ -20,7 +20,7 @@ public class EntityPlayer extends Entity implements KeyBinder {
 		System.out.println("new one of these");
 		this.id = 1;
 		body = new BodyBiped(this, 0.875f, 1.3125f, "rob");
-		KeyboardListener.addKeyBinding(new KeyBinding("punch", KeyCode.KEY_Q, this));
+		KeyboardListener.addKeyBinding(new KeyBinding("punch", KeyCode.KEY_P, this));
 		KeyboardListener.addKeyBinding(new KeyBinding("up", KeyCode.KEY_W, this));
 		KeyboardListener.addKeyBinding(new KeyBinding("down", KeyCode.KEY_S, this));
 		KeyboardListener.addKeyBinding(new KeyBinding("left", KeyCode.KEY_A, this));
@@ -46,7 +46,7 @@ public class EntityPlayer extends Entity implements KeyBinder {
 	@Override
 	public void onKeyDown(String name) {
 		if (name.equals("punch")) {
-			body.addAction(new ActionBipedPunch());
+			body.addAction(new ActionBipedPunch(body));
 		}
 		if (name.equals("down")) {
 			velocityY += 0.1f;
@@ -79,9 +79,6 @@ public class EntityPlayer extends Entity implements KeyBinder {
 	
 	@Override
 	public void onKeyUp(String name) {
-		if (name.equals("punch")) {
-			body.clearAuxillaryActions();
-		}
 		if (name.equals("down")) {
 			velocityY = 0F;
 		}
