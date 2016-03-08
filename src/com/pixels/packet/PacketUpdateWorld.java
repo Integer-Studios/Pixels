@@ -24,7 +24,8 @@ public class PacketUpdateWorld extends Packet {
 
 	@Override
 	public void writeData(CommunicationClient client) throws IOException {
-
+		
+//		System.out.println(Pixels.world.getPlayer().posX + " C " + Pixels.world.getPlayer().posY);
 		client.getOutput().writeInt(minChunkXLoaded);
 		client.getOutput().writeInt(minChunkYLoaded);
 		client.getOutput().writeInt(maxChunkXLoaded);
