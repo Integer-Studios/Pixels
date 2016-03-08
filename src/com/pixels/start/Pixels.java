@@ -19,14 +19,14 @@ public class Pixels extends BasicGame {
 	public static World world;
 	public static CommunicationClient client;
 	public static Thread communicationThread;
-	public static int playerID = 0;
+	public static int playerID = 1;
 	public static int serverID = -1;
 	public static Toolkit t;
 		
 	public Pixels(String title) throws SlickException {
 		super(title);
 		t = new Toolkit();
-		client = new CommunicationClient("localhost", 25565);
+		client = new CommunicationClient("192.168.0.4", 25565);
 		communicationThread = new Thread(client);
 		communicationThread.start();
 		client.addPacket(new PacketLogin());
