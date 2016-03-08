@@ -7,7 +7,6 @@ import org.newdawn.slick.Graphics;
 
 import com.pixels.start.Pixels;
 import com.pixels.tile.TileInfo;
-import com.pixels.util.Toolkit;
 import com.pixels.world.World;
 
 public class Tile {
