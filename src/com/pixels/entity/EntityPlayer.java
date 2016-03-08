@@ -8,7 +8,6 @@ import com.pixel.input.KeyBinding;
 import com.pixel.input.KeyCode;
 import com.pixel.input.KeyboardListener;
 import com.pixels.packet.PacketMoveEntity;
-import com.pixels.packet.PacketUpdatePlayer;
 import com.pixels.start.Pixels;
 import com.pixels.world.World;
 
@@ -23,15 +22,8 @@ public class EntityPlayer extends Entity implements KeyBinder {
 		KeyboardListener.addKeyBinding(new KeyBinding("right", KeyCode.KEY_D, this));
 	}
 
-//	public EntityPlayer(float x, float y, boolean p) {
-//		super(x, y, p);
-//		this.id = 1;
-//	}
-	
 	public void update(GameContainer c, int delta, World w) {
 				
-//		this.setPosition(posX+velX, posY+velY);
-		
 		if (velocityX != prevVelocityX || velocityY != prevVelocityY) {
 			
 			Pixels.client.addPacket(new PacketMoveEntity(this));

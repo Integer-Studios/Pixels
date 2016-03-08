@@ -8,9 +8,6 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 
 import com.pixels.communication.CommunicationClient;
-import com.pixels.packet.PacketMoveEntity;
-import com.pixels.packet.PacketUpdatePlayer;
-import com.pixels.start.Pixels;
 import com.pixels.util.TextureLoader;
 import com.pixels.util.Toolkit;
 import com.pixels.world.World;
