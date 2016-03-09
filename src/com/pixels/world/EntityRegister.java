@@ -166,7 +166,7 @@ public class EntityRegister {
 	}
 	
 	private int getLocationIndex(Entity e) {
-		return Math.round(e.posY)*(Pixels.world.chunkWidth<<4) + Math.round(e.posX);
+		return ((int)e.posY)*(Pixels.world.chunkWidth<<4) + ((int)e.posX);
 	}
 	
 	private int getLocationIndex(int x, int y) {

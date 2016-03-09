@@ -160,7 +160,7 @@ public class World implements KeyBinder {
 	}
 	
 	public Chunk getChunk(Entity e) {
-		return chunks.get(getChunkIndex(Math.round(e.posX)>>4, Math.round(e.posY)>>4));
+		return chunks.get(getChunkIndex(((int)e.posX)>>4, ((int)e.posY)>>4));
 	}
 	
 	public Chunk getChunk(int x, int y) {
@@ -212,7 +212,7 @@ public class World implements KeyBinder {
 	}
 	
 	public int getLocationIndex(Entity e) {
-		return Math.round(e.posY)*(chunkWidth<<4) + Math.round(e.posX);
+		return ((int)e.posY)*(chunkWidth<<4) + ((int)e.posX);
 	}
 	
 	private void updateGlobalOffset() {

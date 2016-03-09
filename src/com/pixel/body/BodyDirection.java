@@ -43,7 +43,7 @@ public class BodyDirection {
 			float width = w.tileConstant*body.width;
 			float height = w.tileConstant*body.height;
 			float x = body.entity.posX*w.tileConstant+w.globalOffsetX-(width/2) + xOffsets[index]*w.tileConstant;
-			float y = body.entity.posY*w.tileConstant+w.globalOffsetY-(height/2) + yOffsets[index]*w.tileConstant;
+			float y = body.entity.posY*w.tileConstant+w.globalOffsetY-height + yOffsets[index]*w.tileConstant;
 			image.draw(x, y, width, height);
 			
 			index++;
