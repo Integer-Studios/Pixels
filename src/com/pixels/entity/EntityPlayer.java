@@ -2,21 +2,22 @@ package com.pixels.entity;
 
 
 import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.Graphics;
 
-import com.pixel.body.ActionBipedPunch;
-import com.pixel.body.BodyBiped;
-import com.pixel.input.KeyBinder;
-import com.pixel.input.KeyBinding;
-import com.pixel.input.KeyCode;
-import com.pixel.input.KeyboardListener;
+import com.pixels.body.ActionBipedPunch;
+import com.pixels.body.BodyBiped;
+import com.pixels.input.KeyBinder;
+import com.pixels.input.KeyBinding;
+import com.pixels.input.KeyCode;
+import com.pixels.input.KeyboardListener;
 import com.pixels.packet.PacketMoveEntity;
+import com.pixels.piece.Piece;
 import com.pixels.start.Pixels;
 import com.pixels.world.World;
 
-public class EntityPlayer extends Entity implements KeyBinder {
+public class EntityPlayer extends EntityAlive implements KeyBinder {
 	
 	public EntityPlayer() {
+		super();
 		System.out.println("new one of these");
 		this.id = 1;
 		body = new BodyBiped(this, 0.875f, 1.3125f, "rob");
@@ -35,12 +36,14 @@ public class EntityPlayer extends Entity implements KeyBinder {
 			Pixels.client.addPacket(new PacketMoveEntity(this));
 			
 		}
+		Piece p = w.getPiece((int)posX, (int)posY);
+		if (p != null && p.id == 3) {
+			if (p.collisionBox.intersects(collisionBox))
+				System.out.println("colliding");
+		}
 		
 		super.update(c, delta, w);
 
-	}
-	public void render(GameContainer c, Graphics g, World w) {
-		body.render(c, g, w);
 	}
 
 	@Override
@@ -92,9 +95,6 @@ public class EntityPlayer extends Entity implements KeyBinder {
 			velocityX = 0F;
 		}
 		
-	}
-	
-	public BodyBiped body;
-	
+	}	
 
 }

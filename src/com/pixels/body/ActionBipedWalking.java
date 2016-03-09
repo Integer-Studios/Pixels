@@ -1,4 +1,4 @@
-package com.pixel.body;
+package com.pixels.body;
 
 import java.util.ArrayList;
 import java.util.Arrays;

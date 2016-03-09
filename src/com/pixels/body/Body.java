@@ -1,4 +1,4 @@
-package com.pixel.body;
+package com.pixels.body;
 
 import java.util.ArrayList;
 
@@ -98,6 +98,8 @@ public class Body {
 		} else {
 			setWalking(true);
 		}
+		
+		entity.setCollisionBoxSize(width * directions.get(currentDirection).getCollisionWidth(), height * directions.get(currentDirection).getCollisionHeight());
 		
 	}
 	

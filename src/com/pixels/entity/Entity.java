@@ -6,6 +6,7 @@ import java.util.HashMap;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.geom.Rectangle;
 
 import com.pixels.communication.CommunicationClient;
 import com.pixels.util.TextureLoader;
@@ -14,12 +15,15 @@ import com.pixels.world.World;
 
 public class Entity {
 	
-	public Entity() { }
+	public Entity() { 
+		collisionBox = new Rectangle(0, 0, 0, 0);
+	}
 	
 	public void construct(int id, int key, float x, float y) {
 		setPosition(x,  y);
 		serverID = id;
 		positionKey = key;
+		collisionBox = new Rectangle(0, 0, 0, 0);
 	}
 	
 	public void setPosition(float x, float y) {
@@ -36,10 +40,13 @@ public class Entity {
 		prevVelocityY = velocityY;
 		prevPosX = posX;
 		prevPosY = posY;
+		
+		collisionBox.setLocation(posX - (collisionBox.getWidth()/2), posY - collisionBox.getHeight());
+
 	}
 	
 	public void render(GameContainer c, Graphics g, World w) {
-
+		
 		if (texture == null) {
 			Toolkit t = new Toolkit();
 			String s = t.separator;
@@ -100,12 +107,18 @@ public class Entity {
 		
 	}
 	
+	public void setCollisionBoxSize(float width, float height) {
+		collisionBox.setSize(width, height);
+	}
+	
 	public int id, serverID, positionKey;
 	public float posX, posY, prevPosX, prevPosY;
 	public float velocityX, velocityY;
 	public float prevVelocityX, prevVelocityY;
 	public Image image;
 	public String texture;
+	public Rectangle collisionBox;
+
 	
 	@SuppressWarnings("rawtypes")
 	private static HashMap<Integer, Class> entityMap = new HashMap<Integer, Class>();
@@ -115,8 +128,7 @@ public class Entity {
 		entityMap.put(0, EntityBlank.class);
 		entityMap.put(1, EntityPlayer.class);
 		entityMap.put(2, EntityOnlinePlayer.class);
-		entityMap.put(3, EntityBunny.class);
-		entityMap.put(4, EntityGob.class);
+		entityMap.put(3, EntityGob.class);
 
 	}
 

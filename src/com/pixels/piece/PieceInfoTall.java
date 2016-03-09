@@ -10,7 +10,12 @@ public class PieceInfoTall extends PieceInfo {
 	
 	public PieceInfoTall(String t, int h) {
 		super(t);
-		height = h;
+		size = h;
+	}
+	
+	public PieceInfoTall(String t, int h, float width, float height) {
+		super(t, width, height);
+		size = h;
 	}
 	
 	public void render(GameContainer c, Graphics g, World w, Piece p) {
@@ -22,10 +27,10 @@ public class PieceInfoTall extends PieceInfo {
 			image = TextureLoader.load(texture);
 		}
 		
-		image.draw(p.posX*w.tileConstant+w.globalOffsetX, p.posY*w.tileConstant+w.globalOffsetY-(w.tileConstant*(height-1)), w.tileConstant, w.tileConstant*height);
+		image.draw(p.posX*w.tileConstant+w.globalOffsetX, p.posY*w.tileConstant+w.globalOffsetY-(w.tileConstant*(size-1)), w.tileConstant, w.tileConstant*size);
 
 	}
 	
-	public int height;
+	public int size;
 
 }

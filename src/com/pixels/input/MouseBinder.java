@@ -1,4 +1,4 @@
-package com.pixel.input;
+package com.pixels.input;
 
 public interface MouseBinder {
 

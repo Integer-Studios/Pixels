@@ -1,4 +1,4 @@
-package com.pixel.body;
+package com.pixels.body;
 
 import java.util.ArrayList;
 
@@ -17,10 +17,13 @@ public class BodyDirection {
 //
 //	has a reset function for offsets
 	
-	public BodyDirection(ArrayList<String> bodyParts) {
+	//body parts, width and height as a factor of image width and height
+	public BodyDirection(ArrayList<String> bodyParts, float widthFactor, float heightFactor) {
 		bodyPartTextures = bodyParts;
 		xOffsets = new float[bodyPartTextures.size()];
 		yOffsets = new float[bodyPartTextures.size()];
+		collisionWidthFactor = widthFactor;
+		collisionHeightFactor = heightFactor;
 	}
 	
 	public void render(Body body, GameContainer c, Graphics g, World w, boolean shouldFlip) {
@@ -84,10 +87,19 @@ public class BodyDirection {
 		}
 	}
 	
+	public float getCollisionWidth() {
+		return collisionWidthFactor;
+	}
+	
+	public float getCollisionHeight() {
+		return collisionHeightFactor;
+	}
+	
 	public ArrayList<String> bodyPartTextures;
 	public ArrayList<Image> bodyPartImages;
 	public float[] xOffsets;
 	public float[] yOffsets;
 	public boolean flip = false;
+	public float collisionWidthFactor, collisionHeightFactor;
 	
 }

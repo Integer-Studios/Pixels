@@ -9,12 +9,24 @@ import com.pixels.world.World;
 
 public class PieceInfo {
 	
+	// if c width and c height are 0, it doesn't collide
 	public PieceInfo() {
-		texture = null;
+		this(null);
 	}
 	
 	public PieceInfo(String t) {
 		texture = t;
+		collisionWidth = 0;
+		collisionHeight = 0;
+		doesCollide = false;
+	}
+	
+	// collision dimensions are relative to one block
+	public PieceInfo(String t, float width, float height) {
+		texture = t;
+		collisionWidth = width;
+		collisionHeight = height;
+		doesCollide = true;
 	}
 	
 	public void render(GameContainer c, Graphics g, World w, Piece p) {
@@ -36,5 +48,7 @@ public class PieceInfo {
 
 	public Image image;
 	public String texture;
+	public float collisionWidth, collisionHeight;
+	public boolean doesCollide = false;
 
 }

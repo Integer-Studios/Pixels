@@ -1,4 +1,4 @@
-package com.pixel.input;
+package com.pixels.input;
 
 import java.util.HashMap;
 

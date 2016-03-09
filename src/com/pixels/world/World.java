@@ -8,12 +8,12 @@ import org.lwjgl.opengl.Display;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 
-import com.pixel.input.KeyBinder;
-import com.pixel.input.KeyBinding;
-import com.pixel.input.KeyCode;
-import com.pixel.input.KeyboardListener;
 import com.pixels.entity.Entity;
 import com.pixels.entity.EntityPlayer;
+import com.pixels.input.KeyBinder;
+import com.pixels.input.KeyBinding;
+import com.pixels.input.KeyCode;
+import com.pixels.input.KeyboardListener;
 import com.pixels.packet.PacketUpdateWorld;
 import com.pixels.piece.Piece;
 import com.pixels.start.Pixels;
@@ -136,6 +136,10 @@ public class World implements KeyBinder {
 	
 	public int getPieceID(int x, int y) {
 		return getChunkFromTileCoordinates(x, y).getPieceID(x, y);
+	}
+	
+	public Piece getPiece(int x, int y) {
+		return getChunkFromTileCoordinates(x, y).getPiece(x, y);
 	}
 
 	public void propogateEntity(Entity e) {

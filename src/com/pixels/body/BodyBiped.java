@@ -1,4 +1,4 @@
-package com.pixel.body;
+package com.pixels.body;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -18,7 +18,7 @@ public class BodyBiped extends Body {
 						(name + Pixels.t.separator + "front" + Pixels.t.separator + "leftHand.png"),
 						(name + Pixels.t.separator + "front" + Pixels.t.separator + "rightHand.png"),
 						(name + Pixels.t.separator + "front" + Pixels.t.separator + "head.png")
-						))),
+						)), 1f, 0.125f),
 				new BodyDirection(new ArrayList<String>(Arrays.asList(
 						(name + Pixels.t.separator + "back" + Pixels.t.separator + "shadow.png"),
 						(name + Pixels.t.separator + "back" + Pixels.t.separator + "leftFoot.png"),
@@ -27,7 +27,7 @@ public class BodyBiped extends Body {
 						(name + Pixels.t.separator + "back" + Pixels.t.separator + "leftHand.png"),
 						(name + Pixels.t.separator + "back" + Pixels.t.separator + "rightHand.png"),
 						(name + Pixels.t.separator + "back" + Pixels.t.separator + "head.png")
-						))),
+						)), 1f, 0.125f),
 				new BodyDirection(new ArrayList<String>(Arrays.asList(
 						(name + Pixels.t.separator + "side" + Pixels.t.separator + "shadow.png"),
 						(name + Pixels.t.separator + "side" + Pixels.t.separator + "rightFoot.png"),
@@ -36,7 +36,7 @@ public class BodyBiped extends Body {
 						(name + Pixels.t.separator + "side" + Pixels.t.separator + "leftFoot.png"),
 						(name + Pixels.t.separator + "side" + Pixels.t.separator + "leftHand.png"),
 						(name + Pixels.t.separator + "side" + Pixels.t.separator + "head.png")
-						))),
+						)), 1f, 0.125f),
 				new BodyDirection(new ArrayList<String>(Arrays.asList(
 						(name + Pixels.t.separator + "frontSide" + Pixels.t.separator + "shadow.png"),
 						(name + Pixels.t.separator + "frontSide" + Pixels.t.separator + "leftFoot.png"),
@@ -45,7 +45,7 @@ public class BodyBiped extends Body {
 						(name + Pixels.t.separator + "frontSide" + Pixels.t.separator + "leftHand.png"),
 						(name + Pixels.t.separator + "frontSide" + Pixels.t.separator + "rightHand.png"),
 						(name + Pixels.t.separator + "frontSide" + Pixels.t.separator + "head.png")
-						))),
+						)), 1f, 0.125f),
 				new BodyDirection(new ArrayList<String>(Arrays.asList(
 						(name + Pixels.t.separator + "backSide" + Pixels.t.separator + "shadow.png"),
 						(name + Pixels.t.separator + "backSide" + Pixels.t.separator + "leftFoot.png"),
@@ -54,7 +54,7 @@ public class BodyBiped extends Body {
 						(name + Pixels.t.separator + "backSide" + Pixels.t.separator + "body.png"),
 						(name + Pixels.t.separator + "backSide" + Pixels.t.separator + "leftHand.png"),
 						(name + Pixels.t.separator + "backSide" + Pixels.t.separator + "head.png")
-						)))
+						)), 1f, 0.125f)
 			)));
 	}
 	

@@ -6,9 +6,9 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 
-import com.pixel.input.KeyboardListener;
-import com.pixel.input.MouseClickListener;
 import com.pixels.communication.CommunicationClient;
+import com.pixels.input.KeyboardListener;
+import com.pixels.input.MouseClickListener;
 import com.pixels.packet.PacketLogin;
 import com.pixels.util.Toolkit;
 import com.pixels.world.World;

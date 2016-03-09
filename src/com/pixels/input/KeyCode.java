@@ -1,4 +1,4 @@
-package com.pixel.input;
+package com.pixels.input;
 
 public class KeyCode {
 
