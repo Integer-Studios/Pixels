@@ -41,11 +41,11 @@ public class Piece {
 		info.add(new PieceInfo());
 		info.add(new PieceInfo(s+"pieces"+s+"grass_1.png"));//1
 		info.add(new PieceInfo(s+"pieces"+s+"grass_2.png"));//2
-		info.add(new PieceInfo(s+"pieces"+s+"rock_1.png", 0.8f, 0.2f));//3
-		info.add(new PieceInfo(s+"pieces"+s+"rock_2.png"));//4
-		info.add(new PieceInfoTall(s+"pieces"+s+"pine.png", 2));//5
-		info.add(new PieceInfoTall(s+"pieces"+s+"apple.png", 2));//6
-		info.add(new PieceInfoTall(s+"pieces"+s+"abyssal-fur.png", 3));//7
+		info.add(new PieceInfo(s+"pieces"+s+"rock_1.png", 0.2f, 0.1f));//3
+		info.add(new PieceInfo(s+"pieces"+s+"rock_2.png", 0.4f, 0.2f));//4
+		info.add(new PieceInfoTall(s+"pieces"+s+"pine.png", 2, 0.1f, 0.2f));//5
+		info.add(new PieceInfoTall(s+"pieces"+s+"apple.png", 2, 0.1f, 0.2f));//6
+		info.add(new PieceInfoTall(s+"pieces"+s+"abyssal-fur.png", 3, 0.1f, 0.2f));//7
 		info.add(new PieceInfo(s+"pieces"+s+"flower_1.png"));//8
 	}
 

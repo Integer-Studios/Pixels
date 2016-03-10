@@ -29,6 +29,41 @@ public class EntityPlayer extends EntityAlive implements KeyBinder {
 	}
 
 	public void update(GameContainer c, int delta, World w) {
+		
+		if (up && !down) {
+			if (left && !right) {
+				velocityX = -0.07071f;
+				velocityY = -0.07071f;
+			} else if (!left && right) {
+				velocityX = 0.07071f;
+				velocityY = -0.07071f;
+			} else {
+				velocityY = -0.1f;
+				velocityX = 0f;
+			}
+		} else if (!up && down) {
+			if (left && !right) {
+				velocityX = -0.07071f;
+				velocityY = 0.07071f;
+			} else if (!left && right) {
+				velocityX = 0.07071f;
+				velocityY = 0.07071f;
+			} else {
+				velocityY = 0.1f;
+				velocityX = 0f;
+			}
+		} else {
+			if (left && !right) {
+				velocityX = -0.1f;
+				velocityY = 0f;
+			} else if (!left && right) {
+				velocityX = 0.1f;
+				velocityY = 0f;
+			} else {
+				velocityY = 0f;
+				velocityX = 0f;
+			}
+		}
 				
 		if (velocityX != prevVelocityX || velocityY != prevVelocityY) {
 			
@@ -42,6 +77,8 @@ public class EntityPlayer extends EntityAlive implements KeyBinder {
 				System.out.println("colliding");
 		}
 		
+		w.checkEntityCollisions(this);
+		
 		super.update(c, delta, w);
 
 	}
@@ -52,30 +89,16 @@ public class EntityPlayer extends EntityAlive implements KeyBinder {
 			body.addAction(new ActionBipedPunch(body));
 		}
 		if (name.equals("down")) {
-			velocityY += 0.1f;
+			down = true;
 		}
 		if (name.equals("up")) {
-			velocityY -= 0.1f;
+			up = true;
 		}
 		if (name.equals("left")) {
-			velocityX -= 0.1f;
+			left = true;
 		}
 		if (name.equals("right")) {
-			velocityX += 0.1f;
-		}
-		if (velocityX != 0 && velocityY != 0) {
-			
-			if (velocityX < 0) {
-				velocityX = -.07071F;
-			} else {
-				velocityX = .07071F;
-			}
-			if (velocityY < 0) {
-				velocityY = -.07071F;
-			} else {
-				velocityY = .07071F;
-			}
-			
+			right = true;
 		}
 	}
 	
@@ -83,18 +106,20 @@ public class EntityPlayer extends EntityAlive implements KeyBinder {
 	@Override
 	public void onKeyUp(String name) {
 		if (name.equals("down")) {
-			velocityY = 0F;
+			down = false;
 		}
 		if (name.equals("up")) {
-			velocityY = 0F;
+			up = false;
 		}
 		if (name.equals("left")) {
-			velocityX = 0F;
+			left = false;
 		}
 		if (name.equals("right")) {
-			velocityX = 0F;
+			right = false;
 		}
 		
 	}	
+	
+	public boolean up, down, left, right;
 
 }

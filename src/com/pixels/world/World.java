@@ -17,6 +17,7 @@ import com.pixels.input.KeyboardListener;
 import com.pixels.packet.PacketUpdateWorld;
 import com.pixels.piece.Piece;
 import com.pixels.start.Pixels;
+import com.pixels.util.CollisionManager;
 
 public class World implements KeyBinder {
 	
@@ -156,6 +157,28 @@ public class World implements KeyBinder {
 		
 	public Entity getEntity(int entityID) {
 		return entities.get(entityID);
+	}
+	
+	public void checkEntityCollisions(Entity e) {
+		int radius = 1;
+		
+		for (int y = ((int)e.posY - radius); y <= ((int)e.posY + radius); y++) {
+			for (int x = ((int)e.posX - radius);x <= ((int)e.posX + radius); x++) {
+				//check collision for piece here
+				Piece p = getPiece(x, y);
+				if (p != null)
+					CollisionManager.testPieceCollision(e, p);
+				//check collision for all entities here
+				ArrayList<Entity> localEntities = entities.get(x, y);
+				if (localEntities != null) {
+					for (Entity entity : localEntities) {
+						if (entity.serverID != e.serverID)
+							CollisionManager.testEntityCollision(e, entity);
+					}
+				}
+			}
+		}
+
 	}
 	
 	public void addChunk(Chunk chunk) {
