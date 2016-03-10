@@ -41,7 +41,6 @@ public class PacketUpdateEntity extends Packet {
 		posY = client.getInput().readFloat();
 		velocityX = client.getInput().readFloat();
 		velocityY = client.getInput().readFloat();
-//		System.out.println("READ UPDATE " + serverID + " " + posX + " " + posY + " " + velocityX + " " + velocityY);
 
 		PacketHandler.handlePacketUpdateEntity(this);
 		

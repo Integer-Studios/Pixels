@@ -32,7 +32,6 @@ public class Entity {
 	}
 
 	public void update(GameContainer c, int delta, World w) {
-//		System.out.println("entity serverid:" + serverID + " position key:" + positionKey);
 		
 		this.setPosition(posX + velocityX, posY + velocityY);
 		

@@ -30,7 +30,6 @@ public class PacketMoveEntity extends Packet {
 		client.getOutput().writeFloat(posY);
 		client.getOutput().writeFloat(velocityX);
 		client.getOutput().writeFloat(velocityY);
-//		System.out.println("WRITE MOVE " + serverID + " " + posX + " " + posY + " " + velocityX + " " + velocityY);
 	}
 
 	@Override
@@ -41,7 +40,6 @@ public class PacketMoveEntity extends Packet {
 		posY = client.getInput().readFloat();
 		velocityX = client.getInput().readFloat();
 		velocityY = client.getInput().readFloat();
-//		System.out.println("READ MOVE " + serverID + " " + posX + " " + posY + " " + velocityX + " " + velocityY);
 
 		PacketHandler.handlePacketMoveEntity(this);
 		

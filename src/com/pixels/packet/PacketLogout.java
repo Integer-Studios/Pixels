@@ -4,6 +4,8 @@ import java.io.IOException;
 
 import com.pixels.communication.CommunicationClient;
 import com.pixels.start.Pixels;
+import com.pixels.util.Log;
+import com.pixels.util.ThreadName;
 
 public class PacketLogout extends Packet {
 
@@ -32,7 +34,7 @@ public class PacketLogout extends Packet {
 		
 		this.userID = client.getInput().readInt();
 		this.serverID = client.getInput().readInt();
-		System.out.println("Received logout from server: " + userID + " " + serverID);
+		Log.print(ThreadName.CLIENT, "Received logout from server: " + userID + " " + serverID);
 
 		Pixels.world.despawnEntity(this.serverID);
 		

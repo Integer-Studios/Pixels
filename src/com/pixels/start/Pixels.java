@@ -10,6 +10,8 @@ import com.pixels.communication.CommunicationClient;
 import com.pixels.input.KeyboardListener;
 import com.pixels.input.MouseClickListener;
 import com.pixels.packet.PacketLogin;
+import com.pixels.util.Log;
+import com.pixels.util.ThreadName;
 import com.pixels.util.Toolkit;
 import com.pixels.world.World;
 
@@ -25,11 +27,19 @@ public class Pixels extends BasicGame {
 		
 	public Pixels(String title) throws SlickException {
 		super(title);
+		
+		Log.print(ThreadName.MAIN, "Client Launched with playerID: " + playerID);
+		
+		// initialize static objects
 		t = new Toolkit();
+		
+		// initialize client thread
 		client = new CommunicationClient("localhost", 25565);
 		communicationThread = new Thread(client);
 		communicationThread.start();
+		
 		client.addPacket(new PacketLogin());
+		
 	}
 
 	public static void main(String[] args) {
@@ -40,7 +50,6 @@ public class Pixels extends BasicGame {
 			e.printStackTrace();
 		}
 	
-
 	}
 	
 	public static void initializeLWJGL() throws SlickException {

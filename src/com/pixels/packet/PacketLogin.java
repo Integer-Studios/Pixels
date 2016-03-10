@@ -18,7 +18,6 @@ public class PacketLogin extends Packet {
 	@Override
 	public void readData(CommunicationClient client) throws IOException {
 		serverID = client.getInput().readInt();
-		System.out.println("ServerID" + serverID);
 		PacketHandler.handlePacketLogin(this);
 	}
 	

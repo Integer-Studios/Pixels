@@ -18,7 +18,6 @@ public class EntityPlayer extends EntityAlive implements KeyBinder {
 	
 	public EntityPlayer() {
 		super();
-		System.out.println("new one of these");
 		this.id = 1;
 		body = new BodyBiped(this, 0.875f, 1.3125f, "rob");
 		KeyboardListener.addKeyBinding(new KeyBinding("punch", KeyCode.KEY_P, this));
@@ -67,16 +66,10 @@ public class EntityPlayer extends EntityAlive implements KeyBinder {
 				
 		if (velocityX != prevVelocityX || velocityY != prevVelocityY) {
 			
-//			System.out.println("A");
 			Pixels.client.addPacket(new PacketMoveEntity(this));
 			
 		}
-		Piece p = w.getPiece((int)posX, (int)posY);
-		if (p != null && p.id == 3) {
-			if (p.collisionBox.intersects(collisionBox))
-				System.out.println("colliding");
-		}
-		
+
 		w.checkEntityCollisions(this);
 		
 		super.update(c, delta, w);

@@ -8,6 +8,8 @@ import java.util.HashMap;
 
 import com.pixels.communication.CommunicationClient;
 import com.pixels.start.Pixels;
+import com.pixels.util.Log;
+import com.pixels.util.ThreadName;
 
 public abstract class Packet {
 	
@@ -16,13 +18,16 @@ public abstract class Packet {
 		packet.userID = Pixels.playerID;
 		DataOutputStream output = client.getOutput();
 		try {
+			
+			Log.print(ThreadName.CLIENT, "Writing packet with id: " + packet.id);
+			
 			output.writeInt(packet.id);
 			output.writeInt(packet.userID);
 			packet.writeAuxiliaryVariables(output);
 			packet.writeData(client);
 			output.flush();
 
-			if (packet.id == 9) {
+			if (packet instanceof PacketLogout) {
 				
 				client.disconnect();
 				
@@ -45,10 +50,11 @@ public abstract class Packet {
 			int userID = input.readInt();
 
 			Packet packet = getPacket(id);
-
-			if (packet == null) 
-				System.out.println("[Pixels] Skipping packet with id: " + id);
-			
+			if (packet == null)
+				Log.error(ThreadName.CLIENT, "No packet found with id: " + id);
+			else
+				Log.print(ThreadName.CLIENT, "Reading packet with id: " + id);
+			 			
 			packet.userID = userID;
 			packet.id = id;
 			packet.readAuxiliaryVariables(input);
@@ -58,12 +64,11 @@ public abstract class Packet {
 			return packet;
 			
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			if (client.isRunning()) {
-				client.disconnect();
-				System.err.println("Client lost the connection");
-				
-			}
+			
+			Log.error(ThreadName.CLIENT, "Failed to read");
+			
+			if (client.isRunning()) 
+				client.disconnect();				
 
 		} 
 		
@@ -118,7 +123,7 @@ public abstract class Packet {
         catch (Exception e)
         {
             e.printStackTrace();
-            System.out.println("Skipping packet with id " + id);
+            Log.print(ThreadName.CLIENT, "Packet not found with id " + id);
             return null;
         }
     }

@@ -19,17 +19,22 @@ public class PacketUpdateWorld extends Packet {
 		minChunkYLoaded = Pixels.world.minChunkYLoaded;
 		maxChunkXLoaded = Pixels.world.maxChunkXLoaded;
 		maxChunkYLoaded = Pixels.world.maxChunkYLoaded;
+		percievedPosX = Pixels.world.getPlayer().posX;
+		percievedPosY = Pixels.world.getPlayer().posY;
 		entities = new EntityRegister();
 	}
 
 	@Override
 	public void writeData(CommunicationClient client) throws IOException {
 		
-//		System.out.println(Pixels.world.getPlayer().posX + " C " + Pixels.world.getPlayer().posY);
 		client.getOutput().writeInt(minChunkXLoaded);
 		client.getOutput().writeInt(minChunkYLoaded);
 		client.getOutput().writeInt(maxChunkXLoaded);
 		client.getOutput().writeInt(maxChunkYLoaded);
+		
+		client.getOutput().writeFloat(percievedPosX);
+		client.getOutput().writeFloat(percievedPosY);
+		
 	}
 
 	@Override
@@ -137,4 +142,5 @@ public class PacketUpdateWorld extends Packet {
 	public ConcurrentHashMap<Integer,Chunk> chunks = new ConcurrentHashMap<Integer,Chunk>();
 	public EntityRegister entities;
 	public int minChunkXLoaded, minChunkYLoaded, maxChunkXLoaded, maxChunkYLoaded;
+	public float percievedPosX, percievedPosY;
 }

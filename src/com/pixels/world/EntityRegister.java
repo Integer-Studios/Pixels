@@ -8,6 +8,8 @@ import org.newdawn.slick.Graphics;
 
 import com.pixels.entity.Entity;
 import com.pixels.start.Pixels;
+import com.pixels.util.Log;
+import com.pixels.util.ThreadName;
 
 public class EntityRegister {
 	
@@ -107,7 +109,7 @@ public class EntityRegister {
 			int id = entity.serverID;
 			Entity cur = entityIDMap.get(id);
 			if (cur != null) {
-				System.out.println("duplicate entity - need to resolve this");
+				Log.print(ThreadName.CLIENT, "duplicate entity - need to resolve this");
 //				if (cur.posX != entity.posX || cur.posY != entity.posY) {
 //					cur.posX = entity.posX;
 //					cur.posY = entity.posY;

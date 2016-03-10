@@ -2,13 +2,15 @@ package com.pixels.packet;
 
 import com.pixels.entity.Entity;
 import com.pixels.start.Pixels;
+import com.pixels.util.Log;
+import com.pixels.util.ThreadName;
 import com.pixels.world.World;
 
 public class PacketHandler {
 	
 	public static void handlePacketLogin(PacketLogin packet) {
 		Pixels.serverID = packet.serverID;
-		System.out.println("login complete, serverID: " + Pixels.serverID);
+		Log.print(ThreadName.CLIENT, "login complete, serverID: " + Pixels.serverID);
 	}
 
 	public static void handlePacketSpawn(PacketSpawn packet) {
