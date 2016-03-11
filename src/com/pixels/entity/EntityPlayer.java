@@ -1,6 +1,8 @@
 package com.pixels.entity;
 
 
+import java.util.Random;
+
 import org.newdawn.slick.GameContainer;
 
 import com.pixels.body.ActionBipedPunch;
@@ -10,7 +12,6 @@ import com.pixels.input.KeyBinding;
 import com.pixels.input.KeyCode;
 import com.pixels.input.KeyboardListener;
 import com.pixels.packet.PacketMoveEntity;
-import com.pixels.piece.Piece;
 import com.pixels.start.Pixels;
 import com.pixels.world.World;
 
@@ -19,7 +20,12 @@ public class EntityPlayer extends EntityAlive implements KeyBinder {
 	public EntityPlayer() {
 		super();
 		this.id = 1;
-		body = new BodyBiped(this, 0.875f, 1.3125f, "rob");
+		Random r = new Random();
+		if (r.nextInt(1) == 0) {
+			body = new BodyBiped(this, 0.875f, 1.3125f, "rob");
+		} else {
+			body = new BodyBiped(this, 0.875f, 1.3125f, "zob");
+		}
 		KeyboardListener.addKeyBinding(new KeyBinding("punch", KeyCode.KEY_P, this));
 		KeyboardListener.addKeyBinding(new KeyBinding("up", KeyCode.KEY_W, this));
 		KeyboardListener.addKeyBinding(new KeyBinding("down", KeyCode.KEY_S, this));
@@ -63,14 +69,14 @@ public class EntityPlayer extends EntityAlive implements KeyBinder {
 				velocityX = 0f;
 			}
 		}
+		
+		w.checkEntityCollisions(this);
 				
 		if (velocityX != prevVelocityX || velocityY != prevVelocityY) {
 			
 			Pixels.client.addPacket(new PacketMoveEntity(this));
 			
 		}
-
-		w.checkEntityCollisions(this);
 		
 		super.update(c, delta, w);
 
