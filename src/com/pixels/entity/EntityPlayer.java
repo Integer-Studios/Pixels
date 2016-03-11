@@ -21,7 +21,7 @@ public class EntityPlayer extends EntityAlive implements KeyBinder {
 		super();
 		this.id = 1;
 		Random r = new Random();
-		if (r.nextInt(1) == 0) {
+		if (r.nextInt(2) == 0) {
 			body = new BodyBiped(this, 0.875f, 1.3125f, "rob");
 		} else {
 			body = new BodyBiped(this, 0.875f, 1.3125f, "zob");
