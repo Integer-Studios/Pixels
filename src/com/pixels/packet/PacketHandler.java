@@ -58,7 +58,7 @@ public class PacketHandler {
 		}
 		
 		//add new entities
-		Pixels.world.entities.merge(packet.entities);
+		Pixels.world.entities.replace(packet.entities);
 		
 		//remove old ones
 		Pixels.world.setChunkLoadedRange(packet.minChunkXLoaded, packet.minChunkYLoaded, packet.maxChunkXLoaded, packet.maxChunkYLoaded);

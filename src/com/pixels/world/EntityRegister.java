@@ -125,6 +125,22 @@ public class EntityRegister {
 		
 	}
 	
+	public void replace(EntityRegister register) {
+		
+		for (Integer key : entityIDMap.keySet()) {
+			if (register.get(key) == null) {
+				remove(key);
+			} else {
+				register.remove(key);
+			}
+		}
+		
+		for (Integer key : register.entityIDMap.keySet()) {
+			add(register.get(key));
+		}
+		
+	}
+	
 	public void addEntityToPositionMap(Entity e) {
 		int key = getLocationIndex(e);
 		e.positionKey = key;

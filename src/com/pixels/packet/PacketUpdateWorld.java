@@ -42,7 +42,7 @@ public class PacketUpdateWorld extends Packet {
 		
 		readChunks(client);
 		readEntities(client);
-		
+				
 		minChunkXLoaded = client.getInput().readInt();	
 		minChunkYLoaded = client.getInput().readInt();		
 		maxChunkXLoaded = client.getInput().readInt();		
@@ -123,7 +123,7 @@ public class PacketUpdateWorld extends Packet {
 		float posY = client.getInput().readFloat();
 		
 		//if the online player entity is you, change to entityplayer
-		if (serverID != Pixels.serverID) {
+//		if (serverID != Pixels.serverID) {
 			//build entity without constructor
 			Entity e = Entity.getEntity(entityID);
 			e.construct(serverID, positionKey, posX, posY);
@@ -131,7 +131,7 @@ public class PacketUpdateWorld extends Packet {
 			
 			//add entity to world without propogation
 			entities.add(e);
-		}
+//		}
 		
 	}
 	
