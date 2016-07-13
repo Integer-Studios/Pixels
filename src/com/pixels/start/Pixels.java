@@ -7,18 +7,27 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 
 import com.pixels.communication.CommunicationClient;
+import com.pixels.gui.GUI;
+import com.pixels.gui.GUIHotbar;
+import com.pixels.gui.GUIInventory;
+import com.pixels.gui.GUIStatus;
+import com.pixels.input.KeyBinder;
+import com.pixels.input.KeyBinding;
+import com.pixels.input.KeyCode;
 import com.pixels.input.KeyboardListener;
 import com.pixels.input.MouseClickListener;
 import com.pixels.packet.PacketLogin;
+import com.pixels.packet.PacketPlayerDidSpawn;
 import com.pixels.util.Log;
 import com.pixels.util.ThreadName;
 import com.pixels.util.Toolkit;
 import com.pixels.world.World;
 
-public class Pixels extends BasicGame {
+public class Pixels extends BasicGame implements KeyBinder {
 	
 	public static Pixels game;
 	public static World world;
+	public static GUI gui;
 	public static CommunicationClient client;
 	public static Thread communicationThread;
 	public static int playerID = 0;
@@ -32,6 +41,7 @@ public class Pixels extends BasicGame {
 		
 		// initialize static objects
 		t = new Toolkit();
+		gui = new GUI();
 		
 		// initialize client thread
 		client = new CommunicationClient("localhost", 25565);
@@ -39,7 +49,19 @@ public class Pixels extends BasicGame {
 		communicationThread.start();
 		
 		client.addPacket(new PacketLogin());
+		KeyboardListener.addKeyBinding(new KeyBinding("inventory", KeyCode.KEY_I, this));
 		
+	}
+	
+	public static void didInitialize() {
+		
+		world.isLoaded = true;
+		client.addPacket(new PacketPlayerDidSpawn());
+		
+		gui.addComponent(new GUIHotbar());
+//		gui.addComponent(new GUIInventory());
+		gui.addComponent(new GUIStatus());
+		inventory = new GUIInventory();
 	}
 
 	public static void main(String[] args) {
@@ -71,8 +93,10 @@ public class Pixels extends BasicGame {
 	@Override
 	public void render(GameContainer c, Graphics g) throws SlickException {
 		// TODO Auto-generated method stub
-		if (world != null && world.isLoaded)
+		if (world != null && world.isLoaded) {
 			world.render(c, g);
+			gui.render(c, g);
+		}
 	}
 
 	@Override
@@ -88,5 +112,28 @@ public class Pixels extends BasicGame {
 		if (world != null)
 			world.update(c, delta);
 	}
+
+	@Override
+	public void onKeyDown(String name) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onKeyUp(String name) {
+		// TODO Auto-generated method stub
+		if (name.equals("inventory") && !isInvOpen) {
+			gui.addComponent(inventory);
+			isInvOpen = true;
+		}
+		else if (name.equals("inventory") && isInvOpen) {
+			gui.removeComponent(inventory.zIndex);
+			isInvOpen = false;
+		}
+		
+	}
+	
+	public static GUIInventory inventory;
+	public static boolean isInvOpen = false;
 
 }

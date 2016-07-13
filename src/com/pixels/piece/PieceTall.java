@@ -6,14 +6,14 @@ import org.newdawn.slick.Graphics;
 import com.pixels.util.TextureLoader;
 import com.pixels.world.World;
 
-public class PieceInfoTall extends PieceInfo {
+public class PieceTall extends PieceInfo {
 	
-	public PieceInfoTall(String t, int h) {
+	public PieceTall(String t, int h) {
 		super(t);
 		size = h;
 	}
 	
-	public PieceInfoTall(String t, int h, float width, float height) {
+	public PieceTall(String t, int h, float width, float height) {
 		super(t, width, height);
 		size = h;
 	}

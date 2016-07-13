@@ -18,9 +18,7 @@ public abstract class Packet {
 		packet.userID = Pixels.playerID;
 		DataOutputStream output = client.getOutput();
 		try {
-			
-			Log.print(ThreadName.CLIENT, "Writing packet with id: " + packet.id);
-			
+						
 			output.writeInt(packet.id);
 			output.writeInt(packet.userID);
 			packet.writeAuxiliaryVariables(output);
@@ -52,8 +50,6 @@ public abstract class Packet {
 			Packet packet = getPacket(id);
 			if (packet == null)
 				Log.error(ThreadName.CLIENT, "No packet found with id: " + id);
-			else
-				Log.print(ThreadName.CLIENT, "Reading packet with id: " + id);
 			 			
 			packet.userID = userID;
 			packet.id = id;

@@ -29,7 +29,7 @@ public class World implements KeyBinder {
 		KeyboardListener.addKeyBinding(new KeyBinding("out", KeyCode.KEY_MINUS, this));
 		
 		entities = new EntityRegister();
-		
+				
 	}
 
 	public void render(GameContainer c, Graphics g) {

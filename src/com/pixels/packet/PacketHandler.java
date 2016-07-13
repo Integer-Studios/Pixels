@@ -21,8 +21,7 @@ public class PacketHandler {
 		Pixels.world.chunks = packet.chunks;
 		Pixels.world.entities = packet.entities;
 		Pixels.world.setChunkLoadedRange(packet.minChunkX, packet.minChunkY, packet.maxChunkX, packet.maxChunkY);
-		Pixels.world.isLoaded = true;
-		Pixels.client.addPacket(new PacketPlayerDidSpawn());
+		Pixels.didInitialize();
 	}
 
 	public static void handlePacketUpdateEntity(PacketUpdateEntity packet) {
