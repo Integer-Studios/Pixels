@@ -16,9 +16,9 @@ public class PieceBuilding extends PieceTall {
 	}
 	
 	public void render(GameContainer c, Graphics g, World w, Piece p) {
-
+		
 		super.render(c, g, w, p);
-
+			
 		if (w.getPiece(p.posX-1, p.posY) != null && w.getPieceID(p.posX-1, p.posY) == p.getPieceID()) {
 			//left overlay
 			renderOverlay(w, p, 0);
@@ -29,12 +29,13 @@ public class PieceBuilding extends PieceTall {
 			renderOverlay( w, p, 1);
 		}
 		
-		if (w.getPiece(p.posX, p.posY-1) == null || w.getPieceID(p.posX, p.posY-1) != p.getPieceID()) {
+		if (w.getPiece(p.posX, p.posY-1) != null && w.getPieceID(p.posX, p.posY-1) == p.getPieceID()) {
 			//top overlay
 			renderOverlay(w, p, 2);
 		}
 		
 	}
+
 	
 	private void renderOverlay(World w, Piece p, int i) {
 		if (i == 0) {
@@ -61,12 +62,13 @@ public class PieceBuilding extends PieceTall {
 	}
 	
 	private String getLayerTexture(int i) {
+		String s = Pixels.t.separator;
 		if (i == 0)
-			return Pixels.t.separator+"pieces"+Pixels.t.separator+"building"+Pixels.t.separator+name+Pixels.t.separator+"left.png";
+			return s+"pieces"+s+"building"+s+name+s+"left.png";
 		if (i == 1)
-			return Pixels.t.separator+"pieces"+Pixels.t.separator+"building"+Pixels.t.separator+name+Pixels.t.separator+"right.png";
+			return s+"pieces"+s+"building"+s+name+s+"right.png";
 		if (i == 2)
-			return Pixels.t.separator+"pieces"+Pixels.t.separator+"building"+Pixels.t.separator+name+Pixels.t.separator+"top.png";
+			return s+"pieces"+s+"building"+s+name+s+"top.png";
 		else
 			return "";
 	}
@@ -77,4 +79,5 @@ public class PieceBuilding extends PieceTall {
 	public Image topCover;
 	
 	public String name;
+
 }

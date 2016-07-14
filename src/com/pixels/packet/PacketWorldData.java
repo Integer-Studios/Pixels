@@ -109,8 +109,10 @@ public class PacketWorldData extends Packet {
 	
 	public void readPiece(int key, int x, int y, Chunk chunk, CommunicationClient client) throws IOException {
 		int id = client.getInput().readInt();
-		if (id != 0)
-			chunk.pieces.put(key, new Piece(((chunk.chunkX << 4) + x), ((chunk.chunkY << 4) + y), id));
+		if (id != 0) {
+			int metadata = client.getInput().readInt();
+			chunk.pieces.put(key, new Piece(((chunk.chunkX << 4) + x), ((chunk.chunkY << 4) + y), id, metadata));
+		}
 	}
 	
 	public void readEntity(CommunicationClient client) throws IOException {
