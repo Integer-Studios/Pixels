@@ -33,14 +33,18 @@ public class Entity {
 
 	public void update(GameContainer c, int delta, World w) {
 		
+		collisionBox.setLocation(posX - (collisionBox.getWidth()/2), posY - collisionBox.getHeight());
+		
+		if (this instanceof EntityPlayer) {
+			w.checkEntityCollisions(this);
+		}
+		
 		this.setPosition(posX + velocityX, posY + velocityY);
 		
 		prevVelocityX = velocityX;
 		prevVelocityY = velocityY;
 		prevPosX = posX;
 		prevPosY = posY;
-		
-		collisionBox.setLocation(posX - (collisionBox.getWidth()/2), posY - collisionBox.getHeight());
 
 	}
 	
@@ -108,6 +112,14 @@ public class Entity {
 	
 	public void setCollisionBoxSize(float width, float height) {
 		collisionBox.setSize(width, height);
+	}
+	
+	public float getCollisionWidth() {
+		return collisionBox.getWidth();
+	}
+	
+	public float getCollisionHeight() {
+		return collisionBox.getHeight();
 	}
 	
 	public int id, serverID, positionKey;

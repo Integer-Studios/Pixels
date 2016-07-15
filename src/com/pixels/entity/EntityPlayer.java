@@ -26,6 +26,7 @@ public class EntityPlayer extends EntityAlive implements KeyBinder {
 		} else {
 			body = new BodyBiped(this, 0.875f, 1.3125f, "zob");
 		}
+		KeyboardListener.addKeyBinding(new KeyBinding("place", KeyCode.KEY_B, this));
 		KeyboardListener.addKeyBinding(new KeyBinding("punch", KeyCode.KEY_P, this));
 		KeyboardListener.addKeyBinding(new KeyBinding("up", KeyCode.KEY_W, this));
 		KeyboardListener.addKeyBinding(new KeyBinding("down", KeyCode.KEY_S, this));
@@ -34,6 +35,11 @@ public class EntityPlayer extends EntityAlive implements KeyBinder {
 	}
 
 	public void update(GameContainer c, int delta, World w) {
+		
+		if (build) {
+			w.setPieceID((int)posX+1, (int)posY+1, 9);
+			build = false;
+		}
 		
 		if (up && !down) {
 			if (left && !right) {
@@ -69,15 +75,13 @@ public class EntityPlayer extends EntityAlive implements KeyBinder {
 				velocityX = 0f;
 			}
 		}
-		
-		w.checkEntityCollisions(this);
-				
+						
 		if (velocityX != prevVelocityX || velocityY != prevVelocityY) {
 			
 			Pixels.client.addPacket(new PacketMoveEntity(this));
 			
 		}
-		
+			
 		super.update(c, delta, w);
 
 	}
@@ -116,9 +120,12 @@ public class EntityPlayer extends EntityAlive implements KeyBinder {
 		if (name.equals("right")) {
 			right = false;
 		}
+		if (name.equals("place")) {
+			build = true;
+		}
 		
 	}	
 	
-	public boolean up, down, left, right;
+	public boolean up, down, left, right, build;
 
 }

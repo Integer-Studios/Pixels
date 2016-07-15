@@ -27,7 +27,6 @@ public class World implements KeyBinder {
 		chunkHeight = h;
 		KeyboardListener.addKeyBinding(new KeyBinding("in", KeyCode.KEY_EQUALS, this));
 		KeyboardListener.addKeyBinding(new KeyBinding("out", KeyCode.KEY_MINUS, this));
-		
 		entities = new EntityRegister();
 				
 	}
@@ -270,7 +269,6 @@ public class World implements KeyBinder {
 			zoomOut = false;
 		}
 	}
-
 	
 	public int chunkWidth, chunkHeight;
 	public ConcurrentHashMap<Integer,Chunk> chunks = new ConcurrentHashMap<Integer,Chunk>();

@@ -61,7 +61,11 @@ public class Chunk {
 	}
 	
 	public void setPieceID(int x, int y, int id) {
-		pieces.get(getGlobalLocationIndex(x, y)).setPieceID(id);
+		if (pieces.get(getGlobalLocationIndex(x, y)) == null) {
+			pieces.put(getGlobalLocationIndex(x, y), new Piece(x, y, id));
+		}  else {
+			pieces.get(getGlobalLocationIndex(x, y)).setPieceID(id);
+		}
 	}
 	
 	public Tile getTile(int x, int y) {
