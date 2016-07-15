@@ -18,7 +18,7 @@ public abstract class Packet {
 		packet.userID = Pixels.playerID;
 		DataOutputStream output = client.getOutput();
 		try {
-						
+
 			output.writeInt(packet.id);
 			output.writeInt(packet.userID);
 			packet.writeAuxiliaryVariables(output);
@@ -294,7 +294,8 @@ public abstract class Packet {
 		packetMap.put(8, PacketUpdateWorld.class);
 		packetMap.put(9, PacketLogout.class);
 		packetMap.put(10, PacketMoveEntity.class);
-
+		packetMap.put(11, PacketUpdatePiece.class);
+		
 	}
 	
 }

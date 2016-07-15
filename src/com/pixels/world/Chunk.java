@@ -64,8 +64,13 @@ public class Chunk {
 		if (pieces.get(getGlobalLocationIndex(x, y)) == null) {
 			pieces.put(getGlobalLocationIndex(x, y), new Piece(x, y, id));
 		}  else {
-			pieces.get(getGlobalLocationIndex(x, y)).setPieceID(id);
+			pieces.get(getGlobalLocationIndex(x, y)).setPieceIDAndMetadata(id, 0);
 		}
+	}
+	
+	public void setPieceIDAndMetadata(int x, int y, int id, int metadata) {
+		setPieceID(x, y, id);
+		pieces.get(getGlobalLocationIndex(x, y)).metadata = metadata;
 	}
 	
 	public Tile getTile(int x, int y) {
@@ -77,7 +82,11 @@ public class Chunk {
 	}
 	
 	public int getPieceID(int x, int y) {
-		return pieces.get(getGlobalLocationIndex(x, y)).getPieceID();
+		if (pieces.get(getGlobalLocationIndex(x, y)) == null) {
+			return 0;
+		}  else {
+			return pieces.get(getGlobalLocationIndex(x, y)).getPieceID();
+		}
 	}
 	
 	private int getGlobalLocationIndex(int x, int y) {

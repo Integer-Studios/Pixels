@@ -30,7 +30,7 @@ public class Pixels extends BasicGame implements KeyBinder {
 	public static GUI gui;
 	public static CommunicationClient client;
 	public static Thread communicationThread;
-	public static int playerID = 1;
+	public static int playerID = 0;
 	public static int serverID = -1;
 	public static Toolkit t;
 		

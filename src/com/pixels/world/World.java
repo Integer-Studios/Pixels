@@ -14,6 +14,9 @@ import com.pixels.input.KeyBinder;
 import com.pixels.input.KeyBinding;
 import com.pixels.input.KeyCode;
 import com.pixels.input.KeyboardListener;
+import com.pixels.input.MouseClickListener;
+import com.pixels.input.SimpleMouseListener;
+import com.pixels.packet.PacketUpdatePiece;
 import com.pixels.packet.PacketUpdateWorld;
 import com.pixels.piece.Piece;
 import com.pixels.start.Pixels;
@@ -132,6 +135,10 @@ public class World implements KeyBinder {
 
 	public void setPieceID(int x, int y, int id) {
 		getChunkFromTileCoordinates(x, y).setPieceID(x, y, id);
+	}
+	
+	public void setPieceIDAndMetadata(int x, int y, int id, int metadata) {
+		getChunkFromTileCoordinates(x, y).setPieceIDAndMetadata(x, y, id, metadata);
 	}
 	
 	public int getPieceID(int x, int y) {
@@ -268,6 +275,14 @@ public class World implements KeyBinder {
 		if (name.equals("out")) {
 			zoomOut = false;
 		}
+	}
+	
+	public int UIToWorldCoordX(int x) {
+		return (int)(((float)(x - globalOffsetX) / (float)tileConstant));
+	}
+	
+	public int UIToWorldCoordY(int y) {
+		return (int)(((float)(y - globalOffsetY) / (float)tileConstant));
 	}
 	
 	public int chunkWidth, chunkHeight;

@@ -67,4 +67,10 @@ public class PacketHandler {
 		
 	}
 
+	public static void handlePacketUpdatePiece(PacketUpdatePiece packet) {
+
+		Pixels.world.setPieceIDAndMetadata(packet.posX, packet.posY, packet.pieceID, packet.metadata);
+		
+	}
+
 }

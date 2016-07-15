@@ -11,11 +11,14 @@ import com.pixels.input.KeyBinder;
 import com.pixels.input.KeyBinding;
 import com.pixels.input.KeyCode;
 import com.pixels.input.KeyboardListener;
+import com.pixels.input.MouseClickListener;
+import com.pixels.input.SimpleMouseListener;
 import com.pixels.packet.PacketMoveEntity;
+import com.pixels.packet.PacketUpdatePiece;
 import com.pixels.start.Pixels;
 import com.pixels.world.World;
 
-public class EntityPlayer extends EntityAlive implements KeyBinder {
+public class EntityPlayer extends EntityAlive implements KeyBinder, SimpleMouseListener {
 	
 	public EntityPlayer() {
 		super();
@@ -26,19 +29,27 @@ public class EntityPlayer extends EntityAlive implements KeyBinder {
 		} else {
 			body = new BodyBiped(this, 0.875f, 1.3125f, "zob");
 		}
-		KeyboardListener.addKeyBinding(new KeyBinding("place", KeyCode.KEY_B, this));
 		KeyboardListener.addKeyBinding(new KeyBinding("punch", KeyCode.KEY_P, this));
 		KeyboardListener.addKeyBinding(new KeyBinding("up", KeyCode.KEY_W, this));
 		KeyboardListener.addKeyBinding(new KeyBinding("down", KeyCode.KEY_S, this));
 		KeyboardListener.addKeyBinding(new KeyBinding("left", KeyCode.KEY_A, this));
 		KeyboardListener.addKeyBinding(new KeyBinding("right", KeyCode.KEY_D, this));
+		MouseClickListener.addSimpleListner(this);
+	}
+	
+	public boolean isInReach(float x, float y) {
+		return (posX+reach > x && posX-reach < x && posY+reach > y && posY-reach < y);
 	}
 
 	public void update(GameContainer c, int delta, World w) {
 		
-		if (build) {
-			w.setPieceID((int)posX+1, (int)posY+1, 9);
-			build = false;
+		if (mouseUp) {
+			mouseX = w.UIToWorldCoordX(mouseX);
+			mouseY = w.UIToWorldCoordY(mouseY);
+			if (isInReach(mouseX, mouseY)) {
+				interactWithPiece(w, mouseX, mouseY);
+			}
+			mouseUp = false;
 		}
 		
 		if (up && !down) {
@@ -86,6 +97,23 @@ public class EntityPlayer extends EntityAlive implements KeyBinder {
 
 	}
 
+	public void interactWithPiece(World w, int x, int y) {
+		if (w.getPieceID(x, y) == 9) {
+			int meta = w.getPiece(x, y).metadata;
+			meta++;
+			if (meta > 2) {
+				w.setPieceID(x, y, 0);
+				Pixels.client.addPacket(new PacketUpdatePiece(w.getPiece(x, y)));
+			} else {
+				w.setPieceIDAndMetadata(x, y, 9, meta);
+				Pixels.client.addPacket(new PacketUpdatePiece(w.getPiece(x, y)));
+			}
+		} else {
+			w.setPieceID(x, y, 9);
+			Pixels.client.addPacket(new PacketUpdatePiece(w.getPiece(x, y)));
+		}
+	}
+
 	@Override
 	public void onKeyDown(String name) {
 		if (name.equals("punch")) {
@@ -120,12 +148,25 @@ public class EntityPlayer extends EntityAlive implements KeyBinder {
 		if (name.equals("right")) {
 			right = false;
 		}
-		if (name.equals("place")) {
-			build = true;
-		}
 		
 	}	
 	
-	public boolean up, down, left, right, build;
+	@Override
+	public void mouseDown(int button, int x, int y) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseUp(int button, int x, int y) {
+		// TODO Auto-generated method stub
+		mouseX = x;
+		mouseY = y;
+		mouseUp = true;
+	}
+	
+	public boolean up, down, left, right, mouseUp;
+	public int mouseX, mouseY;
+	public float reach = 3f;
 
 }

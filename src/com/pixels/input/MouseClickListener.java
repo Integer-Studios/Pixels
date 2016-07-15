@@ -1,5 +1,6 @@
 package com.pixels.input;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.newdawn.slick.Input;
@@ -9,13 +10,27 @@ import org.newdawn.slick.MouseListener;
 public class MouseClickListener implements MouseListener {
 
 	public static HashMap<String, MouseBinding> mouseBindings = new HashMap<String, MouseBinding>();
+	public static ArrayList<SimpleMouseListener> simpleListners = new ArrayList<SimpleMouseListener>();
+	
+	public static void clearAll() {
+		clearMouseBindings();
+		clearSimpleListners();
+	}
 	
 	public static void clearMouseBindings() {
 		mouseBindings = new HashMap<String, MouseBinding>();
 	}
 	
+	public static void clearSimpleListners() {
+		simpleListners.clear();
+	}
+	
 	public static void addMouseBinding(MouseBinding k) {
 		mouseBindings.put(k.name, k);
+	}
+	
+	public static void addSimpleListner(SimpleMouseListener k) {
+		simpleListners.add(k);
 	}
 	
 	public static void removeMouseBinding(String name) {
@@ -55,6 +70,9 @@ public class MouseClickListener implements MouseListener {
 		for (int i = 0; i < mouseBindings.size(); i++) {
 			((MouseBinding) mouseBindings.values().toArray()[i]).mousePressed(button, x, y);
 		}
+		for (SimpleMouseListener s : simpleListners) {
+			s.mouseDown(button, x, y);
+		}
 	}
 
 	@Override
@@ -62,6 +80,9 @@ public class MouseClickListener implements MouseListener {
 		// TODO Auto-generated method stub
 		for (int i = 0; i < mouseBindings.size(); i++) {
 			((MouseBinding) mouseBindings.values().toArray()[i]).mouseReleased(button, x, y);
+		}
+		for (SimpleMouseListener s : simpleListners) {
+			s.mouseUp(button, x, y);
 		}
 	}
 

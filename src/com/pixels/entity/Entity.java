@@ -140,6 +140,7 @@ public class Entity {
 		entityMap.put(1, EntityPlayer.class);
 		entityMap.put(2, EntityOnlinePlayer.class);
 		entityMap.put(3, EntityGob.class);
+		entityMap.put(4, EntityBear.class);
 
 	}
 
