@@ -292,7 +292,7 @@ public class World implements KeyBinder {
 	public int maxChunkXLoaded, maxChunkYLoaded;
 	public int minChunkXLoaded, minChunkYLoaded;
 
-	public int tileConstant = 60;
+	public int tileConstant = 65;
 	public int globalOffsetX = 0;
 	public int globalOffsetY = 0;
 	public boolean isLoaded = false;

@@ -1,6 +1,5 @@
 package com.pixels.piece;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.newdawn.slick.GameContainer;
