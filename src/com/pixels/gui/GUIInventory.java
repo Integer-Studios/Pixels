@@ -14,7 +14,8 @@ public class GUIInventory extends GUIComponent implements KeyBinder {
 
 	public GUIInventory() {
 		super((int)(Display.getWidth()/2), (int)(Display.getHeight()/2), 255, 338, "inventory" + Pixels.t.separator + "window.png", new GUIComponent[]{
-				new GUIInventorySlotGrid(10, 93, 4, 4, 4, 8)
+				new GUIInventorySlotGrid(10, 93, 4, 4, 4, 8),
+				new GUIInventorySlot(10, 20, 0)
 		});
 		InterfaceManager.guiInterface.addKeyBinding(new KeyBinding("close-inventory", KeyCode.KEY_I, this));
 	}
@@ -33,7 +34,7 @@ public class GUIInventory extends GUIComponent implements KeyBinder {
 
 	@Override
 	public void onKeyUp(String name) {
-		if (name.equals("close-inventory")) {
+		if (name.equals("close-inventory") && GUIItem.itemOnMouse == null) {
 			InterfaceManager.setCurrentInterface("world");
 			Pixels.gui.removeComponent(this);
 		}

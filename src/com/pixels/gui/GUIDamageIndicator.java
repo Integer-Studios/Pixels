@@ -21,9 +21,9 @@ public class GUIDamageIndicator extends GUIComponent {
 	public void render(GameContainer c, Graphics g) {
 		
 		if (stages == null) {
-			stages = new Image[8];
+			stages = new Image[12];
 			String s = Pixels.t.separator;
-			for (int i = 0; i < 8; i++) {
+			for (int i = 0; i < 12; i++) {
 				stages[i] = TextureLoader.load(s + "gui" + s + "damage-indicator" + s + i + ".png");
 			}
 			image = stages[0];
@@ -33,7 +33,7 @@ public class GUIDamageIndicator extends GUIComponent {
 		y = ((piece.posY + 1) * Pixels.world.tileConstant) + Pixels.world.globalOffsetY + 5;
 
 		float percent = (float)player.currentPieceDamage / (float)piece.getMaxDamage();
-		int stage = (int)((percent*100) / 12.5f);
+		int stage = (int)((percent*100) / 8.333f);
 		
 		if (currentStage != stage) {
 			currentStage = stage;
@@ -45,7 +45,7 @@ public class GUIDamageIndicator extends GUIComponent {
 	
 	public Piece piece;
 	public EntityPlayer player;
-	int currentStage = 0;
+	public int currentStage = 0;
 	public Image[] stages;
 
 }

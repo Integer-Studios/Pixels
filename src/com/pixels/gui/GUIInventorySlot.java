@@ -11,6 +11,9 @@ public class GUIInventorySlot extends GUIClickable {
 		super(x, y, 55, 55, "inventory" + Pixels.t.separator + "green.png");
 		weight = w;
 		switch (weight) {
+		case 0:
+			setTexture("inventory" + Pixels.t.separator + "brown.png");
+			break;
 		case 1:
 			setTexture("inventory" + Pixels.t.separator + "green.png");
 			break;
