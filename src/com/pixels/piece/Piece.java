@@ -45,23 +45,12 @@ public class Piece {
 		return info.get(id).collisionHeight;
 	}
 	
-	public int posX, posY, id, metadata;
-	public static ArrayList<PieceInfo> info = new ArrayList<PieceInfo>();
-	public Rectangle collisionBox;
+	public void destroy(World w) {
+		w.setPieceID(posX, posY, 0);
+	}
 	
-	static {
-		String s = Pixels.t.separator;
-		info.add(new PieceInfo());
-		info.add(new PieceInfo(s+"pieces"+s+"grass_1.png"));//1
-		info.add(new PieceInfo(s+"pieces"+s+"grass_2.png"));//2
-		info.add(new PieceInfo(s+"pieces"+s+"rock_1.png", 0.2f, 0.1f));//3
-		info.add(new PieceInfo(s+"pieces"+s+"rock_2.png", 0.4f, 0.2f));//4
-		info.add(new PieceTall(s+"pieces"+s+"pine.png", 2, 0.1f, 0.2f));//5
-		info.add(new PieceTall(s+"pieces"+s+"apple.png", 2, 0.1f, 0.2f));//6
-		info.add(new PieceTall(s+"pieces"+s+"abyssal-fur.png", 3, 0.1f, 0.2f));//7
-		info.add(new PieceInfo(s+"pieces"+s+"flower_1.png"));//8
-		
-		info.add(new PieceBuilding("cabin"));//9
+	public int getMaxDamage() {
+		return info.get(id).maxDamage;
 	}
 
 	public void setPieceID(int id) {
@@ -75,6 +64,26 @@ public class Piece {
 
 	public int getPieceID() {
 		return id;
+	}
+
+	
+	public int posX, posY, id, metadata;
+	public static ArrayList<PieceInfo> info = new ArrayList<PieceInfo>();
+	public Rectangle collisionBox;
+	
+	static {
+		String s = Pixels.t.separator;
+		info.add(new PieceBlank());
+		info.add(new PieceInfo(s+"pieces"+s+"grass_1.png").setMaxDamage(-1));//1
+		info.add(new PieceInfo(s+"pieces"+s+"grass_2.png").setMaxDamage(-1));//2
+		info.add(new PieceInfo(s+"pieces"+s+"rock_1.png", 0.2f, 0.1f).setMaxDamage(50));//3
+		info.add(new PieceInfo(s+"pieces"+s+"rock_2.png", 0.4f, 0.2f).setMaxDamage(100));//4
+		info.add(new PieceTall(s+"pieces"+s+"pine.png", 2, 0.1f, 0.2f).setMaxDamage(100));//5
+		info.add(new PieceTall(s+"pieces"+s+"apple.png", 2, 0.1f, 0.2f).setMaxDamage(100));//6
+		info.add(new PieceTall(s+"pieces"+s+"abyssal-fur.png", 3, 0.1f, 0.2f).setMaxDamage(150));//7
+		info.add(new PieceInfo(s+"pieces"+s+"flower_1.png").setMaxDamage(1));//8
+		info.add(new PieceBuilding("cabin").setMaxDamage(200));//9
+		info.add(new PieceTall(s+"pieces"+s+"cherry.png", 2, 0.1f, 0.2f).setMaxDamage(100));//10
 	}
 
 }

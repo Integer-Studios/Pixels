@@ -45,10 +45,16 @@ public class PieceInfo {
 	public void update(GameContainer c, int delta, World w, Piece p) {
 
 	}
+	
+	public PieceInfo setMaxDamage(int i) {
+		maxDamage = i;
+		return this;
+	}
 
 	public Image image;
 	public String texture;
 	public float collisionWidth, collisionHeight;
 	public boolean doesCollide = false;
+	public int maxDamage = 100;
 
 }

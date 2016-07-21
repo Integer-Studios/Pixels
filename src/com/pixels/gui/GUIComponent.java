@@ -52,6 +52,10 @@ public class GUIComponent {
 		
 	}
 	
+	public void onFirstRender() {
+		hasRendered = true;
+	}
+	
 	public void addChild(GUIComponent c) {
 		
 		c.zIndex = nextZIndex;
@@ -61,12 +65,33 @@ public class GUIComponent {
 		
 	}
 	
-	public void removeChild(int z) {
-		children.remove(z);
+	public void removeChild(GUIComponent c) {
+		children.remove(c.zIndex);
+	}
+	
+	public void emancipate() {
+		if (parent != null) {
+			parent.removeChild(this);
+			Pixels.gui.addComponent(this);
+		}
+	}
+	
+	public void adopt(GUIComponent c) {
+		Pixels.gui.removeComponent(c);
+		addChild(c);
+	}
+	
+	public void setTexture(String t) {
+		String s = Pixels.t.separator;
+		texture = s + "gui" + s + t;
+		image = null;
 	}
 	
 
 	public void render(GameContainer c, Graphics g) {
+		
+		if (!hasRendered)
+			onFirstRender();
 		
 		if (doesRender) {
 			
@@ -110,5 +135,6 @@ public class GUIComponent {
 	public GUIComponent parent;
 	public HashMap<Integer, GUIComponent> children;
 	public int nextZIndex = 0;
+	public boolean hasRendered = false;
 
 }

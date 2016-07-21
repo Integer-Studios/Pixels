@@ -8,12 +8,10 @@ import org.newdawn.slick.SlickException;
 
 import com.pixels.communication.CommunicationClient;
 import com.pixels.gui.GUI;
-import com.pixels.gui.GUIHotbar;
 import com.pixels.gui.GUIInventory;
-import com.pixels.gui.GUIStatus;
+import com.pixels.input.InputInterface;
+import com.pixels.input.InterfaceManager;
 import com.pixels.input.KeyBinder;
-import com.pixels.input.KeyBinding;
-import com.pixels.input.KeyCode;
 import com.pixels.input.KeyboardListener;
 import com.pixels.input.MouseClickListener;
 import com.pixels.packet.PacketLogin;
@@ -43,13 +41,14 @@ public class Pixels extends BasicGame implements KeyBinder {
 		t = new Toolkit();
 		gui = new GUI();
 		
+		InterfaceManager.initializeInterfaces();
+		
 		// initialize client thread
 		client = new CommunicationClient("localhost", 25565);
 		communicationThread = new Thread(client);
 		communicationThread.start();
 		
 		client.addPacket(new PacketLogin());
-		KeyboardListener.addKeyBinding(new KeyBinding("inventory", KeyCode.KEY_I, this));
 		
 	}
 	
@@ -57,11 +56,7 @@ public class Pixels extends BasicGame implements KeyBinder {
 		
 		world.isLoaded = true;
 		client.addPacket(new PacketPlayerDidSpawn());
-		
-		gui.addComponent(new GUIHotbar());
-//		gui.addComponent(new GUIInventory());
-		gui.addComponent(new GUIStatus());
-		inventory = new GUIInventory();
+
 	}
 
 	public static void main(String[] args) {
@@ -121,19 +116,9 @@ public class Pixels extends BasicGame implements KeyBinder {
 
 	@Override
 	public void onKeyUp(String name) {
-		// TODO Auto-generated method stub
-		if (name.equals("inventory") && !isInvOpen) {
-			gui.addComponent(inventory);
-			isInvOpen = true;
-		}
-		else if (name.equals("inventory") && isInvOpen) {
-			gui.removeComponent(inventory.zIndex);
-			isInvOpen = false;
-		}
-		
+
 	}
 	
-	public static GUIInventory inventory;
 	public static boolean isInvOpen = false;
 
 }

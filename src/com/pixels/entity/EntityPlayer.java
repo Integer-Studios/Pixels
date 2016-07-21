@@ -6,15 +6,17 @@ import java.util.Random;
 import org.newdawn.slick.GameContainer;
 
 import com.pixels.body.ActionBipedPunch;
+import com.pixels.body.ActionBipedPunchContinuous;
 import com.pixels.body.BodyBiped;
+import com.pixels.gui.GUIDamageIndicator;
+import com.pixels.gui.GUIInventory;
+import com.pixels.input.InterfaceManager;
 import com.pixels.input.KeyBinder;
 import com.pixels.input.KeyBinding;
 import com.pixels.input.KeyCode;
-import com.pixels.input.KeyboardListener;
-import com.pixels.input.MouseClickListener;
 import com.pixels.input.SimpleMouseListener;
 import com.pixels.packet.PacketMoveEntity;
-import com.pixels.packet.PacketUpdatePiece;
+import com.pixels.piece.Piece;
 import com.pixels.start.Pixels;
 import com.pixels.world.World;
 
@@ -29,12 +31,14 @@ public class EntityPlayer extends EntityAlive implements KeyBinder, SimpleMouseL
 		} else {
 			body = new BodyBiped(this, 0.875f, 1.3125f, "zob");
 		}
-		KeyboardListener.addKeyBinding(new KeyBinding("punch", KeyCode.KEY_P, this));
-		KeyboardListener.addKeyBinding(new KeyBinding("up", KeyCode.KEY_W, this));
-		KeyboardListener.addKeyBinding(new KeyBinding("down", KeyCode.KEY_S, this));
-		KeyboardListener.addKeyBinding(new KeyBinding("left", KeyCode.KEY_A, this));
-		KeyboardListener.addKeyBinding(new KeyBinding("right", KeyCode.KEY_D, this));
-		MouseClickListener.addSimpleListner(this);
+		InterfaceManager.worldInterface.addKeyBinding(new KeyBinding("inventory", KeyCode.KEY_I, this));
+		InterfaceManager.worldInterface.addKeyBinding(new KeyBinding("punch", KeyCode.KEY_P, this));
+		InterfaceManager.worldInterface.addKeyBinding(new KeyBinding("up", KeyCode.KEY_W, this));
+		InterfaceManager.worldInterface.addKeyBinding(new KeyBinding("down", KeyCode.KEY_S, this));
+		InterfaceManager.worldInterface.addKeyBinding(new KeyBinding("left", KeyCode.KEY_A, this));
+		InterfaceManager.worldInterface.addKeyBinding(new KeyBinding("right", KeyCode.KEY_D, this));
+		InterfaceManager.worldInterface.addSimpleListner(this);
+		guiInv = new GUIInventory();
 	}
 	
 	public boolean isInReach(float x, float y) {
@@ -43,12 +47,26 @@ public class EntityPlayer extends EntityAlive implements KeyBinder, SimpleMouseL
 
 	public void update(GameContainer c, int delta, World w) {
 		
-		if (mouseUp) {
-			mouseX = w.UIToWorldCoordX(mouseX);
-			mouseY = w.UIToWorldCoordY(mouseY);
-			if (isInReach(mouseX, mouseY)) {
-				interactWithPiece(w, mouseX, mouseY);
+		updateInteraction(w);
+		updateInputBindings(w);
+			
+		super.update(c, delta, w);
+
+	}
+	
+	private void updateInputBindings(World w) {
+		if (mouseDown) {
+			int x = w.UIToWorldCoordX(mouseX);
+			int y = w.UIToWorldCoordY(mouseY);
+			if (isInReach(x, y)) {
+				startInteraction(w, x, y);
 			}
+			mouseDown = false;
+		}
+		
+		if (mouseUp) {
+			if (interactionPiece != null)
+				endInteraction();
 			mouseUp = false;
 		}
 		
@@ -92,26 +110,40 @@ public class EntityPlayer extends EntityAlive implements KeyBinder, SimpleMouseL
 			Pixels.client.addPacket(new PacketMoveEntity(this));
 			
 		}
-			
-		super.update(c, delta, w);
-
+	}
+	
+	private void startInteraction(World w, int x, int y) {
+		interactionPiece = w.getPiece(x, y);
+		
+		if (interactionPiece == null)
+			return;
+		
+		if (interactionPiece.getMaxDamage() == -1) {
+			interactionPiece = null;
+			return;
+		}
+		
+		body.addAction(new ActionBipedPunchContinuous(body));
+		damageIndicator = new GUIDamageIndicator(this, interactionPiece);
+		Pixels.gui.addComponent(damageIndicator);
+	}
+	
+	private void updateInteraction(World w) {
+		if (interactionPiece!=null) {
+			currentPieceDamage+=damageIncrement;
+			if (interactionPiece.getMaxDamage() == currentPieceDamage) {
+				w.setPieceID(interactionPiece.posX, interactionPiece.posY, 0);
+				endInteraction();
+			}
+		}
 	}
 
-	public void interactWithPiece(World w, int x, int y) {
-		if (w.getPieceID(x, y) == 9) {
-			int meta = w.getPiece(x, y).metadata;
-			meta++;
-			if (meta > 2) {
-				w.setPieceID(x, y, 0);
-				Pixels.client.addPacket(new PacketUpdatePiece(w.getPiece(x, y)));
-			} else {
-				w.setPieceIDAndMetadata(x, y, 9, meta);
-				Pixels.client.addPacket(new PacketUpdatePiece(w.getPiece(x, y)));
-			}
-		} else {
-			w.setPieceID(x, y, 9);
-			Pixels.client.addPacket(new PacketUpdatePiece(w.getPiece(x, y)));
-		}
+	private void endInteraction() {
+		Pixels.gui.removeComponent(damageIndicator);
+		damageIndicator = null;
+		body.clearAuxillaryActions();
+		interactionPiece = null;
+		currentPieceDamage = 0;
 	}
 
 	@Override
@@ -136,6 +168,10 @@ public class EntityPlayer extends EntityAlive implements KeyBinder, SimpleMouseL
 	
 	@Override
 	public void onKeyUp(String name) {
+		if (name.equals("inventory")) {
+			InterfaceManager.setCurrentInterface("gui");
+			Pixels.gui.addComponent(guiInv);
+		}
 		if (name.equals("down")) {
 			down = false;
 		}
@@ -154,7 +190,10 @@ public class EntityPlayer extends EntityAlive implements KeyBinder, SimpleMouseL
 	@Override
 	public void mouseDown(int button, int x, int y) {
 		// TODO Auto-generated method stub
-		
+		mouseX = x;
+		mouseY = y;
+		mouseDown = true;
+		mouseUp = false;
 	}
 
 	@Override
@@ -163,10 +202,17 @@ public class EntityPlayer extends EntityAlive implements KeyBinder, SimpleMouseL
 		mouseX = x;
 		mouseY = y;
 		mouseUp = true;
+		mouseDown = false;
 	}
 	
-	public boolean up, down, left, right, mouseUp;
+	public boolean up, down, left, right, mouseDown, mouseUp;
+	public int currentPieceDamage = 0;
+	//this should be decided by the tool or something
+	public int damageIncrement = 1;
 	public int mouseX, mouseY;
 	public float reach = 3f;
+	public Piece interactionPiece;
+	public GUIDamageIndicator damageIndicator;
+	public GUIInventory guiInv;
 
 }

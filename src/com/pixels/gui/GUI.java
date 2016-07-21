@@ -22,6 +22,10 @@ public class GUI {
 		components.remove(z);
 	}
 	
+	public void removeComponent(GUIComponent c) {
+		removeComponent(c.zIndex);
+	}
+	
 	public void render(GameContainer c, Graphics g) {
 		for (GUIComponent component: components.values()) {
 			component.render(c, g);

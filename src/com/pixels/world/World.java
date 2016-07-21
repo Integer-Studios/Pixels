@@ -10,13 +10,10 @@ import org.newdawn.slick.Graphics;
 
 import com.pixels.entity.Entity;
 import com.pixels.entity.EntityPlayer;
+import com.pixels.input.InterfaceManager;
 import com.pixels.input.KeyBinder;
 import com.pixels.input.KeyBinding;
 import com.pixels.input.KeyCode;
-import com.pixels.input.KeyboardListener;
-import com.pixels.input.MouseClickListener;
-import com.pixels.input.SimpleMouseListener;
-import com.pixels.packet.PacketUpdatePiece;
 import com.pixels.packet.PacketUpdateWorld;
 import com.pixels.piece.Piece;
 import com.pixels.start.Pixels;
@@ -28,8 +25,8 @@ public class World implements KeyBinder {
 		
 		chunkWidth = w;
 		chunkHeight = h;
-		KeyboardListener.addKeyBinding(new KeyBinding("in", KeyCode.KEY_EQUALS, this));
-		KeyboardListener.addKeyBinding(new KeyBinding("out", KeyCode.KEY_MINUS, this));
+		InterfaceManager.worldInterface.addKeyBinding(new KeyBinding("in", KeyCode.KEY_EQUALS, this));
+		InterfaceManager.worldInterface.addKeyBinding(new KeyBinding("out", KeyCode.KEY_MINUS, this));
 		entities = new EntityRegister();
 				
 	}
