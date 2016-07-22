@@ -85,6 +85,11 @@ public class Piece {
 		info.add(new PieceBuilding("cabin").setMaxDamage(200));//9
 		info.add(new PieceTall(s+"pieces"+s+"cherry.png", 2, 0.1f, 0.2f).setMaxDamage(100));//10
 		info.add(new PieceInfo(s+"pieces"+s+"cloudberry.png", 0.2f, 0.1f).setMaxDamage(50));//11
+		info.add(new PieceInfo(s+"pieces"+s+"crowberry.png", 0.2f, 0.1f).setMaxDamage(50));//12
+		info.add(new PieceInfo(s+"pieces"+s+"tulip.png").setMaxDamage(1));//13
+		info.add(new PieceTall(s+"pieces"+s+"pine_2.png", 2, 0.1f, 0.2f).setMaxDamage(100));//14
+		info.add(new PieceInfo(s+"pieces"+s+"rock_3.png", 0.4f, 0.2f).setMaxDamage(100));//15
+
 	}
 
 }

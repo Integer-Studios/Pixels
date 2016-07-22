@@ -30,7 +30,7 @@ public class PieceInfo {
 	}
 	
 	public void render(GameContainer c, Graphics g, World w, Piece p) {
-
+		
 		if (texture == null)
 			return;
 		
@@ -39,7 +39,7 @@ public class PieceInfo {
 		}
 		
 		image.draw(p.posX*w.tileConstant+w.globalOffsetX, p.posY*w.tileConstant+w.globalOffsetY, w.tileConstant, w.tileConstant);
-
+		
 	}
 	
 	public void update(GameContainer c, int delta, World w, Piece p) {
