@@ -8,8 +8,6 @@ import org.newdawn.slick.SlickException;
 
 import com.pixels.communication.CommunicationClient;
 import com.pixels.gui.GUI;
-import com.pixels.gui.GUIInventory;
-import com.pixels.input.InputInterface;
 import com.pixels.input.InterfaceManager;
 import com.pixels.input.KeyBinder;
 import com.pixels.input.KeyboardListener;

@@ -84,6 +84,7 @@ public class Piece {
 		info.add(new PieceInfo(s+"pieces"+s+"flower_1.png").setMaxDamage(1));//8
 		info.add(new PieceBuilding("cabin").setMaxDamage(200));//9
 		info.add(new PieceTall(s+"pieces"+s+"cherry.png", 2, 0.1f, 0.2f).setMaxDamage(100));//10
+		info.add(new PieceInfo(s+"pieces"+s+"cloudberry.png", 0.2f, 0.1f).setMaxDamage(50));//11
 	}
 
 }
