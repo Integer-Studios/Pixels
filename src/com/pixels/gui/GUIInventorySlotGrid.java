@@ -33,7 +33,7 @@ public class GUIInventorySlotGrid extends GUIComponent {
 		}
 		while (mediumTodo > 0) {
 			GUIInventorySlot s = new GUIInventorySlot(curX * spacing, curY * spacing, 2);
-			s.setItem(new GUIItem(9, 5, Item.test2));
+			s.setItem(new GUIItem(9, 5, Item.cloudberries));
 			addChild(s);
 //			addChild(new GUIInventorySlot(curX * spacing, curY * spacing, 2));
 			mediumTodo--;
@@ -45,7 +45,7 @@ public class GUIInventorySlotGrid extends GUIComponent {
 		}
 		while (lightTodo > 0) {
 			GUIInventorySlot s = new GUIInventorySlot(curX * spacing, curY * spacing, 1);
-			s.setItem(new GUIItem(9, 5, Item.test));
+			s.setItem(new GUIItem(9, 5, Item.crowberries));
 			addChild(s);
 //			addChild(new GUIInventorySlot(curX * spacing, curY * spacing, 1));
 			lightTodo--;

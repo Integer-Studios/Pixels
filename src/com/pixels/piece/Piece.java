@@ -46,7 +46,7 @@ public class Piece {
 	}
 	
 	public void destroy(World w) {
-		w.setPieceID(posX, posY, 0);
+		w.setPieceID(posX, posY, info.get(id).onDestroyID);
 	}
 	
 	public int getMaxDamage() {
@@ -77,18 +77,20 @@ public class Piece {
 		info.add(new PieceInfo(s+"pieces"+s+"grass_1.png").setMaxDamage(-1));//1
 		info.add(new PieceInfo(s+"pieces"+s+"grass_2.png").setMaxDamage(-1));//2
 		info.add(new PieceInfo(s+"pieces"+s+"rock_1.png", 0.2f, 0.1f).setMaxDamage(50));//3
-		info.add(new PieceInfo(s+"pieces"+s+"rock_2.png", 0.4f, 0.2f).setMaxDamage(100));//4
+		info.add(new PieceInfo(s+"pieces"+s+"rock_2.png", 0.4f, 0.2f).setMaxDamage(100).setOnDestroyID(3));//4
 		info.add(new PieceTall(s+"pieces"+s+"pine.png", 2, 0.1f, 0.2f).setMaxDamage(100));//5
 		info.add(new PieceTall(s+"pieces"+s+"apple.png", 2, 0.1f, 0.2f).setMaxDamage(100));//6
 		info.add(new PieceTall(s+"pieces"+s+"abyssal-fur.png", 3, 0.1f, 0.2f).setMaxDamage(150));//7
 		info.add(new PieceInfo(s+"pieces"+s+"flower_1.png").setMaxDamage(1));//8
 		info.add(new PieceBuilding("cabin").setMaxDamage(200));//9
 		info.add(new PieceTall(s+"pieces"+s+"cherry.png", 2, 0.1f, 0.2f).setMaxDamage(100));//10
-		info.add(new PieceInfo(s+"pieces"+s+"cloudberry.png", 0.2f, 0.1f).setMaxDamage(50));//11
-		info.add(new PieceInfo(s+"pieces"+s+"crowberry.png", 0.2f, 0.1f).setMaxDamage(50));//12
+		info.add(new PieceInfo(s+"pieces"+s+"cloudberry.png", 0.2f, 0.1f).setMaxDamage(50).setOnDestroyID(16));//11
+		info.add(new PieceInfo(s+"pieces"+s+"crowberry.png", 0.2f, 0.1f).setMaxDamage(50).setOnDestroyID(17));//12
 		info.add(new PieceInfo(s+"pieces"+s+"tulip.png").setMaxDamage(1));//13
 		info.add(new PieceTall(s+"pieces"+s+"pine_2.png", 2, 0.1f, 0.2f).setMaxDamage(100));//14
-		info.add(new PieceInfo(s+"pieces"+s+"rock_3.png", 0.4f, 0.2f).setMaxDamage(100));//15
+		info.add(new PieceInfo(s+"pieces"+s+"rock_3.png", 0.4f, 0.2f).setMaxDamage(100).setOnDestroyID(4));//15
+		info.add(new PieceInfo(s+"pieces"+s+"cloudberry-picked.png", 0.2f, 0.1f).setMaxDamage(50));//16
+		info.add(new PieceInfo(s+"pieces"+s+"crowberry-picked.png", 0.2f, 0.1f).setMaxDamage(50));//17
 
 	}
 

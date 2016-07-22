@@ -9,7 +9,7 @@ public class Item {
 		name = t;
 		String s = Pixels.t.separator;
 		texture = s + "gui" + s + "items" + s + name + ".png";
-		weight = 2;
+		weight = 1;
 	}
 	
 	public int getWeight() {
@@ -21,8 +21,8 @@ public class Item {
 		return this;
 	}
 	
-	public static Item test = new Item(0, "item");
-	public static Item test2 = new Item(1, "item-2").setWeight(3);
+	public static Item cloudberries = new Item(0, "cloudberry");
+	public static Item crowberries = new Item(1, "crowberry");
 	
 	public String texture, name;
 	public int id, weight;

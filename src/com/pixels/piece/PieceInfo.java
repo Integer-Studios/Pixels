@@ -50,11 +50,17 @@ public class PieceInfo {
 		maxDamage = i;
 		return this;
 	}
+	
+	public PieceInfo setOnDestroyID(int i) {
+		onDestroyID = i;
+		return this;
+	}
 
 	public Image image;
 	public String texture;
 	public float collisionWidth, collisionHeight;
 	public boolean doesCollide = false;
 	public int maxDamage = 100;
+	public int onDestroyID = 0;
 
 }

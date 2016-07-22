@@ -132,7 +132,7 @@ public class EntityPlayer extends EntityAlive implements KeyBinder, SimpleMouseL
 		if (interactionPiece!=null) {
 			currentPieceDamage+=damageIncrement;
 			if (interactionPiece.getMaxDamage() == currentPieceDamage) {
-				w.setPieceID(interactionPiece.posX, interactionPiece.posY, 0);
+				interactionPiece.destroy(w);
 				endInteraction();
 			}
 		}
