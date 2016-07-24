@@ -36,13 +36,17 @@ public class GUIInventorySlot extends GUIClickable {
 	}
 	
 	public void clearItem() {
-		removeChild(item);
-		item = null;
+		if (hasItem()) {
+			removeChild(item);
+			item = null;
+		}
 	}
 	
 	public void emancipateItem() {
-		item.emancipate();
-		item = null;
+		if (hasItem()) {
+			item.emancipate();
+			item = null;
+		}
 	}
 	
 	public boolean hasItem() {
@@ -84,6 +88,6 @@ public class GUIInventorySlot extends GUIClickable {
 	}
 	
 	public int weight;
-	private GUIItem item;
+	public GUIItem item;
 	
 }

@@ -9,6 +9,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Rectangle;
 
 import com.pixels.communication.CommunicationClient;
+import com.pixels.piece.Piece;
 import com.pixels.util.TextureLoader;
 import com.pixels.util.Toolkit;
 import com.pixels.world.World;
@@ -122,6 +123,14 @@ public class Entity {
 		return collisionBox.getHeight();
 	}
 	
+	public boolean didCollide(Entity e) {
+		return true;
+	}
+	
+	public boolean didCollide(Piece p) {
+		return true;
+	}
+	
 	public int id, serverID, positionKey;
 	public float posX, posY, prevPosX, prevPosY;
 	public float velocityX, velocityY;
@@ -141,6 +150,7 @@ public class Entity {
 		entityMap.put(2, EntityOnlinePlayer.class);
 		entityMap.put(3, EntityGob.class);
 		entityMap.put(4, EntityBear.class);
+		entityMap.put(5, EntityItem.class);
 
 	}
 

@@ -73,4 +73,10 @@ public class PacketHandler {
 		
 	}
 
+	public static void handlePacketDespawnEntity(PacketDespawnEntity packet) {
+		
+		Pixels.world.despawnEntity(packet.serverID);
+		
+	}
+
 }

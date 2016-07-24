@@ -21,6 +21,14 @@ public class Item {
 		return this;
 	}
 	
+	public static Item getItemByID(int id) {
+		switch (id) {
+		case 0:return cloudberries;
+		case 1:return crowberries;
+		}
+		return null;
+	}
+	
 	public static Item cloudberries = new Item(0, "cloudberry");
 	public static Item crowberries = new Item(1, "crowberry");
 	

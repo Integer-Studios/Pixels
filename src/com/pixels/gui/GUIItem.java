@@ -13,8 +13,8 @@ public class GUIItem extends GUIComponent {
 	
 	public static GUIItem itemOnMouse;
 
-	public GUIItem(int x, int y, Item i) {
-		super(x, y);
+	public GUIItem(Item i) {
+		super(9, 5);
 		width = 38;
 		height = 38;
 		item = i;
