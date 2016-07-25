@@ -51,8 +51,8 @@ public class PieceInfo {
 		return this;
 	}
 	
-	public PieceInfo setOnDestroyID(int i) {
-		onDestroyID = i;
+	public PieceInfo setOnHarvestID(int i) {
+		onHarvestID = i;
 		return this;
 	}
 
@@ -61,6 +61,6 @@ public class PieceInfo {
 	public float collisionWidth, collisionHeight;
 	public boolean doesCollide = false;
 	public int maxDamage = 100;
-	public int onDestroyID = 0;
+	public int onHarvestID = 0;
 
 }

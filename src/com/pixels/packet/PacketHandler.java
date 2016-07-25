@@ -1,6 +1,8 @@
 package com.pixels.packet;
 
 import com.pixels.entity.Entity;
+import com.pixels.entity.EntityItem;
+import com.pixels.item.Item;
 import com.pixels.start.Pixels;
 import com.pixels.util.Log;
 import com.pixels.util.ThreadName;
@@ -44,7 +46,7 @@ public class PacketHandler {
 	}
 
 	public static void handlePacketSpawnEntity(PacketSpawnEntity packet) {
-		
+
 		Pixels.world.propogateEntity(packet.entity);
 		
 	}
@@ -76,6 +78,12 @@ public class PacketHandler {
 	public static void handlePacketDespawnEntity(PacketDespawnEntity packet) {
 		
 		Pixels.world.despawnEntity(packet.serverID);
+		
+	}
+
+	public static void handlePacketPickupItem(PacketPickupItem packet) {
+		
+		Pixels.world.getPlayer().getInventory().addItem(Item.getItemByID(packet.itemID));
 		
 	}
 

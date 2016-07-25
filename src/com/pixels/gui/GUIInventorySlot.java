@@ -7,9 +7,11 @@ import com.pixels.start.Pixels;
 
 public class GUIInventorySlot extends GUIClickable {
 
-	public GUIInventorySlot(int x, int y, int w) {
+	public GUIInventorySlot(int x, int y, int w, int i, GUIInventory inv) {
 		super(x, y, 55, 55, "inventory" + Pixels.t.separator + "green.png");
 		weight = w;
+		index = i;
+		guiInventory = inv;
 		switch (weight) {
 		case 0:
 			setTexture("inventory" + Pixels.t.separator + "brown.png");
@@ -24,6 +26,10 @@ public class GUIInventorySlot extends GUIClickable {
 			setTexture("inventory" + Pixels.t.separator + "red.png");
 			break;
 		}
+	}
+	
+	public GUIInventorySlot(int x, int y, int w) {
+		this(x, y, w, 0, null);
 	}
 	
 	public void setItem(GUIItem i) {
@@ -66,6 +72,19 @@ public class GUIInventorySlot extends GUIClickable {
 	public void render(GameContainer c, Graphics g) {
 		super.render(c, g);
 	}
+	
+	private void notifyInventory() {
+		if (hasInventory()) {
+			if (hasItem())
+				guiInventory.getInventory().guiSetItem(index, item.item);
+			else
+				guiInventory.getInventory().guiSetItem(index, null);
+		}
+	}
+	
+	public boolean hasInventory() {
+		return guiInventory != null;
+	}
 
 	@Override
 	public void mouseUp() {
@@ -77,17 +96,22 @@ public class GUIInventorySlot extends GUIClickable {
 				item.putOnMouse();
 				emancipateItem();
 				setItem(i);
+				notifyInventory();
 			} else {
 				item.putOnMouse();
 				emancipateItem();
+				notifyInventory();
 			}
 		} else if (GUIItem.itemOnMouse != null){
 			setItem(GUIItem.itemOnMouse);
 			item.takeOffMouse();
+			notifyInventory();
 		}
 	}
 	
 	public int weight;
 	public GUIItem item;
+	public GUIInventory guiInventory;
+	public int index;
 	
 }

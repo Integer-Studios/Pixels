@@ -296,6 +296,8 @@ public abstract class Packet {
 		packetMap.put(10, PacketMoveEntity.class);
 		packetMap.put(11, PacketUpdatePiece.class);
 		packetMap.put(12, PacketDespawnEntity.class);
+		packetMap.put(13, PacketPickupItem.class);
+		packetMap.put(14, PacketHarvestPiece.class);
 		
 	}
 	

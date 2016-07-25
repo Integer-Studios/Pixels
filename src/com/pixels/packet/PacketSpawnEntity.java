@@ -19,13 +19,12 @@ public class PacketSpawnEntity extends Packet {
 
 	@Override
 	public void readData(CommunicationClient client) throws IOException {
-		
 		int serverID = client.getInput().readInt();
 		int entityID = client.getInput().readInt();
 		int positionKey = client.getInput().readInt();
 		float posX = client.getInput().readFloat();
 		float posY = client.getInput().readFloat();
-		
+
 		entity = Entity.getEntity(entityID);
 		entity.construct(serverID, positionKey, posX, posY);
 		entity.readEntityData(client);

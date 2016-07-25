@@ -30,11 +30,6 @@ public class EntityItem extends Entity {
 	
 	public void render(GameContainer c, Graphics g, World w) {
 		
-		if (item == null) {
-			System.out.println("wtf entity item render");
-			return;
-		}
-		
 		if (image == null)  {
 			image = TextureLoader.load(item.texture);
 		}
@@ -65,7 +60,7 @@ public class EntityItem extends Entity {
 	}
 	
 	public void writeEntityData(CommunicationClient client) throws IOException {
-		client.getOutput().writeInt(item.id);
+		
 	}
 	
 	public void readEntityData(CommunicationClient client) throws IOException {

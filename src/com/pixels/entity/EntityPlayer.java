@@ -9,12 +9,12 @@ import com.pixels.body.ActionBipedPunch;
 import com.pixels.body.ActionBipedPunchContinuous;
 import com.pixels.body.BodyBiped;
 import com.pixels.gui.GUIDamageIndicator;
-import com.pixels.gui.GUIInventory;
 import com.pixels.input.InterfaceManager;
 import com.pixels.input.KeyBinder;
 import com.pixels.input.KeyBinding;
 import com.pixels.input.KeyCode;
 import com.pixels.input.SimpleMouseListener;
+import com.pixels.item.Inventory;
 import com.pixels.packet.PacketMoveEntity;
 import com.pixels.piece.Piece;
 import com.pixels.start.Pixels;
@@ -31,18 +31,21 @@ public class EntityPlayer extends EntityAlive implements KeyBinder, SimpleMouseL
 		} else {
 			body = new BodyBiped(this, 0.875f, 1.3125f, "zob");
 		}
-		InterfaceManager.worldInterface.addKeyBinding(new KeyBinding("inventory", KeyCode.KEY_I, this));
 		InterfaceManager.worldInterface.addKeyBinding(new KeyBinding("punch", KeyCode.KEY_P, this));
 		InterfaceManager.worldInterface.addKeyBinding(new KeyBinding("up", KeyCode.KEY_W, this));
 		InterfaceManager.worldInterface.addKeyBinding(new KeyBinding("down", KeyCode.KEY_S, this));
 		InterfaceManager.worldInterface.addKeyBinding(new KeyBinding("left", KeyCode.KEY_A, this));
 		InterfaceManager.worldInterface.addKeyBinding(new KeyBinding("right", KeyCode.KEY_D, this));
 		InterfaceManager.worldInterface.addSimpleListner(this);
-		guiInv = new GUIInventory();
+		inventory = new Inventory(4, 4, 8);
 	}
 	
 	public boolean isInReach(float x, float y) {
 		return (posX+reach > x && posX-reach < x && posY+reach > y && posY-reach < y);
+	}
+	
+	public Inventory getInventory() {
+		return inventory;
 	}
 
 	public void update(GameContainer c, int delta, World w) {
@@ -132,7 +135,7 @@ public class EntityPlayer extends EntityAlive implements KeyBinder, SimpleMouseL
 		if (interactionPiece!=null) {
 			currentPieceDamage+=damageIncrement;
 			if (interactionPiece.getMaxDamage() == currentPieceDamage) {
-				interactionPiece.destroy(w);
+				interactionPiece.harvest(w);
 				endInteraction();
 			}
 		}
@@ -168,10 +171,6 @@ public class EntityPlayer extends EntityAlive implements KeyBinder, SimpleMouseL
 	
 	@Override
 	public void onKeyUp(String name) {
-		if (name.equals("inventory")) {
-			InterfaceManager.setCurrentInterface("gui");
-			Pixels.gui.addComponent(guiInv);
-		}
 		if (name.equals("down")) {
 			down = false;
 		}
@@ -213,6 +212,6 @@ public class EntityPlayer extends EntityAlive implements KeyBinder, SimpleMouseL
 	public float reach = 3f;
 	public Piece interactionPiece;
 	public GUIDamageIndicator damageIndicator;
-	public GUIInventory guiInv;
+	public Inventory inventory;
 
 }
