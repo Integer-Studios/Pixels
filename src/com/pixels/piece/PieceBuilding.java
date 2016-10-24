@@ -59,43 +59,8 @@ public class PieceBuilding extends PieceTall {
 		}
 		
 		overlays.get(i).draw(p.posX*w.tileConstant+w.globalOffsetX, p.posY*w.tileConstant+w.globalOffsetY-(w.tileConstant*(size-1)), w.tileConstant, w.tileConstant*size);
-
-		//		
-//		if (i == 0) {
-//			
-//			if (leftCover == null)
-//				leftCover = TextureLoader.load(getLayerTexture(0));
-//			
-//			leftCover.draw(p.posX*w.tileConstant+w.globalOffsetX, p.posY*w.tileConstant+w.globalOffsetY-(w.tileConstant*(size-1)), w.tileConstant, w.tileConstant*size);
-//		}	
-//		if (i == 1) {
-//			
-//			if (rightCover == null)
-//				rightCover = TextureLoader.load(getLayerTexture(1));
-//			
-//			rightCover.draw(p.posX*w.tileConstant+w.globalOffsetX, p.posY*w.tileConstant+w.globalOffsetY-(w.tileConstant*(size-1)), w.tileConstant, w.tileConstant*size);
-//		}
-//		if (i == 2) {
-//			
-//			if (topCover == null)
-//				topCover = TextureLoader.load(getLayerTexture(2));
-//			
-//			topCover.draw(p.posX*w.tileConstant+w.globalOffsetX, p.posY*w.tileConstant+w.globalOffsetY-(w.tileConstant*(size-1)), w.tileConstant, w.tileConstant*size);
-//		}
 	}
-	
-//	private String getLayerTexture(int i) {
-//		String s = Pixels.t.separator;
-//		if (i == 0)
-//			return s+"pieces"+s+"building"+s+name+s+"left.png";
-//		if (i == 1)
-//			return s+"pieces"+s+"building"+s+name+s+"right.png";
-//		if (i == 2)
-//			return s+"pieces"+s+"building"+s+name+s+"top.png";
-//		else
-//			return "";
-//	}
-	
+
 	private String getOverlayTexture(int i) {
 		String s = Pixels.t.separator;
 		return s+"pieces"+s+"building"+s+name+s+textures[i];

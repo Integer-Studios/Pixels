@@ -36,6 +36,8 @@ public class EntityPlayer extends EntityAlive implements KeyBinder, SimpleMouseL
 		InterfaceManager.worldInterface.addKeyBinding(new KeyBinding("down", KeyCode.KEY_S, this));
 		InterfaceManager.worldInterface.addKeyBinding(new KeyBinding("left", KeyCode.KEY_A, this));
 		InterfaceManager.worldInterface.addKeyBinding(new KeyBinding("right", KeyCode.KEY_D, this));
+		InterfaceManager.worldInterface.addKeyBinding(new KeyBinding("e-up", KeyCode.KEY_U, this));
+		InterfaceManager.worldInterface.addKeyBinding(new KeyBinding("e-down", KeyCode.KEY_J, this));
 		InterfaceManager.worldInterface.addSimpleListner(this);
 		inventory = new Inventory(4, 4, 8);
 	}
@@ -55,9 +57,22 @@ public class EntityPlayer extends EntityAlive implements KeyBinder, SimpleMouseL
 			
 		super.update(c, delta, w);
 
+
 	}
 	
 	private void updateInputBindings(World w) {
+		if (eUp) {
+			w.setElevation((int)posX, (int)posY, w.getElevation((int)posX, (int)posY)+1);
+			eUp = false;
+		}
+		
+		if (eDown) {
+			w.setElevation((int)posX, (int)posY, w.getElevation((int)posX, (int)posY)-1);
+			eDown = false;
+		}
+		
+//		System.out.println(w.getElevation((int)posX, (int)posY));
+		
 		if (mouseDown) {
 			int x = w.UIToWorldCoordX(mouseX);
 			int y = w.UIToWorldCoordY(mouseY);
@@ -107,14 +122,15 @@ public class EntityPlayer extends EntityAlive implements KeyBinder, SimpleMouseL
 				velocityX = 0f;
 			}
 		}
+		
+//		System.out.println("player: " + velocityX + ", " + velocityY + "/" + prevVelocityX + "," + prevVelocityY);
+
 						
 		if (velocityX != prevVelocityX || velocityY != prevVelocityY) {
-			
 			Pixels.client.addPacket(new PacketMoveEntity(this));
-			
 		}
 	}
-	
+		
 	private void startInteraction(World w, int x, int y) {
 		interactionPiece = w.getPiece(x, y);
 		
@@ -184,6 +200,12 @@ public class EntityPlayer extends EntityAlive implements KeyBinder, SimpleMouseL
 			right = false;
 		}
 		
+		if (name.equals("e-up")) {
+			eUp = true;
+		}
+		if (name.equals("e-down")) {
+			eDown = true;
+		}
 	}	
 	
 	@Override
@@ -204,7 +226,7 @@ public class EntityPlayer extends EntityAlive implements KeyBinder, SimpleMouseL
 		mouseDown = false;
 	}
 	
-	public boolean up, down, left, right, mouseDown, mouseUp;
+	public boolean up, down, left, right, mouseDown, mouseUp, eUp, eDown;
 	public int currentPieceDamage = 0;
 	//this should be decided by the tool or something
 	public int damageIncrement = 1;

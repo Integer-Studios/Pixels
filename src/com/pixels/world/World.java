@@ -17,6 +17,7 @@ import com.pixels.input.KeyCode;
 import com.pixels.packet.PacketUpdateWorld;
 import com.pixels.piece.Piece;
 import com.pixels.start.Pixels;
+import com.pixels.tile.Tile;
 import com.pixels.util.CollisionManager;
 
 public class World implements KeyBinder {
@@ -94,11 +95,17 @@ public class World implements KeyBinder {
 		
 		if (zoomIn) {
 			tileConstant ++;
-		} 
-		
-		if (zoomOut && tileConstant > 8) {
+		} else if (zoomOut && tileConstant > 8) {
 			tileConstant --;
+		} else {
+		
+			int e = getElevation((int)getPlayer().posX, (int)getPlayer().posY);
+			e = 65 - e*2;
+			if (e > 8 && (tileConstant - e > -10 || tileConstant - e < 10)) {
+				tileConstant = e;
+			}
 		}
+		
 		
 		for (Chunk chunk : chunks.values()) {
 			chunk.update(c, delta, this);
@@ -120,6 +127,18 @@ public class World implements KeyBinder {
 				hasRequestedWorldUpdate = true;
 			}
 		}
+	}
+	
+	public void setElevation(int x, int y, int e) {
+		getChunkFromTileCoordinates(x, y).getTile(x, y).elevation = e;
+	}
+	
+	public int getElevation(int x, int y) {
+		Chunk c = getChunkFromTileCoordinates(x, y);
+		if (c == null)
+			return 0;
+		else
+			return c.getTile(x, y).elevation;
 	}
 	
 	public void worldUpdateComplete() {
