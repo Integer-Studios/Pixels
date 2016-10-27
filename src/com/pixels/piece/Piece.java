@@ -93,6 +93,8 @@ public class Piece {
 		info.add(new PieceInfo(s+"pieces"+s+"rock_3.png", 0.4f, 0.2f).setMaxDamage(100).setOnHarvestID(4));//15
 		info.add(new PieceInfo(s+"pieces"+s+"cloudberry-picked.png", 0.2f, 0.1f).setMaxDamage(50));//16
 		info.add(new PieceInfo(s+"pieces"+s+"crowberry-picked.png", 0.2f, 0.1f).setMaxDamage(50));//17
+		info.add(new PieceInfo(s+"pieces"+s+"shroom.png").setMaxDamage(1));//18
+		info.add(new PieceBuilding("gaub").setMaxDamage(200));//19
 
 	}
 

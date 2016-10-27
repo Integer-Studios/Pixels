@@ -38,6 +38,8 @@ public class EntityPlayer extends EntityAlive implements KeyBinder, SimpleMouseL
 		InterfaceManager.worldInterface.addKeyBinding(new KeyBinding("right", KeyCode.KEY_D, this));
 		InterfaceManager.worldInterface.addKeyBinding(new KeyBinding("e-up", KeyCode.KEY_U, this));
 		InterfaceManager.worldInterface.addKeyBinding(new KeyBinding("e-down", KeyCode.KEY_J, this));
+		InterfaceManager.worldInterface.addKeyBinding(new KeyBinding("build", KeyCode.KEY_B, this));
+
 		InterfaceManager.worldInterface.addSimpleListner(this);
 		inventory = new Inventory(4, 4, 8);
 	}
@@ -69,6 +71,11 @@ public class EntityPlayer extends EntityAlive implements KeyBinder, SimpleMouseL
 		if (eDown) {
 			w.setElevation((int)posX, (int)posY, w.getElevation((int)posX, (int)posY)-1);
 			eDown = false;
+		}
+		
+		if (build) {
+			w.setPieceID((int)posX, (int)posY, 19);
+			build = false;
 		}
 		
 //		System.out.println(w.getElevation((int)posX, (int)posY));
@@ -206,6 +213,9 @@ public class EntityPlayer extends EntityAlive implements KeyBinder, SimpleMouseL
 		if (name.equals("e-down")) {
 			eDown = true;
 		}
+		if (name.equals("build")) {
+			build = true;
+		}
 	}	
 	
 	@Override
@@ -226,7 +236,7 @@ public class EntityPlayer extends EntityAlive implements KeyBinder, SimpleMouseL
 		mouseDown = false;
 	}
 	
-	public boolean up, down, left, right, mouseDown, mouseUp, eUp, eDown;
+	public boolean up, down, left, right, mouseDown, mouseUp, eUp, eDown, build;
 	public int currentPieceDamage = 0;
 	//this should be decided by the tool or something
 	public int damageIncrement = 1;

@@ -5,8 +5,11 @@ import java.util.HashMap;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.lwjgl.opengl.Display;
+import org.lwjgl.opengl.GL11;
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 
 import com.pixels.entity.Entity;
 import com.pixels.entity.EntityPlayer;
@@ -19,6 +22,7 @@ import com.pixels.piece.Piece;
 import com.pixels.start.Pixels;
 import com.pixels.tile.Tile;
 import com.pixels.util.CollisionManager;
+import com.pixels.util.TextureLoader;
 
 public class World implements KeyBinder {
 	
@@ -33,6 +37,7 @@ public class World implements KeyBinder {
 	}
 
 	public void render(GameContainer c, Graphics g) {
+
 
 		updateGlobalOffset();
 			
@@ -88,7 +93,7 @@ public class World implements KeyBinder {
 			}
 
 		}
-
+		
 	}
 	
 	public void update(GameContainer c, int delta) {
@@ -307,7 +312,7 @@ public class World implements KeyBinder {
 
 	public int maxChunkXLoaded, maxChunkYLoaded;
 	public int minChunkXLoaded, minChunkYLoaded;
-
+	
 	public int tileConstant = 65;
 	public int globalOffsetX = 0;
 	public int globalOffsetY = 0;
