@@ -105,7 +105,9 @@ public class PacketWorldData extends Packet {
 	public void readTile(int key, int x, int y, Chunk chunk, CommunicationClient client) throws IOException {
 		int id = client.getInput().readInt();
 		int elevation = client.getInput().readInt();
-		chunk.tiles.put(key, new Tile(((chunk.chunkX << 4) + x), ((chunk.chunkY << 4) + y), id, elevation));
+		int humidity = client.getInput().readInt();
+		int tempurature = client.getInput().readInt();
+		chunk.tiles.put(key, new Tile(((chunk.chunkX << 4) + x), ((chunk.chunkY << 4) + y), id, elevation, humidity, tempurature));
 	}
 	
 	public void readPiece(int key, int x, int y, Chunk chunk, CommunicationClient client) throws IOException {

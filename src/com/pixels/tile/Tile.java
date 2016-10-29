@@ -11,11 +11,13 @@ import com.pixels.world.World;
 
 public class Tile {
 
-	public Tile(int x, int y, int id, int e) {
+	public Tile(int x, int y, int id, int e, int h, int t) {
 		
 		posX = x;
 		posY = y;
 		elevation = e;
+		humidity = h;
+		tempurature = t;
 		this.id = id;
 		
 	}
@@ -34,12 +36,14 @@ public class Tile {
 		return (eDown < 0);
 	}
 	
-	public int posX, posY, id, elevation;
+	public int posX, posY, id, elevation, humidity, tempurature;
 	public static ArrayList<TileInfo> info = new ArrayList<TileInfo>();
 	
 	static {
 		String s = Pixels.t.separator;
-		info.add(new TileInfo(s+"tiles"+s+"grass"));
+		info.add(new TileGrass());
+		info.add(new TileInfo(s+"tiles"+s+"water"));
+		info.add(new TileInfo(s+"tiles"+s+"sand"));
 	}
 
 }

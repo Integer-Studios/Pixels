@@ -85,6 +85,10 @@ public class Chunk {
 		}
 	}
 	
+	public void setTileID(int x, int y, int id) {
+		tiles.put(getGlobalLocationIndex(x, y), new Tile(x, y, id, 0, 113, 65));
+	}
+	
 	private int getGlobalLocationIndex(int x, int y) {
 		int localX = x - (chunkX << 4);
 		int localY = y - (chunkY << 4);

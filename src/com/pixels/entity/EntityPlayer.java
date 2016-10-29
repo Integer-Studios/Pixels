@@ -74,7 +74,7 @@ public class EntityPlayer extends EntityAlive implements KeyBinder, SimpleMouseL
 		}
 		
 		if (build) {
-			w.setPieceID((int)posX, (int)posY, 19);
+			w.setTileID((int)posX, (int)posY, 1);
 			build = false;
 		}
 		

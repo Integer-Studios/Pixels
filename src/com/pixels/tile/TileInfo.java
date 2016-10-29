@@ -47,12 +47,12 @@ public class TileInfo {
 		if (eLeft < 0) {
 			renderDownOverlay(w, t, 2);
 			if (eDown < 0) 
-				renderDownOverlay(w, t, 6);
+				renderDownOverlay(w, t, 4);
 		}
 		if (eRight < 0) {
 			renderDownOverlay(w, t, 3);
 			if (eDown < 0) 
-				renderDownOverlay(w, t, 7);
+				renderDownOverlay(w, t, 5);
 		}
 		
 //		up Overlays
@@ -88,14 +88,14 @@ public class TileInfo {
 
 	}
 	
-	private void renderBase(World w, Tile t) {
+	protected void renderBase(World w, Tile t) {
 		if (base == null)  {
 			base = TextureLoader.load(basePath + Pixels.t.separator + "base.png");
 		}
 		base.draw(t.posX*w.tileConstant+w.globalOffsetX, t.posY*w.tileConstant+w.globalOffsetY, w.tileConstant, w.tileConstant);
 	}
 	
-	private void renderUpOverlay(World w, Tile t, int i) {
+	protected void renderUpOverlay(World w, Tile t, int i) {
 		
 		if (!upOverlays.containsKey(i) || upOverlays.get(i) == null) {
 			upOverlays.put(i, TextureLoader.load(getOverlayTexture(true, i)));
@@ -104,7 +104,7 @@ public class TileInfo {
 		upOverlays.get(i).draw(t.posX*w.tileConstant+w.globalOffsetX, t.posY*w.tileConstant+w.globalOffsetY, w.tileConstant, w.tileConstant);
 	}
 	
-	private void renderDownOverlay(World w, Tile t, int i) {
+	protected void renderDownOverlay(World w, Tile t, int i) {
 		
 		if (!downOverlays.containsKey(i) || downOverlays.get(i) == null) {
 			downOverlays.put(i, TextureLoader.load(getOverlayTexture(false, i)));
@@ -113,12 +113,12 @@ public class TileInfo {
 		downOverlays.get(i).draw(t.posX*w.tileConstant+w.globalOffsetX, t.posY*w.tileConstant+w.globalOffsetY, w.tileConstant, w.tileConstant);
 	}
 
-	private String getOverlayTexture(boolean up, int i) {
+	protected String getOverlayTexture(boolean up, int i) {
 		String s = Pixels.t.separator;
 		if (up)
 			return basePath + s + "up" + s + upTextures[i];
 		else
-			return basePath + s + "down" + s + upTextures[i];
+			return basePath + s + "down" + s + downTextures[i];
 	}
 
 	public Image base;
