@@ -103,6 +103,7 @@ public class World implements KeyBinder {
 		} else if (zoomOut && tileConstant > 8) {
 			tileConstant --;
 		}
+		
 //		else {
 //			
 //			int e = getElevation((int)getPlayer().posX, (int)getPlayer().posY);
