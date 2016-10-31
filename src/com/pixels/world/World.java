@@ -104,14 +104,14 @@ public class World implements KeyBinder {
 			tileConstant --;
 		}
 		
-//		else {
-//			
-//			int e = getElevation((int)getPlayer().posX, (int)getPlayer().posY);
-//			e = 65 - e*2;
-//			if (e > 8 && (tileConstant - e > -10 || tileConstant - e < 10)) {
-//				tileConstant = e;
-//			}
-//		}
+		else {
+			
+			int e = getElevation((int)getPlayer().posX, (int)getPlayer().posY);
+			e = 65 - e*2;
+			if (e > 8 && (tileConstant - e > -10 || tileConstant - e < 10)) {
+				tileConstant = e;
+			}
+		}
 		
 		
 		for (Chunk chunk : chunks.values()) {
@@ -174,6 +174,10 @@ public class World implements KeyBinder {
 	
 	public void setTileID(int x, int y, int id) {
 		getChunkFromTileCoordinates(x, y).setTileID(x, y, id);
+	}
+	
+	public Tile getTile(int x, int y) {
+		return getChunkFromTileCoordinates(x, y).getTile(x, y);
 	}
 
 	public void propogateEntity(Entity e) {
